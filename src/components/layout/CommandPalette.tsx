@@ -1,0 +1,134 @@
+import { useEffect, useState } from 'react'
+import { Command } from 'cmdk'
+import { 
+  Search, 
+  User, 
+  Briefcase, 
+  FolderGit2, 
+  Code2, 
+  Mail, 
+  Github, 
+  Linkedin, 
+  MessageCircle 
+} from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useCommandPalette } from '@/hooks/useCommandPalette'
+import { scrollToSection } from '@/lib/utils'
+import { socialLinks } from '@/data/content'
+
+const navigationCommands = [
+  { icon: User, label: 'About', action: () => scrollToSection('about') },
+  { icon: Briefcase, label: 'Experience', action: () => scrollToSection('experience') },
+  { icon: FolderGit2, label: 'Projects', action: () => scrollToSection('projects') },
+  { icon: Code2, label: 'Skills', action: () => scrollToSection('skills') },
+  { icon: Mail, label: 'Contact', action: () => scrollToSection('contact') },
+]
+
+const socialCommands = [
+  { icon: Github, label: 'Open GitHub', action: () => window.open(socialLinks.github, '_blank') },
+  { icon: Linkedin, label: 'Open LinkedIn', action: () => window.open(socialLinks.linkedin, '_blank') },
+  { icon: MessageCircle, label: 'Open WhatsApp', action: () => window.open(socialLinks.whatsapp, '_blank') },
+]
+
+export function CommandPalette() {
+  const { open, setOpen } = useCommandPalette()
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    if (open) {
+      setSearch('')
+    }
+  }, [open])
+
+  const handleSelect = (action: () => void) => {
+    action()
+    setOpen(false)
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+          />
+          <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] px-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="w-full max-w-2xl"
+            >
+              <Command 
+                className="rounded-xl border border-border bg-background-secondary shadow-2xl overflow-hidden"
+                label="Command Menu"
+              >
+                <div className="flex items-center border-b border-border px-4">
+                  <Search className="w-5 h-5 text-foreground-secondary mr-2" />
+                  <Command.Input
+                    value={search}
+                    onValueChange={setSearch}
+                    placeholder="Buscar secciones o links..."
+                    className="flex-1 bg-transparent py-4 outline-none text-foreground placeholder:text-foreground-tertiary"
+                  />
+                  <kbd className="hidden sm:inline-flex h-6 px-2 items-center gap-1 rounded border border-border bg-background-tertiary text-xs text-foreground-secondary">
+                    ESC
+                  </kbd>
+                </div>
+
+                <Command.List className="max-h-96 overflow-y-auto p-2">
+                  <Command.Empty className="py-8 text-center text-foreground-secondary text-sm">
+                    No se encontraron resultados
+                  </Command.Empty>
+
+                  <Command.Group heading="Navegación" className="text-foreground-secondary text-xs font-semibold px-2 pt-2 pb-1">
+                    {navigationCommands.map((cmd) => (
+                      <Command.Item
+                        key={cmd.label}
+                        onSelect={() => handleSelect(cmd.action)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent transition-colors mb-1"
+                      >
+                        <cmd.icon className="w-4 h-4" />
+                        <span>{cmd.label}</span>
+                      </Command.Item>
+                    ))}
+                  </Command.Group>
+
+                  <Command.Separator className="h-px bg-border my-2" />
+
+                  <Command.Group heading="Redes" className="text-foreground-secondary text-xs font-semibold px-2 pt-2 pb-1">
+                    {socialCommands.map((cmd) => (
+                      <Command.Item
+                        key={cmd.label}
+                        onSelect={() => handleSelect(cmd.action)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent transition-colors mb-1"
+                      >
+                        <cmd.icon className="w-4 h-4" />
+                        <span>{cmd.label}</span>
+                      </Command.Item>
+                    ))}
+                  </Command.Group>
+                </Command.List>
+
+                <div className="border-t border-border px-4 py-2 text-xs text-foreground-tertiary flex items-center justify-between">
+                  <span>Tip: Presioná ⌘K para abrir</span>
+                  <div className="flex gap-2">
+                    <kbd className="px-1.5 py-0.5 rounded border border-border bg-background-tertiary">↑↓</kbd>
+                    <span>navegar</span>
+                    <kbd className="px-1.5 py-0.5 rounded border border-border bg-background-tertiary">↵</kbd>
+                    <span>seleccionar</span>
+                  </div>
+                </div>
+              </Command>
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
