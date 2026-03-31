@@ -33,6 +33,20 @@ export interface Experience {
   summary: string
   achievements: string[]
   technologies: string[]
+  websiteUrl?: string
+  images?: string[]
+  accentColor?: string
+  subProjects?: Array<{
+    title: string
+    role: string
+    context?: string
+    contribution: string
+    impact?: string
+    stack?: string[]
+    websiteUrl: string
+    images?: string[]
+    relatedLinks?: string[]
+  }>
   details: {
     built: string[]
     optimized: string[]
