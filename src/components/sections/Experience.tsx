@@ -8,8 +8,8 @@ import type { Experience as ExperienceItem } from '@/types'
 type ExperienceFilter = 'all' | 'employment' | 'freelance'
 
 const filters: Array<{ id: ExperienceFilter; label: string }> = [
-  { id: 'all', label: 'All' },
-  { id: 'employment', label: 'Employment' },
+  { id: 'all', label: 'Todo' },
+  { id: 'employment', label: 'Empleo' },
   { id: 'freelance', label: 'Freelance' },
 ]
 
@@ -40,7 +40,7 @@ export function Experience() {
         >
           <div className="editorial-grid mb-10">
             <div className="space-y-4">
-              <p className="eyebrow">Experience</p>
+              <p className="eyebrow">Experiencia</p>
               <h2 className="text-3xl font-display font-bold sm:text-4xl">
                 Ejecución con foco en <span className="text-accent">impacto real</span>
               </h2>
@@ -93,7 +93,7 @@ export function Experience() {
                   <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
                     <div className="space-y-4">
                       <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
-                        <span>{exp.type === 'employment' ? 'Employment' : 'Freelance'}</span>
+                        <span>{exp.type === 'employment' ? 'Empleo' : 'Freelance'}</span>
                         <span>•</span>
                         <span>{exp.year}</span>
                       </div>
@@ -138,7 +138,7 @@ export function Experience() {
                         onClick={() => setActiveExperience(exp)}
                         className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-accent"
                       >
-                        Expand
+                        Ver detalle
                         <ChevronRight className="h-4 w-4" />
                       </button>
                     </div>
@@ -196,7 +196,7 @@ export function Experience() {
                 <DetailBlock title="Resultados" items={activeExperience.details.results} />
                 {!!activeExperience.details.links?.length && (
                   <div>
-                    <h4 className="mb-2 text-sm uppercase tracking-[0.16em] text-foreground-tertiary">Links</h4>
+                    <h4 className="mb-2 text-sm uppercase tracking-[0.16em] text-foreground-tertiary">Enlaces</h4>
                     <div className="flex flex-wrap gap-3">
                       {activeExperience.details.links.map((link) => (
                         <a

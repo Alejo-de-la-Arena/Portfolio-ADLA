@@ -9,23 +9,23 @@ export default {
     extend: {
       colors: {
         background: {
-          DEFAULT: '#07070b',
-          secondary: '#0e0f16',
-          tertiary: '#151726',
+          DEFAULT: 'rgb(var(--background) / <alpha-value>)',
+          secondary: 'rgb(var(--background-secondary) / <alpha-value>)',
+          tertiary: 'rgb(var(--background-tertiary) / <alpha-value>)',
         },
         foreground: {
-          DEFAULT: '#f5f7ff',
-          secondary: '#b4b9d0',
-          tertiary: '#7f869f',
+          DEFAULT: 'rgb(var(--foreground) / <alpha-value>)',
+          secondary: 'rgb(var(--foreground-secondary) / <alpha-value>)',
+          tertiary: 'rgb(var(--foreground-tertiary) / <alpha-value>)',
         },
         accent: {
-          DEFAULT: '#7c5cff',
-          hover: '#987dff',
-          light: '#c8bcff',
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+          hover: 'rgb(var(--accent-hover) / <alpha-value>)',
+          light: 'rgb(var(--accent-light) / <alpha-value>)',
         },
         border: {
-          DEFAULT: '#23263a',
-          light: '#313550',
+          DEFAULT: 'rgb(var(--border) / <alpha-value>)',
+          light: 'rgb(var(--border-light) / <alpha-value>)',
         }
       },
       fontFamily: {

@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, ExternalLink, Github, Search } from 'lucide-react'
-import { projects } from '@/data/content'
+import { projectSortLabels, projects } from '@/data/content'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
@@ -19,11 +19,11 @@ export function Projects() {
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null)
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortMode>('featured')
-  const [filter, setFilter] = useState<string>('All')
+  const [filter, setFilter] = useState<string>('Todos')
 
-  const allTags = ['All', ...Array.from(new Set(projects.flatMap(p => p.tags)))]
+  const allTags = ['Todos', ...Array.from(new Set(projects.flatMap(p => p.tags)))]
   const filteredProjects = useMemo(() => {
-    const byTag = filter === 'All' ? projects : projects.filter((project) => project.tags.includes(filter))
+    const byTag = filter === 'Todos' ? projects : projects.filter((project) => project.tags.includes(filter))
 
     const query = search.trim().toLowerCase()
     const byQuery = !query
@@ -72,14 +72,14 @@ export function Projects() {
         >
           <div className="editorial-grid mb-8">
             <div className="space-y-4">
-              <p className="eyebrow">Projects</p>
+              <p className="eyebrow">Proyectos</p>
               <h2 className="text-3xl font-display font-bold sm:text-4xl">
-                Gallery premium + <span className="text-accent">case studies reales</span>
+                Proyectos con <span className="text-accent">impacto medible</span>
               </h2>
             </div>
             <p className="max-w-2xl text-foreground-secondary">
               {isRecruiterMode
-                ? 'Vista compacta para validar seniority, impacto y stack en segundos.'
+                ? 'Vista compacta para validar impacto, rol y stack en segundos.'
                 : 'Vista de análisis: problema, solución, decisiones de arquitectura y resultados por proyecto.'}
             </p>
           </div>
@@ -97,7 +97,7 @@ export function Projects() {
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="space-y-2">
-                    <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">Project Spotlight</p>
+                    <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">Proyecto destacado</p>
                     <h3 className="text-2xl font-display font-semibold">{spotlightProject.title}</h3>
                     <p className="max-w-2xl text-sm text-foreground-secondary">{spotlightProject.description}</p>
                   </div>
@@ -134,7 +134,7 @@ export function Projects() {
                       : 'text-foreground-secondary hover:text-foreground'
                   }`}
                 >
-                  {sortOption}
+                  {projectSortLabels[sortOption]}
                 </button>
               ))}
             </div>
@@ -238,10 +238,10 @@ export function Projects() {
         >
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <CaseChip label="Role" value={selectedProject.role} />
-              <CaseChip label="Scope" value={selectedProject.scope} />
-              <CaseChip label="Timeline" value={selectedProject.timeline} />
-              <CaseChip label="Impact" value={selectedProject.impact} />
+              <CaseChip label="Rol" value={selectedProject.role} />
+              <CaseChip label="Alcance" value={selectedProject.scope} />
+              <CaseChip label="Duración" value={selectedProject.timeline} />
+              <CaseChip label="Impacto" value={selectedProject.impact} />
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -263,7 +263,7 @@ export function Projects() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-2">Highlights</h4>
+              <h4 className="font-semibold mb-2">Puntos clave</h4>
               <ul className="space-y-2">
                 {selectedProject.highlights.map((highlight, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-foreground-secondary text-sm">
@@ -300,7 +300,7 @@ export function Projects() {
 
             {selectedProject.caseStudy && (
               <div>
-                <h4 className="font-semibold mb-2">Case Study</h4>
+                <h4 className="font-semibold mb-2">Caso</h4>
                 <p className="text-foreground-secondary text-sm">{selectedProject.caseStudy}</p>
               </div>
             )}
@@ -309,13 +309,13 @@ export function Projects() {
               {selectedProject.liveUrl && (
                 <Button onClick={() => window.open(selectedProject.liveUrl, '_blank')}>
                   <ExternalLink className="w-4 h-4" />
-                  Live Demo
+                  Ver demo
                 </Button>
               )}
               {selectedProject.githubUrl && (
                 <Button variant="outline" onClick={() => window.open(selectedProject.githubUrl, '_blank', 'noopener,noreferrer')}>
                   <Github className="w-4 h-4" />
-                  View Code
+                  Ver código
                 </Button>
               )}
             </div>

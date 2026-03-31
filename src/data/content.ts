@@ -2,16 +2,17 @@ import type { Experience, Project } from '@/types'
 
 export const personalInfo = {
   name: 'Alejo de la Arena',
-  role: 'Senior Frontend & Creative Developer',
-  tagline: 'Interacciones premium, sistemas robustos y productos que convierten.',
-  recruiterSummary: 'Construyo productos web de alto impacto con foco en performance, UX y ejecución técnica.',
+  role: 'Full Stack Developer · Frontend Specialist',
+  tagline: 'Interfaces sólidas, producto claro y ejecución técnica orientada a impacto.',
+  valueLine: 'Construyo interfaces rápidas, claras y con obsesión por el detalle.',
+  recruiterSummary: 'Construyo productos web de alto impacto, con foco en performance, UX y decisiones técnicas que mueven métricas.',
   deepDiveSummary:
-    'Diseño y construyo experiencias frontend de alta complejidad para equipos de producto: desde arquitectura y design systems hasta motion avanzado, observabilidad y optimización continua.',
+    'Diseño y construyo experiencias frontend de alta complejidad para equipos de producto: desde arquitectura y design systems hasta optimización, observabilidad e iteración continua.',
   proof: ['Performance-first', 'UI craft', 'Product-minded'],
-  bio: 'Desarrollador especializado en frontend moderno, motion design y arquitectura de producto.',
+  bio: 'Desarrollador Full Stack con foco en Frontend, arquitectura de producto y experiencias digitales de alta calidad.',
   location: 'Buenos Aires, Argentina',
   email: 'alejo@example.com',
-  availability: 'Disponible para proyectos freelance y roles senior remotos',
+  availability: 'Disponible para proyectos freelance y roles remotos',
 }
 
 export const socialLinks = {
@@ -20,9 +21,28 @@ export const socialLinks = {
   whatsapp: 'https://wa.me/5491112345678',
 }
 
+export const sectionLinks = [
+  { id: 'about', label: 'Sobre mí' },
+  { id: 'experience', label: 'Experiencia' },
+  { id: 'projects', label: 'Proyectos' },
+  { id: 'skills', label: 'Habilidades' },
+  { id: 'contact', label: 'Contacto' },
+] as const
+
+export const modeLabels = {
+  recruiter: 'Perfil rápido',
+  deep: 'Detalle técnico',
+}
+
+export const projectSortLabels = {
+  featured: 'Destacados',
+  latest: 'Recientes',
+  impact: 'Impacto',
+}
+
 export const about = {
   description:
-    'Conecto diseño, ingeniería y objetivos de negocio para crear productos web que se sienten premium y escalan sin fricción.',
+    'Conecto diseño, ingeniería y objetivos de negocio para crear productos web elegantes, mantenibles y listos para escalar.',
   highlights: [
     'Arquitecturas frontend escalables con React, TypeScript y design tokens',
     'Optimización de performance con foco en Core Web Vitals y TTI',
@@ -41,12 +61,12 @@ export const experience: Experience[] = [
   {
     id: 1,
     type: 'employment',
-    role: 'Senior Frontend Engineer',
+    role: 'Full Stack Developer (Frontend Focus)',
     company: 'Nexa Product Studio',
     period: '2024 - Actualidad',
     year: 2026,
     location: 'Remoto, LATAM',
-    summary: 'Liderazgo frontend en plataforma SaaS B2B multi-tenant.',
+    summary: 'Evolución frontend de plataforma SaaS B2B multi-tenant.',
     achievements: [
       'Aumenté la conversión de trial a paid en +18% rediseñando onboarding y pricing UX.',
       'Reduje FCP de 1.9s a 0.9s con estrategia de route splitting y caché inteligente.',
@@ -68,13 +88,13 @@ export const experience: Experience[] = [
         'Migrar animaciones críticas a transforms para garantizar 60fps.',
       ],
       results: ['+18% trial-to-paid', '-53% FCP', 'NPS de onboarding: 7.9 -> 9.1'],
-      links: [{ label: 'Product launch', href: 'https://example.com' }],
+      links: [{ label: 'Lanzamiento de producto', href: 'https://example.com' }],
     },
   },
   {
     id: 2,
     type: 'employment',
-    role: 'Frontend Lead',
+    role: 'Frontend Engineer',
     company: 'Orbit Commerce',
     period: '2022 - 2024',
     year: 2024,
@@ -96,7 +116,7 @@ export const experience: Experience[] = [
   {
     id: 3,
     type: 'employment',
-    role: 'Frontend Engineer',
+    role: 'Frontend Developer',
     company: 'Fintech Delta',
     period: '2020 - 2022',
     year: 2022,
@@ -118,7 +138,7 @@ export const experience: Experience[] = [
   {
     id: 4,
     type: 'freelance',
-    role: 'Creative Frontend Developer',
+    role: 'Frontend Consultant',
     company: 'Freelance',
     period: '2023 - Actualidad',
     year: 2026,
@@ -140,7 +160,7 @@ export const experience: Experience[] = [
   {
     id: 5,
     type: 'freelance',
-    role: 'Senior Frontend Consultant',
+    role: 'Full Stack Developer',
     company: 'Independent',
     period: '2021 - 2023',
     year: 2023,
@@ -188,11 +208,11 @@ export const projects: Project[] = [
     id: 1,
     title: 'Pulse Commerce Replatform',
     year: 2025,
-    role: 'Frontend Lead',
+    role: 'Frontend Engineer',
     scope: 'Checkout + Account + Search',
     timeline: '5 meses',
     impact: '+23% conversion en mobile',
-    description: 'Replataforma e-commerce headless orientada a crecimiento regional.',
+    description: 'Modernicé un e-commerce legacy y logramos +23% de conversión mobile en 5 meses.',
     problem: 'El stack legacy no soportaba crecimiento, campañas rápidas ni experimentación segura.',
     solution: 'Arquitectura por dominios + design tokens + estrategia de experimentación controlada.',
     image: '/projects/project-1.jpg',
@@ -202,7 +222,7 @@ export const projects: Project[] = [
     featured: true,
     metrics: ['FCP -38%', 'AOV +11%', 'Checkout drop-off -37%'],
     decisions: ['Dominio por bounded context', 'Pre-fetch según intención', 'Reglas de motion con budget'],
-    results: ['Deploys semanales sin incidentes críticos', 'Mayor autonomía del equipo de growth'],
+      results: ['Deploys semanales sin incidentes críticos', 'Mayor autonomía del equipo de Growth'],
     liveUrl: 'https://ejemplo-ecommerce.vercel.app',
     githubUrl: 'https://github.com/tu-usuario/proyecto',
     caseStudy: 'La clave fue atacar fricción transaccional primero y luego escalar con experimentación.',
@@ -211,11 +231,11 @@ export const projects: Project[] = [
     id: 2,
     title: 'Nexa Analytics Suite',
     year: 2026,
-    role: 'Senior Frontend Engineer',
+    role: 'Full Stack Developer (Frontend Focus)',
     scope: 'Data dashboards + alerting',
     timeline: '4 meses',
     impact: '80k eventos renderizados a 60fps',
-    description: 'Suite analítica con datos en tiempo real y UX orientada a decisiones.',
+    description: 'Rediseñé la suite analítica para hacerla confiable y clara, con 80k eventos a 60fps.',
     problem: 'Usuarios no confiaban en datos por latencia y UI confusa.',
     solution: 'Virtualización, estado por prioridades y narrativa visual para insights.',
     image: '/projects/project-2.jpg',
@@ -238,7 +258,7 @@ export const projects: Project[] = [
     scope: 'Tokens + components + docs',
     timeline: '3 meses',
     impact: '50% menos tiempo de implementación UI',
-    description: 'Sistema de diseño para productos multi-equipo con foco en escalabilidad.',
+    description: 'Construí un Design System compartido y bajamos 50% el tiempo de implementación UI.',
     problem: 'Inconsistencia visual y deuda de UI en crecimiento continuo.',
     solution: 'Foundation de tokens + componentes accesibles + guías de adopción.',
     image: '/projects/project-3.jpg',
@@ -256,11 +276,11 @@ export const projects: Project[] = [
     id: 4,
     title: 'Signal Narrative Site',
     year: 2025,
-    role: 'Creative Developer',
+    role: 'Frontend Developer',
     scope: 'Brand storytelling',
     timeline: '6 semanas',
     impact: '2.1x tiempo promedio en sitio',
-    description: 'Experiencia editorial animada para lanzamiento de producto digital.',
+    description: 'Creé una experiencia editorial de marca y elevamos 2.1x el tiempo promedio en sitio.',
     problem: 'La marca necesitaba diferenciarse en una categoría saturada.',
     solution: 'Narrativa por capas con motion controlado y degradación progresiva.',
     image: '/projects/project-4.jpg',
@@ -282,7 +302,7 @@ export const projects: Project[] = [
     scope: 'Internal tooling',
     timeline: '2 meses',
     impact: '-31% errores operativos',
-    description: 'Consola interna para operaciones y monitoreo de flujos críticos.',
+    description: 'Diseñé una consola interna para reducir errores críticos y mejorar trazabilidad operativa.',
     problem: 'Errores humanos frecuentes en procesos con interfaces dispersas.',
     solution: 'Workflow guiado, validaciones en línea y visualización de riesgo.',
     image: '/projects/project-5.jpg',
@@ -300,13 +320,13 @@ export const projects: Project[] = [
 
 export const skills = {
   frontend: {
-    label: "Frontend Development",
+    label: "Desarrollo Frontend",
     core: ["React", "Next.js", "TypeScript", "JavaScript (ES6+)", "HTML5/CSS3"],
     strong: ["TailwindCSS", "Framer Motion", "React Query", "Zustand", "React Hook Form"],
     familiar: ["Vue.js", "Svelte", "GSAP", "Three.js", "WebGL"],
   },
   backend: {
-    label: "Backend & APIs",
+    label: "Backend y APIs",
     core: ["Node.js", "Express", "REST APIs", "PostgreSQL"],
     strong: ["Prisma", "Supabase", "MongoDB", "Auth (JWT, OAuth)"],
     familiar: ["GraphQL", "tRPC", "Redis", "Socket.io"],
@@ -314,13 +334,13 @@ export const skills = {
   devops: {
     label: "DevOps & Tooling",
     core: ["Git/GitHub", "Vercel", "CI/CD", "npm/pnpm"],
-    strong: ["Docker", "GitHub Actions", "AWS S3", "Performance optimization"],
+    strong: ["Docker", "GitHub Actions", "AWS S3", "Optimización de performance"],
     familiar: ["Kubernetes", "Terraform", "Monitoring (Sentry)"],
   },
   testing: {
-    label: "Testing & Quality",
+    label: "Testing y calidad",
     core: ["Vitest", "Testing Library", "Playwright", "ESLint/Prettier"],
-    strong: ["Lighthouse", "Web Vitals", "Accessibility audits"],
+    strong: ["Lighthouse", "Web Vitals", "Auditorías de accesibilidad"],
     familiar: ["Cypress", "Storybook", "Chromatic"],
   },
 }
@@ -338,22 +358,22 @@ export const optimizationFocus = [
   {
     icon: "⚡",
     title: "Performance",
-    description: "Core Web Vitals, lazy loading, code splitting, image optimization",
+    description: "Core Web Vitals, lazy loading, code splitting y optimización de imágenes",
   },
   {
     icon: "♿",
-    title: "Accessibility",
-    description: "WCAG 2.1, semantic HTML, keyboard navigation, screen readers",
+    title: "Accesibilidad",
+    description: "WCAG 2.1, HTML semántico, navegación por teclado y screen readers",
   },
   {
     icon: "🛠️",
     title: "Developer Experience",
-    description: "Type safety, clean code, documentation, maintainability",
+    description: "Type safety, código mantenible, documentación y foco en productividad",
   },
   {
     icon: "🎨",
-    title: "UI/UX Polish",
-    description: "Microinteractions, responsive design, motion design",
+    title: "UI/UX",
+    description: "Microinteracciones, responsive design y motion con intención",
   },
 ]
 
@@ -365,8 +385,8 @@ export const emailConfig = {
 }
 
 export const seoMetadata = {
-  title: `Alejo de la Arena | Full Stack Developer`,
-  description: `Portfolio de Alejo de la Arena, Full Stack Developer especializado en crear experiencias web excepcionales con React, TypeScript y Next.js.`,
+  title: `Alejo de la Arena | Full Stack Developer · Frontend Specialist`,
+  description: `Portfolio de Alejo de la Arena, Full Stack Developer especializado en Frontend, con foco en producto, performance y experiencia de usuario.`,
   keywords: "full stack developer, frontend developer, react developer, typescript, next.js, portfolio",
   ogImage: "/og-image.jpg",
   twitterHandle: "@tuusuario",

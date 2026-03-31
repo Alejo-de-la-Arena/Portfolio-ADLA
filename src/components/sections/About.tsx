@@ -21,9 +21,9 @@ export function About() {
         >
           <div className="editorial-grid mb-12">
             <div className="space-y-4">
-              <p className="eyebrow">About</p>
+              <p className="eyebrow">Sobre mí</p>
               <h2 className="text-3xl sm:text-4xl font-display font-bold">
-                Senior mindset, <span className="text-accent">product execution</span>
+                Visión de producto, <span className="text-accent">ejecución técnica</span>
               </h2>
             </div>
             <p className="text-foreground-secondary max-w-2xl">{about.description}</p>

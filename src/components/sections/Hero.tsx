@@ -4,7 +4,7 @@ import { MagneticButton } from '../effects/MagneticButton'
 import { SpotlightGrid } from '../effects/SpotlightGrid'
 import { Container } from '../ui/Container'
 import { scrollToSection } from '@/lib/utils'
-import { personalInfo, socialLinks } from '@/data/content'
+import { modeLabels, personalInfo, socialLinks } from '@/data/content'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 
 export function Hero() {
@@ -28,9 +28,9 @@ export function Hero() {
             <p className="eyebrow">{personalInfo.location}</p>
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-[0.18em] text-foreground-secondary">
-                {isRecruiterMode ? 'Recruiter Mode' : 'Deep Dive Mode'}
+                {isRecruiterMode ? modeLabels.recruiter : modeLabels.deep}
               </p>
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-tight text-foreground">
+              <h1 className="hero-headline text-4xl sm:text-5xl lg:text-6xl leading-[0.95] text-foreground">
                 Hola, soy
                 <br />
                 <span className="text-gradient">{personalInfo.name}</span>
@@ -56,6 +56,9 @@ export function Hero() {
           >
             <p className="max-w-2xl text-base leading-relaxed text-foreground-secondary sm:text-lg">
               {isRecruiterMode ? personalInfo.recruiterSummary : personalInfo.deepDiveSummary}
+            </p>
+            <p className="max-w-2xl text-sm leading-relaxed text-foreground sm:text-base">
+              {personalInfo.valueLine}
             </p>
 
             <div className="flex flex-wrap items-center gap-3">

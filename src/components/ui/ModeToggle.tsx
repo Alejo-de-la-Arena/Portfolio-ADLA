@@ -22,7 +22,7 @@ export function ModeToggle() {
         aria-pressed={isRecruiterMode}
       >
         <Sparkles className="h-3.5 w-3.5" />
-        Recruiter
+        Reclutador
         <AnimatePresence>
           {isRecruiterMode && (
             <motion.span
@@ -43,7 +43,7 @@ export function ModeToggle() {
         aria-pressed={mode === 'deep'}
       >
         <Layers3 className="h-3.5 w-3.5" />
-        Deep Dive
+        Detalle
         <AnimatePresence>
           {mode === 'deep' && (
             <motion.span

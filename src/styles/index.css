@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Rubik+Glitch&family=Sora:wght@400;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,6 +7,35 @@
 @layer base {
   :root {
     --section-space: clamp(5rem, 10vw, 8rem);
+    --background: 246 248 252;
+    --background-secondary: 238 241 247;
+    --background-tertiary: 228 233 242;
+    --foreground: 19 24 38;
+    --foreground-secondary: 62 73 96;
+    --foreground-tertiary: 98 111 140;
+    --accent: 108 78 240;
+    --accent-hover: 91 61 230;
+    --accent-light: 177 159 255;
+    --border: 205 213 229;
+    --border-light: 187 196 216;
+    --surface-glow-a: rgba(108, 78, 240, 0.09);
+    --surface-glow-b: rgba(108, 78, 240, 0.05);
+  }
+
+  .dark {
+    --background: 7 7 11;
+    --background-secondary: 14 15 22;
+    --background-tertiary: 21 23 38;
+    --foreground: 245 247 255;
+    --foreground-secondary: 180 185 208;
+    --foreground-tertiary: 127 134 159;
+    --accent: 124 92 255;
+    --accent-hover: 152 125 255;
+    --accent-light: 200 188 255;
+    --border: 35 38 58;
+    --border-light: 49 53 80;
+    --surface-glow-a: rgba(124, 92, 255, 0.14);
+    --surface-glow-b: rgba(124, 92, 255, 0.08);
   }
 
   * {
@@ -17,9 +46,16 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
     background-image:
-      radial-gradient(circle at 15% 0%, rgba(124, 92, 255, 0.14), transparent 30%),
-      radial-gradient(circle at 85% 10%, rgba(124, 92, 255, 0.08), transparent 28%);
+      radial-gradient(circle at 15% 0%, var(--surface-glow-a), transparent 30%),
+      radial-gradient(circle at 85% 10%, var(--surface-glow-b), transparent 28%);
     min-height: 100vh;
+    transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease;
+  }
+
+  .hero-headline {
+    font-family: 'Rubik Glitch', 'Sora', 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.015em;
   }
 
   /* Scrollbar styles */
@@ -90,6 +126,12 @@
 
   .eyebrow {
     @apply text-[11px] uppercase tracking-[0.25em] text-foreground-tertiary;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-headline {
+    letter-spacing: 0.005em;
   }
 }
 

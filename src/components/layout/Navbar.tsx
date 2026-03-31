@@ -7,20 +7,12 @@ import { ModeToggle } from '../ui/ModeToggle'
 import { scrollToSection } from '@/lib/utils'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useTheme } from '@/hooks/useTheme'
-import { personalInfo } from '@/data/content'
-
-const navLinks = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'contact', label: 'Contact' },
-]
+import { personalInfo, sectionLinks } from '@/data/content'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const activeSection = useScrollSpy(navLinks.map(link => link.id))
+  const activeSection = useScrollSpy(sectionLinks.map(link => link.id))
   const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
@@ -59,7 +51,7 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
+              {sectionLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
@@ -81,7 +73,7 @@ export function Navbar() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                aria-label="Toggle theme"
+                aria-label="Cambiar tema"
               >
                 {theme === 'dark' ? (
                   <Sun className="w-4 h-4" />
@@ -100,7 +92,7 @@ export function Navbar() {
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                aria-label="Toggle theme"
+                aria-label="Cambiar tema"
               >
                 {theme === 'dark' ? (
                   <Sun className="w-4 h-4" />
@@ -112,7 +104,7 @@ export function Navbar() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle menu"
+                aria-label="Abrir menú"
               >
                 {mobileMenuOpen ? (
                   <X className="w-5 h-5" />
@@ -136,7 +128,7 @@ export function Navbar() {
               <div className="pb-2">
                 <ModeToggle />
               </div>
-              {navLinks.map((link) => (
+              {sectionLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}

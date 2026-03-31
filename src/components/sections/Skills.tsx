@@ -47,14 +47,14 @@ export function Skills() {
         >
           <div className="editorial-grid mb-10">
             <div className="space-y-3">
-              <p className="eyebrow">Skills Map</p>
+              <p className="eyebrow">Mapa de habilidades</p>
               <h2 className="text-3xl sm:text-4xl font-display font-bold">
                 Capacidades por <span className="text-accent">nivel de profundidad</span>
               </h2>
             </div>
             <p className="text-foreground-secondary max-w-2xl">
               {isRecruiterMode
-                ? 'Core, strong y familiar para validar stack fit rápidamente.'
+                ? 'Core, strong y familiar para validar encaje de stack rápidamente.'
                 : 'Vista técnica para entender cómo aplico cada tecnología en producto real.'}
             </p>
           </div>
@@ -91,7 +91,7 @@ export function Skills() {
 
           {/* Optimization Focus */}
           <div>
-            <h3 className="text-2xl font-semibold mb-6 text-center">What I Optimize For</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-center">Qué optimizo en cada proyecto</h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {optimizationFocus.map((item, idx) => (
                 <motion.div

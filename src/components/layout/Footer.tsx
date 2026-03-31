@@ -1,15 +1,7 @@
 import { Github, Linkedin, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { personalInfo, socialLinks } from '@/data/content'
+import { personalInfo, sectionLinks, socialLinks } from '@/data/content'
 import { scrollToSection } from '@/lib/utils'
-
-const footerLinks = [
-  { label: 'About', id: 'about' },
-  { label: 'Experience', id: 'experience' },
-  { label: 'Projects', id: 'projects' },
-  { label: 'Skills', id: 'skills' },
-  { label: 'Contact', id: 'contact' },
-]
 
 const socials = [
   { icon: Github, href: socialLinks.github, label: 'GitHub' },
@@ -36,9 +28,9 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <h4 className="font-semibold mb-4">Navegación</h4>
             <ul className="space-y-2">
-              {footerLinks.map((link) => (
+              {sectionLinks.map((link) => (
                 <li key={link.id}>
                   <button
                     onClick={() => scrollToSection(link.id)}
@@ -53,7 +45,7 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="font-semibold mb-4">Connect</h4>
+            <h4 className="font-semibold mb-4">Redes</h4>
             <div className="flex gap-4">
               {socials.map((social) => (
                 <motion.a
@@ -76,10 +68,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-foreground-secondary text-sm">
-            © {new Date().getFullYear()} Alejo de la Arena. All rights reserved.
+            © {new Date().getFullYear()} Alejo de la Arena. Todos los derechos reservados.
           </p>
           <p className="text-foreground-tertiary text-xs">
-            Built with React, TypeScript, Tailwind & Three.js
+            Hecho con React, TypeScript, Tailwind y Three.js
           </p>
         </div>
 

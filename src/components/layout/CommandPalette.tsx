@@ -14,20 +14,20 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCommandPalette } from '@/hooks/useCommandPalette'
 import { scrollToSection } from '@/lib/utils'
-import { socialLinks } from '@/data/content'
+import { sectionLinks, socialLinks } from '@/data/content'
 
 const navigationCommands = [
-  { icon: User, label: 'About', action: () => scrollToSection('about') },
-  { icon: Briefcase, label: 'Experience', action: () => scrollToSection('experience') },
-  { icon: FolderGit2, label: 'Projects', action: () => scrollToSection('projects') },
-  { icon: Code2, label: 'Skills', action: () => scrollToSection('skills') },
-  { icon: Mail, label: 'Contact', action: () => scrollToSection('contact') },
+  { icon: User, label: sectionLinks[0].label, action: () => scrollToSection(sectionLinks[0].id) },
+  { icon: Briefcase, label: sectionLinks[1].label, action: () => scrollToSection(sectionLinks[1].id) },
+  { icon: FolderGit2, label: sectionLinks[2].label, action: () => scrollToSection(sectionLinks[2].id) },
+  { icon: Code2, label: sectionLinks[3].label, action: () => scrollToSection(sectionLinks[3].id) },
+  { icon: Mail, label: sectionLinks[4].label, action: () => scrollToSection(sectionLinks[4].id) },
 ]
 
 const socialCommands = [
-  { icon: Github, label: 'Open GitHub', action: () => window.open(socialLinks.github, '_blank') },
-  { icon: Linkedin, label: 'Open LinkedIn', action: () => window.open(socialLinks.linkedin, '_blank') },
-  { icon: MessageCircle, label: 'Open WhatsApp', action: () => window.open(socialLinks.whatsapp, '_blank') },
+  { icon: Github, label: 'Abrir GitHub', action: () => window.open(socialLinks.github, '_blank') },
+  { icon: Linkedin, label: 'Abrir LinkedIn', action: () => window.open(socialLinks.linkedin, '_blank') },
+  { icon: MessageCircle, label: 'Abrir WhatsApp', action: () => window.open(socialLinks.whatsapp, '_blank') },
 ]
 
 export function CommandPalette() {
@@ -66,7 +66,7 @@ export function CommandPalette() {
             >
               <Command 
                 className="rounded-xl border border-border bg-background-secondary shadow-2xl overflow-hidden"
-                label="Command Menu"
+                label="Menú de comandos"
               >
                 <div className="flex items-center border-b border-border px-4">
                   <Search className="w-5 h-5 text-foreground-secondary mr-2" />
@@ -116,7 +116,7 @@ export function CommandPalette() {
                 </Command.List>
 
                 <div className="border-t border-border px-4 py-2 text-xs text-foreground-tertiary flex items-center justify-between">
-                  <span>Tip: Presioná ⌘K para abrir</span>
+                  <span>Tip: Presioná Ctrl+K para abrir</span>
                   <div className="flex gap-2">
                     <kbd className="px-1.5 py-0.5 rounded border border-border bg-background-tertiary">↑↓</kbd>
                     <span>navegar</span>

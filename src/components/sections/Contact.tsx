@@ -13,9 +13,9 @@ import { personalInfo, socialLinks, emailConfig } from '@/data/content'
 
 const contactMethods = [
   { icon: Mail, label: 'Email', value: personalInfo.email, action: 'copy' },
-  { icon: Github, label: 'GitHub', value: 'View Profile', href: socialLinks.github },
-  { icon: Linkedin, label: 'LinkedIn', value: 'Connect', href: socialLinks.linkedin },
-  { icon: MessageCircle, label: 'WhatsApp', value: 'Chat', href: socialLinks.whatsapp },
+  { icon: Github, label: 'GitHub', value: 'Abrir perfil', href: socialLinks.github },
+  { icon: Linkedin, label: 'LinkedIn', value: 'Abrir perfil', href: socialLinks.linkedin },
+  { icon: MessageCircle, label: 'WhatsApp', value: 'Enviar mensaje', href: socialLinks.whatsapp },
 ]
 
 export function Contact() {
@@ -77,27 +77,27 @@ export function Contact() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4 text-center">
-            Let's Work <span className="text-accent">Together</span>
+            Trabajemos <span className="text-accent">juntos</span>
           </h2>
           <p className="text-foreground-secondary mb-12 text-center max-w-2xl mx-auto">
-            Have a project in mind or just want to chat? Drop me a message and I'll get back to you as soon as possible.
+            Si tenés un proyecto en mente, escribime. Te respondo rápido y con propuesta concreta.
           </p>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Contact Form */}
             <Card>
-              <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
+              <h3 className="text-xl font-semibold mb-6">Enviar mensaje</h3>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Name
+                    Nombre
                   </label>
                   <input
                     {...register('name')}
                     type="text"
                     id="name"
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
-                    placeholder="Your name"
+                    placeholder="Tu nombre"
                   />
                   {errors.name && (
                     <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -122,14 +122,14 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Message
+                    Mensaje
                   </label>
                   <textarea
                     {...register('message')}
                     id="message"
                     rows={5}
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors resize-none"
-                    placeholder="Tell me about your project..."
+                    placeholder="Contame en qué te puedo ayudar..."
                   />
                   {errors.message && (
                     <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
@@ -142,11 +142,11 @@ export function Contact() {
                   className="w-full"
                 >
                   {isSubmitting ? (
-                    <>Sending...</>
+                    <>Enviando...</>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      Send Message
+                      Enviar mensaje
                     </>
                   )}
                 </Button>
@@ -155,7 +155,7 @@ export function Contact() {
 
             {/* Contact Methods */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Other Ways to Connect</h3>
+              <h3 className="text-xl font-semibold mb-6">Otras formas de contacto</h3>
               {contactMethods.map((method, idx) => (
                 <motion.div
                   key={method.label}
