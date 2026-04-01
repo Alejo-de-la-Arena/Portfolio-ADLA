@@ -1,6 +1,6 @@
 import { AnimatePresence, LayoutGroup, motion, useInView, useReducedMotion } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Briefcase, Calendar, ChevronRight, ExternalLink, Laptop, MapPin, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Briefcase, Calendar, ChevronDown, ChevronRight, ExternalLink, Laptop, MapPin, X } from 'lucide-react'
 import { experience } from '@/data/content'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import type { Experience as ExperienceItem } from '@/types'
@@ -13,6 +13,11 @@ const filters: Array<{ id: ExperienceFilter; label: string }> = [
   { id: 'freelance', label: 'Freelance' },
 ]
 
+type SortMode = 'relevant' | 'recent' | 'oldest' | 'az'
+type SortControlMode = SortMode | 'default'
+
+const FREELANCE_ACCENT = 'rgb(192 132 252 / var(--tw-text-opacity, 1))'
+
 export function Experience() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
@@ -20,6 +25,19 @@ export function Experience() {
   const { isRecruiterMode } = usePortfolioMode()
   const [activeFilter, setActiveFilter] = useState<ExperienceFilter>('all')
   const [activeExperience, setActiveExperience] = useState<ExperienceItem | null>(null)
+  const [sortMode, setSortMode] = useState<SortMode>('relevant')
+  const [sortControlMode, setSortControlMode] = useState<SortControlMode>('relevant')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  const compactMode = isMobile ? true : isRecruiterMode
 
   const filteredExperience = useMemo(
     () =>
@@ -28,6 +46,23 @@ export function Experience() {
         : experience.filter((item) => item.type === activeFilter),
     [activeFilter]
   )
+
+  const orderedExperience = useMemo(() => {
+    const list = [...filteredExperience]
+
+    if (sortMode === 'az') {
+      return list.sort((a, b) => a.company.localeCompare(b.company, 'es'))
+    }
+
+    if (sortMode === 'relevant') return sortExperienceByRelevance(list)
+
+    if (sortMode === 'oldest') {
+      return list.sort((a, b) => getExperienceSortValue(a) - getExperienceSortValue(b))
+    }
+
+    // recent
+    return list.sort((a, b) => getExperienceSortValue(b) - getExperienceSortValue(a))
+  }, [filteredExperience, sortMode])
 
   const closeDetail = () => setActiveExperience(null)
 
@@ -49,116 +84,142 @@ export function Experience() {
             </div>
             <p className="max-w-2xl text-foreground-secondary">
               {isRecruiterMode
-                ? 'Roles y proyectos clave, resumidos para leer rápido.'
-                : 'Más contexto por rol: qué construí, decisiones técnicas y links al trabajo publicado.'}
+                ? 'Construyo productos web de punta a punta con foco en experiencia de usuario y calidad de ejecución: UI prolija, buenas prácticas y flows que cierran. En muchos proyectos también defino la interfaz desde cero, llevando la idea a un diseño claro antes de bajarlo a código.'
+                : 'Mi recorrido mezcla proyectos freelance y trabajo en equipo dentro de empresa. Me hago cargo del proceso completo cuando el contexto lo requiere: desde definir la interfaz y los estados, hasta implementar y dejar el producto listo para escalar. Abajo tenés contexto por experiencia: qué construí, decisiones técnicas y links.'}
             </p>
           </div>
 
           <LayoutGroup>
-            <div className="mb-10 flex flex-wrap items-center gap-2">
-              {filters.map((filter) => (
-                <button
-                  key={filter.id}
-                  type="button"
-                  onClick={() => setActiveFilter(filter.id)}
-                  className={`relative rounded-full px-4 py-2 text-sm transition-colors ${
-                    activeFilter === filter.id
-                      ? 'text-foreground'
-                      : 'text-foreground-secondary hover:text-foreground'
-                  }`}
-                  aria-pressed={activeFilter === filter.id}
-                >
-                  {activeFilter === filter.id && (
-                    <motion.span
-                      layoutId="experience-filter"
-                      className="absolute inset-0 -z-10 rounded-full bg-accent/15"
-                      transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
-                    />
-                  )}
-                  {filter.label}
-                </button>
-              ))}
+            <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="flex flex-wrap items-center gap-2">
+                {filters.map((filter) => (
+                  <button
+                    key={filter.id}
+                    type="button"
+                    onClick={() => setActiveFilter(filter.id)}
+                    className={`relative rounded-full px-4 py-2 text-sm transition-colors ${activeFilter === filter.id
+                        ? 'text-foreground'
+                        : 'text-foreground-secondary hover:text-foreground'
+                      }`}
+                    aria-pressed={activeFilter === filter.id}
+                  >
+                    {activeFilter === filter.id && (
+                      <motion.span
+                        layoutId="experience-filter"
+                        className="absolute inset-0 -z-10 rounded-full bg-accent/15"
+                        transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
+                      />
+                    )}
+                    {filter.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between gap-3 md:justify-end">
+                <label className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
+                  Ordenar por
+                </label>
+                <div className="relative">
+                  <select
+                    value={sortControlMode}
+                    onChange={(e) => {
+                      const next = e.target.value as SortControlMode
+                      setSortControlMode(next)
+                      setSortMode(next === 'default' ? 'relevant' : next)
+                    }}
+                    className="appearance-none rounded-full border border-border bg-background-secondary py-2 pl-4 pr-11 text-sm text-foreground outline-none transition-colors focus:border-accent"
+                    aria-label="Ordenar experiencias"
+                  >
+                    <option value="default">Predeterminado</option>
+                    <option value="relevant">Más relevantes</option>
+                    <option value="recent">Más recientes</option>
+                    <option value="oldest">Más antiguas</option>
+                    <option value="az">A–Z</option>
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-tertiary" aria-hidden="true" />
+                </div>
+              </div>
             </div>
 
             <motion.div layout className="space-y-5">
               <AnimatePresence mode="popLayout">
-                {filteredExperience.map((exp, idx) => (
-                <motion.div
-                  key={exp.id}
-                  layout
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.28, delay: idx * 0.03 }}
-                  className={getCardClassName(exp)}
-                  style={getCardStyle(exp)}
-                >
-                  <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-                    <div className="space-y-4">
-                      <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
-                        <span className="inline-flex items-center gap-2">
-                          {exp.type === 'employment' ? (
-                            <Briefcase className="h-3.5 w-3.5 text-accent" style={getAccentStyle(exp)} aria-hidden="true" />
-                          ) : (
-                            <Laptop className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" style={getAccentStyle(exp)} aria-hidden="true" />
-                          )}
-                          {exp.type === 'employment' ? 'Empresa' : 'Freelance'}
-                        </span>
-                        <span>•</span>
-                        <span>{exp.year}</span>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-semibold sm:text-2xl">{exp.role}</h3>
-                        <p className={exp.type === 'employment' ? 'text-accent' : 'text-sky-600 dark:text-sky-400'} style={getAccentStyle(exp)}>
-                          {exp.company}
-                        </p>
-                      </div>
-                      <p className="text-sm text-foreground-secondary sm:text-base">{exp.summary}</p>
-
-                      <ul className="space-y-2">
-                        {exp.achievements.slice(0, isRecruiterMode ? 2 : 4).map((achievement) => (
-                          <li key={achievement} className="flex items-start gap-3 text-sm text-foreground-secondary">
-                            <span
-                              className={`mt-1.5 h-1.5 w-1.5 rounded-full ${exp.type === 'employment' ? 'bg-accent' : 'bg-sky-500'}`}
-                              style={getAccentDotStyle(exp)}
-                            />
-                            <span>{achievement}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="flex flex-col justify-between gap-4 rounded-2xl border border-border bg-background/40 p-4">
-                      <div className="space-y-2 text-sm text-foreground-secondary">
-                        <p className="flex items-center gap-2">
-                          <Calendar className={`h-4 w-4 ${exp.type === 'employment' ? 'text-accent' : 'text-sky-600 dark:text-sky-400'}`} />
-                          {exp.period}
-                        </p>
-                        <p className="flex items-center gap-2">
-                          <MapPin className={`h-4 w-4 ${exp.type === 'employment' ? 'text-accent' : 'text-sky-600 dark:text-sky-400'}`} />
-                          {exp.location}
-                        </p>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2">
-                        {exp.technologies.slice(0, isRecruiterMode ? 3 : 6).map((tech) => (
-                          <span key={tech} className="rounded-full border border-border px-2.5 py-1 text-xs text-foreground-secondary">
-                            {tech}
+                {orderedExperience.map((exp, idx) => (
+                  <motion.div
+                    key={exp.id}
+                    layout
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.28, delay: idx * 0.03 }}
+                    className={getCardClassName(exp)}
+                    style={getCardStyle(exp)}
+                  >
+                    <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
+                      <div className="space-y-4">
+                        <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
+                          <span className="inline-flex items-center gap-2">
+                            {exp.type === 'employment' ? (
+                              <Briefcase className="h-3.5 w-3.5 text-accent" style={getAccentStyle(exp)} aria-hidden="true" />
+                            ) : (
+                              <Laptop className="h-3.5 w-3.5 text-violet-500 dark:text-violet-400" style={getAccentStyle(exp)} aria-hidden="true" />
+                            )}
+                            {exp.type === 'employment' ? 'Empresa' : 'Freelance'}
                           </span>
-                        ))}
+                          <span>•</span>
+                          <span>{exp.year}</span>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-semibold sm:text-2xl">{exp.role}</h3>
+                          <p className={exp.type === 'employment' ? 'text-accent' : 'text-violet-500 dark:text-violet-400'} style={getAccentStyle(exp)}>
+                            {exp.company}
+                          </p>
+                        </div>
+                        <p className="text-sm text-foreground-secondary sm:text-base">{exp.summary}</p>
+
+                        <ul className="space-y-2">
+                          {exp.achievements.slice(0, compactMode ? 2 : 4).map((achievement) => (
+                            <li key={achievement} className="flex items-start gap-3 text-sm text-foreground-secondary">
+                              <span
+                                className={`mt-1.5 h-1.5 w-1.5 rounded-full ${exp.type === 'employment' ? 'bg-accent' : 'bg-violet-400'}`}
+                                style={getAccentDotStyle(exp)}
+                              />
+                              <span>{achievement}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => setActiveExperience(exp)}
-                        className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-accent"
-                      >
-                        Ver detalle
-                        <ChevronRight className="h-4 w-4" />
-                      </button>
+                      <div className="flex flex-col justify-between gap-4 rounded-2xl border border-border bg-background/40 p-4">
+                        <div className="space-y-2 text-sm text-foreground-secondary">
+                          <p className="flex items-center gap-2">
+                            <Calendar className={`h-4 w-4 ${exp.type === 'employment' ? 'text-accent' : 'text-violet-500 dark:text-violet-400'}`} />
+                            {exp.period}
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <MapPin className={`h-4 w-4 ${exp.type === 'employment' ? 'text-accent' : 'text-violet-500 dark:text-violet-400'}`} />
+                            {exp.location}
+                          </p>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                          {exp.technologies.slice(0, compactMode ? 3 : 6).map((tech) => (
+                            <span key={tech} className="rounded-full border border-border px-2.5 py-1 text-xs text-foreground-secondary">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setActiveExperience(exp)}
+                          className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-accent"
+                        >
+                          Ver detalle
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
                 ))}
               </AnimatePresence>
             </motion.div>
@@ -193,7 +254,7 @@ export function Experience() {
                   <p className="eyebrow mb-2">{activeExperience.period}</p>
                   <h3 className="text-2xl font-display font-semibold">{activeExperience.role}</h3>
                   <div className="mt-1 flex flex-wrap items-center gap-3">
-                    <p className={activeExperience.type === 'employment' ? 'text-accent' : 'text-sky-600 dark:text-sky-400'}>
+                    <p className={activeExperience.type === 'employment' ? 'text-accent' : 'text-violet-500 dark:text-violet-400'}>
                       {activeExperience.company}
                     </p>
                     {activeExperience.websiteUrl && (
@@ -271,22 +332,83 @@ function getCardClassName(exp: ExperienceItem) {
   if (exp.type === 'employment') {
     return `${base} border-border border-l-2 border-l-accent/60`
   }
-  return `${base} border-border border-l-2 border-l-sky-500/50`
+  return `${base} border-border border-l-2 border-l-violet-400/50`
 }
 
 function getCardStyle(exp: ExperienceItem): React.CSSProperties | undefined {
+  if (exp.type === 'freelance') {
+    return { borderLeftColor: FREELANCE_ACCENT }
+  }
   if (!exp.accentColor) return undefined
   return { borderLeftColor: exp.accentColor }
 }
 
 function getAccentStyle(exp: ExperienceItem): React.CSSProperties | undefined {
+  if (exp.type === 'freelance') return { color: FREELANCE_ACCENT }
   if (!exp.accentColor) return undefined
   return { color: exp.accentColor }
 }
 
 function getAccentDotStyle(exp: ExperienceItem): React.CSSProperties | undefined {
+  if (exp.type === 'freelance') return { backgroundColor: FREELANCE_ACCENT }
   if (!exp.accentColor) return undefined
   return { backgroundColor: exp.accentColor }
+}
+
+function getExperienceSortValue(exp: ExperienceItem) {
+  // Orden consistente: por fecha de fin si existe; "Actualidad" => más reciente.
+  const parsed = parsePeriod(exp.period)
+  if (parsed?.end != null) return parsed.end
+  if (parsed?.start != null) return parsed.start
+  return exp.year * 100 + 1
+}
+
+function parsePeriod(period: string): { start?: number; end?: number } | null {
+  const normalized = period
+    .toLowerCase()
+    .replace(/\(.*?\)/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  const hasPresent = /actualidad|presente/.test(normalized)
+
+  // "sept. 2025 - nov. 2025" | "abr. 2025 - oct. 2025"
+  const range = normalized.split('-').map(s => s.trim())
+  const start = parseMonthYear(range[0] ?? '')
+  const end = hasPresent ? 999912 : parseMonthYear(range[1] ?? '')
+
+  if (start == null && end == null) return null
+  return { start: start ?? undefined, end: end ?? undefined }
+}
+
+function parseMonthYear(part: string): number | null {
+  const p = part
+    .replace(/\./g, '')
+    .replace(/de /g, '')
+    .trim()
+
+  const monthMap: Record<string, number> = {
+    ene: 1,
+    feb: 2,
+    mar: 3,
+    abr: 4,
+    may: 5,
+    jun: 6,
+    jul: 7,
+    ago: 8,
+    sep: 9,
+    sept: 9,
+    oct: 10,
+    nov: 11,
+    dic: 12,
+  }
+
+  const match = p.match(/([a-zñ]+)?\s*(\d{4})/)
+  if (!match) return null
+  const monthRaw = (match[1] ?? '').slice(0, 5)
+  const year = Number(match[2])
+  const month = monthMap[monthRaw] ?? 12
+  return year * 100 + month
 }
 
 function DetailBlock({ title, items }: { title: string; items: string[] }) {
@@ -315,7 +437,7 @@ function SubProjectsBlock({
   reduceMotion: boolean
 }) {
   const [openIndex, setOpenIndex] = useState<number>(0)
-  const headingColor = accent === 'employment' ? 'text-accent' : 'text-sky-600 dark:text-sky-400'
+  const headingColor = accent === 'employment' ? 'text-accent' : 'text-violet-500 dark:text-violet-400'
 
   return (
     <div>
@@ -450,8 +572,8 @@ function ExperienceGallery({
 
   if (!safeImages.length || !current) return null
 
-  const accentBorder = accent === 'employment' ? 'border-accent/25' : 'border-sky-500/25'
-  const accentDot = accent === 'employment' ? 'bg-accent' : 'bg-sky-500'
+  const accentBorder = accent === 'employment' ? 'border-accent/25' : 'border-violet-400/25'
+  const accentDot = accent === 'employment' ? 'bg-accent' : 'bg-violet-400'
 
   return (
     <div className={`rounded-2xl border ${accentBorder} bg-background/30 p-3`}>
@@ -516,9 +638,8 @@ function ExperienceGallery({
             key={i}
             type="button"
             onClick={() => goTo(i)}
-            className={`h-2.5 w-2.5 rounded-full border border-border transition-transform ${
-              i === index ? `${accentDot} scale-110` : 'bg-background-tertiary'
-            }`}
+            className={`h-2.5 w-2.5 rounded-full border border-border transition-transform ${i === index ? `${accentDot} scale-110` : 'bg-background-tertiary'
+              }`}
             aria-label={`Ir a imagen ${i + 1}`}
             aria-current={i === index ? 'true' : undefined}
           />
@@ -526,4 +647,22 @@ function ExperienceGallery({
       </div>
     </div>
   )
+}
+
+function sortExperienceByRelevance(list: ExperienceItem[]) {
+  const rank = (exp: ExperienceItem) => {
+    const company = exp.company.trim().toLowerCase()
+    if (company === 'zetenta') return 0
+    if (company === 'espacio boa') return 1
+    if (company === 'solution') return 2
+    if (company === 'mdvproyectos') return 3
+    return 999
+  }
+
+  return list.sort((a, b) => {
+    const ra = rank(a)
+    const rb = rank(b)
+    if (ra !== rb) return ra - rb
+    return getExperienceSortValue(b) - getExperienceSortValue(a)
+  })
 }

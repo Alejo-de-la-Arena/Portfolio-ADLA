@@ -40,42 +40,29 @@ export const projectSortLabels = {
   impact: 'Impacto',
 }
 
-export const about = {
-  description:
-    'Conecto diseño, ingeniería y objetivos de negocio para crear productos web elegantes, mantenibles y listos para escalar.',
-  highlights: [
-    'Arquitecturas frontend escalables con React, TypeScript y design tokens',
-    'Optimización de performance con foco en Core Web Vitals y TTI',
-    'Sistemas de UI accesibles con motion intencional y mantenible',
-    'Integración de datos complejos con UX clara para producto',
-    'Testing de flujos críticos con estándares de calidad altos',
-  ],
-  mindset: [
-    'Cada interacción comunica calidad de producto.',
-    'La accesibilidad no es opcional: es parte de la experiencia.',
-    'El código debe permitir iterar rápido sin romper confianza.',
-  ],
-}
+
+export const about = { description: 'Diseño y construyo interfaces con criterio de producto: rápidas, claras y mantenibles. Trabajo cerca de diseño y negocio para que lo que se entrega se use y escale.', highlights: [{ title: 'Interfaces end-to-end (UI/UX)', desc: 'Defino estructura, jerarquía, componentes y estados (empty/loading/error) para una experiencia consistente.', }, { title: 'Arquitectura frontend escalable', desc: 'Sistemas de componentes, design tokens, routing y estado con patrones que soportan crecimiento sin deuda.', }, { title: 'Motion con intención (no decorativo)', desc: 'Transiciones, microinteracciones y scroll reveals que mejoran lectura y feedback, cuidando performance.', }, { title: 'Integración producto-backend', desc: 'Auth, APIs y modelos de datos cuando el flujo lo requiere, asegurando consistencia entre UI y lógica.', }, { title: 'Calidad en flujos críticos', desc: 'Validaciones, manejo de errores, edge cases y testing donde impacta: login, forms, checkout y admin.', },], mindset: [{ title: 'Experiencia antes que “efectos”', desc: 'Cada interacción debe ser clara: feedback inmediato, estados bien definidos y cero fricción.', }, { title: 'Comunicación con criterio', desc: 'Alineo alcance, prioridades y trade-offs con diseño/producto/dev para evitar retrabajo.', }, { title: 'Código mantenible por defecto', desc: 'Buenas prácticas, naming claro y componentes reutilizables para que el equipo pueda iterar sin miedo.', }, { title: 'Accesibilidad y detalle visual', desc: 'Contraste, teclado, focus, y jerarquía tipográfica. Se siente premium y funciona para todos.', }, { title: 'Entrega incremental y controlada', desc: 'Itero en pasos, valido temprano y reduzco riesgo con cambios chicos y reversibles.', },], }
 
 export const experience: Experience[] = [
   {
     id: 1,
     type: 'freelance',
-    role: 'Full-stack Developer',
+    role: 'Full-Stack Developer',
     company: 'Espacio BOA',
     period: 'sept. 2025 - nov. 2025 (3 meses)',
     year: 2025,
     location: 'Provincia de Buenos Aires, Argentina (remoto)',
     summary:
-      'Diseñé y desarrollé la plataforma web de Espacio BOA (gastronomía + espacios + actividades) de cero a producción, con panel interno para que el equipo gestione contenido y operaciones sin depender de desarrollo.',
-    websiteUrl: 'https://',
+      'Diseñé y desarrollé la plataforma web de Espacio BOA (café de especialidad + centro holístico), unificando gastronomía, espacios y agenda de actividades/eventos en una experiencia única. Llevé el producto de cero a producción con un panel interno para operar contenido y ventas (incluyendo gift cards), y un recorrido de usuario claro para explorar, inscribirse y gestionar sus reservas.',
+    websiteUrl: 'https://espacioboa.com/',
     images: [],
     accentColor: 'hsl(167 61% 30%)',
     achievements: [
-      'Menú gastronómico interactivo + módulo de espacios y actividades/eventos.',
-      'Inscripciones con validaciones, control de cupo y confirmaciones.',
-      'Gift Cards digitales con emisión, redención y trazabilidad.',
-      'Panel interno CRUD para operar contenido y operaciones.',
+      'Menú gastronómico interactivo + módulo de espacios con enfoque en navegación y lectura rápida.',
+      'Calendario unificado de actividades y eventos (fechas/horarios/cupos/estado) con detalle completo.',
+      'Inscripciones end-to-end con validaciones, control de cupo, confirmaciones y gestión desde cuenta de usuario.',
+      'Gift Cards digitales con emisión, redención, trazabilidad y prevención de reutilización.',
+      'Panel interno CRUD para operar actividades/eventos, contenidos y gift cards sin depender de desarrollo.',
     ],
     technologies: [
       'Next.js',
@@ -88,24 +75,33 @@ export const experience: Experience[] = [
       'Vercel',
       'Zod + React Hook Form',
       'Framer Motion',
+      'HTML5',
+      'CSS3',
     ],
     details: {
       built: [
-        'Menú gastronómico interactivo (categorías, UX mobile, lectura rápida).',
-        'Espacios (ambientes, usos, contenido visual, foco conversión).',
-        'Actividades y eventos con cupos/fechas/estados/visibilidad.',
-        'Inscripciones con validaciones + control de cupo + confirmaciones.',
-        'Gift Cards digitales: emisión/administración, código único, validación/redención, trazabilidad.',
-        'Autenticación completa (login/registro/sesiones).',
-        'Admin panel CRUD (actividades/eventos/giftcards).',
+        'Menú gastronómico interactivo (categorías, foco mobile, lectura rápida).',
+        'Sección de espacios (ambientes/usos con contenido visual e información práctica).',
+        'Sistema de actividades y eventos con estados operativos: visibilidad, cupos, fechas/horarios y contenido.',
+        'Calendario completo que renderiza actividades y eventos activos con información clave (fecha, hora, cupos/participantes y detalle).',
+        'Inscripciones con validaciones, control de cupo y confirmaciones.',
+        'Panel del usuario para ver sus inscripciones (actividades/eventos), revisar detalle y cancelar cuando corresponde.',
+        'Gift Cards digitales: emisión/administración, código único, validación/redención y trazabilidad por estado.',
+        'Autenticación completa (login/registro/sesiones) y control de acceso.',
+        'Panel interno CRUD (actividades/eventos/gift cards) pensado para operación diaria.',
       ],
-      optimized: ['Consistencia front-back en estados, validaciones y manejo de errores.'],
+      optimized: [
+        'Consistencia front–back en estados, validaciones y manejo de errores para flujos críticos (inscripciones, cupos, redención).',
+      ],
       decisions: [
-        'Integración front–back con consistencia de datos, manejo de errores y validaciones.',
-        'UX moderna alineada a identidad del espacio.',
+        'Modelado de estados y reglas operativas para que el contenido se gestione con lógica real (cupo, visibilidad, fechas, cancelaciones).',
+        'Arquitectura de UI orientada a exploración rápida: jerarquía, lectura y navegación mobile-first.',
+        'Integración front–back con consistencia de datos y manejo predecible de errores.',
       ],
-      results: ['Plataforma operativa en producción de punta a punta.'],
-      links: [{ label: 'Sitio principal', href: 'https://' }],
+      results: [
+        'Producto operativo en producción, con operación interna autónoma y flujos de usuario completos para explorar e inscribirse.',
+      ],
+      links: [{ label: 'Espacio BOA', href: 'https://espacioboa.com/' }],
     },
   },
   {
@@ -117,16 +113,16 @@ export const experience: Experience[] = [
     year: 2025,
     location: 'Provincia de Buenos Aires, Argentina (híbrido)',
     summary:
-      'Desarrollé front-ends pixel-perfect y sitios WordPress a medida (Gutenberg + ACF), liderando el flujo Figma -> código y creando componentes reutilizables. Priorizando performance, accesibilidad y SEO técnico, con QA cross-device y releases iterativos.',
+      'Desarrollé front-ends pixel-perfect y sitios WordPress a medida (Gutenberg + ACF), liderando el flujo Figma -> código y creando componentes reutilizables. Priorizando performance, accesibilidad y SEO técnico, con pruebas en distintos dispositivos y entregas por etapas junto a el equipo de diseño.',
     websiteUrl: 'https://www.zetenta.com/web/es/portfolio/',
     images: [],
     achievements: [
       'Front-ends pixel-perfect desde Figma y componentes reutilizables.',
-      'Sitios WordPress a medida (Gutenberg + ACF) y páginas de servicio/portfolio.',
+      'Sitios WordPress a medida (Gutenberg + ACF).',
       'Performance, accesibilidad y SEO técnico como parte del delivery.',
-      'QA cross-device y releases iterativos.',
+      'Enfoque mobile-first y responsive real (360 → desktop), con ajuste fino por breakpoint',
     ],
-    technologies: ['WordPress', 'PHP', 'JavaScript (ES6)', 'Sass', 'Gulp', 'ACF', 'Gutenberg'],
+    technologies: ['WordPress', 'PHP', 'JavaScript (ES6)', 'Sass', 'Gulp', 'ACF', 'Gutenberg', 'HTML5', 'CSS3'],
     details: {
       built: [
         'Desarrollo de sitios WordPress a medida con Gutenberg + ACF.',
@@ -209,7 +205,7 @@ export const experience: Experience[] = [
   {
     id: 3,
     type: 'freelance',
-    role: 'Full Stack Developer',
+    role: 'Full-Stack Developer',
     company: 'SOLUTION',
     period: 'feb. 2026 - abr. 2026 (en desarrollo, casi listo)',
     year: 2026,
@@ -269,7 +265,7 @@ export const experience: Experience[] = [
   {
     id: 5,
     type: 'freelance',
-    role: 'Desarrollador full stack',
+    role: 'Full-Stack Developer',
     company: 'Fefe Bakes',
     period: 'oct. 2024 - dic. 2024',
     year: 2024,
@@ -300,7 +296,7 @@ export const experience: Experience[] = [
   {
     id: 6,
     type: 'freelance',
-    role: 'Full Stack Developer',
+    role: 'Full-Stack Developer',
     company: 'Renová tu Cocina',
     period: 'en desarrollo (cerca de producción)',
     year: 2025,
@@ -348,7 +344,7 @@ export const projects: Project[] = [
     featured: true,
     metrics: ['FCP -38%', 'AOV +11%', 'Checkout drop-off -37%'],
     decisions: ['Dominio por bounded context', 'Pre-fetch según intención', 'Reglas de motion con budget'],
-      results: ['Deploys semanales sin incidentes críticos', 'Mayor autonomía del equipo de Growth'],
+    results: ['Deploys semanales sin incidentes críticos', 'Mayor autonomía del equipo de Growth'],
     liveUrl: 'https://ejemplo-ecommerce.vercel.app',
     githubUrl: 'https://github.com/tu-usuario/proyecto',
     caseStudy: 'La clave fue atacar fricción transaccional primero y luego escalar con experimentación.',
@@ -357,7 +353,7 @@ export const projects: Project[] = [
     id: 2,
     title: 'Nexa Analytics Suite',
     year: 2026,
-    role: 'Full Stack Developer (Frontend Focus)',
+    role: 'Full-Stack Developer (Frontend Focus)',
     scope: 'Data dashboards + alerting',
     timeline: '4 meses',
     impact: '80k eventos renderizados a 60fps',
@@ -511,8 +507,8 @@ export const emailConfig = {
 }
 
 export const seoMetadata = {
-  title: `Alejo de la Arena | Full Stack Developer · Frontend Specialist`,
-  description: `Portfolio de Alejo de la Arena, Full Stack Developer especializado en Frontend, con foco en producto, performance y experiencia de usuario.`,
+  title: `Alejo de la Arena | Full-Stack Developer · Frontend Specialist`,
+  description: `Portfolio de Alejo de la Arena, Full-Stack Developer especializado en Frontend, con foco en producto, performance y experiencia de usuario.`,
   keywords: "full stack developer, frontend developer, react developer, typescript, next.js, portfolio",
   ogImage: "/og-image.jpg",
   twitterHandle: "@tuusuario",

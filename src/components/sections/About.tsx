@@ -35,20 +35,7 @@ export function About() {
                 <span className="w-2 h-2 rounded-full bg-accent" />
                 Lo que mejor ejecuto
               </h3>
-              <ul className="space-y-4">
-                {about.highlights.slice(0, isRecruiterMode ? 3 : about.highlights.length).map((item, idx) => (
-                  <motion.li
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3, delay: idx * 0.1 }}
-                    className="flex items-start gap-3"
-                  >
-                    <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-foreground-secondary text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
+              <ul className="space-y-4"> {about.highlights.slice(0, isRecruiterMode ? 3 : about.highlights.length).map((item, idx) => (<motion.li key={idx} initial={{ opacity: 0, x: -20 }} animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.3, delay: idx * 0.1 }} className="flex items-start gap-3" > <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" /> <div className="min-w-0"> <p className="text-foreground font-medium text-sm leading-snug"> {item.title} </p> <p className="text-foreground-secondary text-sm leading-relaxed"> {item.desc} </p> </div> </motion.li>))} </ul>
             </div>
 
             <div className="rounded-2xl border border-border bg-background-secondary/70 p-6">
@@ -57,18 +44,27 @@ export function About() {
                 Principios de trabajo
               </h3>
               <ul className="space-y-4">
-                {about.mindset.map((item, idx) => (
-                  <motion.li
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3, delay: idx * 0.1 + 0.2 }}
-                    className="flex items-start gap-3"
-                  >
-                    <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-foreground-secondary text-sm">{item}</span>
-                  </motion.li>
-                ))}
+                {about.mindset
+                  .slice(0, isRecruiterMode ? 3 : about.mindset.length)
+                  .map((item, idx) => (
+                    <motion.li
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3, delay: idx * 0.1 + 0.2 }}
+                      className="flex items-start gap-3"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                      <div className="min-w-0">
+                        <p className="text-foreground font-medium text-sm leading-snug">
+                          {item.title}
+                        </p>
+                        <p className="text-foreground-secondary text-sm leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </motion.li>
+                  ))}
               </ul>
             </div>
           </div>
