@@ -1,12 +1,13 @@
 import { useMemo, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { skillExamples, skills, optimizationFocus } from '@/data/content'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function Skills() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const { isRecruiterMode } = usePortfolioMode()
+  const { skillExamples, skills, optimizationFocus, ui } = useLocalizedContent()
   const [activeSkill, setActiveSkill] = useState<string | null>(null)
 
   const skillCategories = useMemo(() => [
@@ -47,15 +48,15 @@ export function Skills() {
         >
           <div className="editorial-grid mb-10">
             <div className="space-y-3">
-              <p className="eyebrow">Mapa de habilidades</p>
+              <p className="eyebrow">{ui.skills.eyebrow}</p>
               <h2 className="text-3xl sm:text-4xl font-display font-bold">
-                Capacidades por <span className="text-accent">nivel de profundidad</span>
+                {ui.skills.titleStart} <span className="text-accent">{ui.skills.titleAccent}</span>
               </h2>
             </div>
             <p className="text-foreground-secondary max-w-2xl">
               {isRecruiterMode
-                ? 'Core, strong y familiar para validar encaje de stack rápidamente.'
-                : 'Vista técnica para entender cómo aplico cada tecnología en producto real.'}
+                ? ui.skills.recruiterIntro
+                : ui.skills.deepIntro}
             </p>
           </div>
 
@@ -91,7 +92,7 @@ export function Skills() {
 
           {/* Optimization Focus */}
           <div>
-            <h3 className="text-2xl font-semibold mb-6 text-center">Qué optimizo en cada proyecto</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-center">{ui.skills.optimizeTitle}</h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {optimizationFocus.map((item, idx) => (
                 <motion.div

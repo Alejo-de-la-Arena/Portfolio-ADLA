@@ -2,15 +2,17 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Layers3, Sparkles } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { cn } from '@/lib/utils'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function ModeToggle() {
   const { mode, setMode, isRecruiterMode } = usePortfolioMode()
+  const { ui } = useLocalizedContent()
 
   return (
     <div
       className="inline-flex items-center rounded-full border border-border bg-background-secondary/90 p-1 shadow-lg shadow-black/20 backdrop-blur-md"
       role="group"
-      aria-label="Selector de modo de lectura del portfolio"
+      aria-label={ui.modeToggle.aria}
     >
       <button
         type="button"
@@ -22,7 +24,7 @@ export function ModeToggle() {
         aria-pressed={isRecruiterMode}
       >
         <Sparkles className="h-3.5 w-3.5" />
-        Reclutador
+        {ui.modeToggle.recruiter}
         <AnimatePresence>
           {isRecruiterMode && (
             <motion.span
@@ -43,7 +45,7 @@ export function ModeToggle() {
         aria-pressed={mode === 'deep'}
       >
         <Layers3 className="h-3.5 w-3.5" />
-        Detalle
+        {ui.modeToggle.deep}
         <AnimatePresence>
           {mode === 'deep' && (
             <motion.span

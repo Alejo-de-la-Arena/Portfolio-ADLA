@@ -1,15 +1,16 @@
 import { Github, Linkedin, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { personalInfo, sectionLinks, socialLinks } from '@/data/content'
 import { scrollToSection } from '@/lib/utils'
-
-const socials = [
-  { icon: Github, href: socialLinks.github, label: 'GitHub' },
-  { icon: Linkedin, href: socialLinks.linkedin, label: 'LinkedIn' },
-  { icon: MessageCircle, href: socialLinks.whatsapp, label: 'WhatsApp' },
-]
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function Footer() {
+  const { personalInfo, sectionLinks, socialLinks, ui } = useLocalizedContent()
+  const socials = [
+    { icon: Github, href: socialLinks.github, label: 'GitHub' },
+    { icon: Linkedin, href: socialLinks.linkedin, label: 'LinkedIn' },
+    { icon: MessageCircle, href: socialLinks.whatsapp, label: 'WhatsApp' },
+  ]
+
   return (
     <footer className="relative mt-32 border-t border-border bg-background-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -28,7 +29,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Navegación</h4>
+            <h4 className="font-semibold mb-4">{ui.footer.navigation}</h4>
             <ul className="space-y-2">
               {sectionLinks.map((link) => (
                 <li key={link.id}>
@@ -45,7 +46,7 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="font-semibold mb-4">Redes</h4>
+            <h4 className="font-semibold mb-4">{ui.footer.social}</h4>
             <div className="flex gap-4">
               {socials.map((social) => (
                 <motion.a
@@ -68,10 +69,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-foreground-secondary text-sm">
-            © {new Date().getFullYear()} Alejo de la Arena. Todos los derechos reservados.
+            © {new Date().getFullYear()} Alejo de la Arena. {ui.footer.rights}
           </p>
           <p className="text-foreground-tertiary text-xs">
-            Hecho con React, TypeScript, Tailwind y Three.js
+            {ui.footer.madeWith}
           </p>
         </div>
 

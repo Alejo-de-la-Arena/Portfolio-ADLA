@@ -1,17 +1,12 @@
 import { AnimatePresence, LayoutGroup, motion, useInView, useReducedMotion } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Briefcase, Calendar, ChevronDown, ChevronRight, ExternalLink, Laptop, MapPin, X } from 'lucide-react'
-import { experience } from '@/data/content'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import type { Experience as ExperienceItem } from '@/types'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
+import { useLocale } from '@/context/LocaleContext'
 
 type ExperienceFilter = 'all' | 'employment' | 'freelance'
-
-const filters: Array<{ id: ExperienceFilter; label: string }> = [
-  { id: 'all', label: 'Todo' },
-  { id: 'employment', label: 'Empresa' },
-  { id: 'freelance', label: 'Freelance' },
-]
 
 type SortMode = 'relevant' | 'recent' | 'oldest' | 'az'
 type SortControlMode = SortMode | 'default'
@@ -23,6 +18,8 @@ export function Experience() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const reduceMotion = Boolean(useReducedMotion())
   const { isRecruiterMode } = usePortfolioMode()
+  const { locale } = useLocale()
+  const { experience, ui } = useLocalizedContent()
   const [activeFilter, setActiveFilter] = useState<ExperienceFilter>('all')
   const [activeExperience, setActiveExperience] = useState<ExperienceItem | null>(null)
   const [sortMode, setSortMode] = useState<SortMode>('relevant')
@@ -38,20 +35,25 @@ export function Experience() {
   }, [])
 
   const compactMode = isMobile ? true : isRecruiterMode
+  const filters: Array<{ id: ExperienceFilter; label: string }> = [
+    { id: 'all', label: ui.experience.filters.all },
+    { id: 'employment', label: ui.experience.filters.employment },
+    { id: 'freelance', label: ui.experience.filters.freelance },
+  ]
 
   const filteredExperience = useMemo(
     () =>
       activeFilter === 'all'
         ? experience
         : experience.filter((item) => item.type === activeFilter),
-    [activeFilter]
+    [activeFilter, experience]
   )
 
   const orderedExperience = useMemo(() => {
     const list = [...filteredExperience]
 
     if (sortMode === 'az') {
-      return list.sort((a, b) => a.company.localeCompare(b.company, 'es'))
+      return list.sort((a, b) => a.company.localeCompare(b.company, locale))
     }
 
     if (sortMode === 'relevant') return sortExperienceByRelevance(list)
@@ -62,7 +64,7 @@ export function Experience() {
 
     // recent
     return list.sort((a, b) => getExperienceSortValue(b) - getExperienceSortValue(a))
-  }, [filteredExperience, sortMode])
+  }, [filteredExperience, locale, sortMode])
 
   const closeDetail = () => setActiveExperience(null)
 
@@ -77,15 +79,15 @@ export function Experience() {
         >
           <div className="editorial-grid mb-10">
             <div className="space-y-4">
-              <p className="eyebrow">Experiencia</p>
+              <p className="eyebrow">{ui.experience.eyebrow}</p>
               <h2 className="text-3xl font-display font-bold sm:text-4xl">
-                Experiencia <span className="text-accent">profesional</span>
+                {ui.experience.titleStart} <span className="text-accent">{ui.experience.titleAccent}</span>
               </h2>
             </div>
             <p className="max-w-2xl text-foreground-secondary">
               {isRecruiterMode
-                ? 'Construyo productos web de punta a punta con foco en experiencia de usuario y calidad de ejecución: UI prolija, buenas prácticas y flows que cierran. En muchos proyectos también defino la interfaz desde cero, llevando la idea a un diseño claro antes de bajarlo a código.'
-                : 'Mi recorrido mezcla proyectos freelance y trabajo en equipo dentro de empresa. Me hago cargo del proceso completo cuando el contexto lo requiere: desde definir la interfaz y los estados, hasta implementar y dejar el producto listo para escalar. Abajo tenés contexto por experiencia: qué construí, decisiones técnicas y links.'}
+                ? ui.experience.recruiterIntro
+                : ui.experience.deepIntro}
             </p>
           </div>
 
@@ -117,7 +119,7 @@ export function Experience() {
 
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <label className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
-                  Ordenar por
+                  {ui.experience.sortBy}
                 </label>
                 <div className="relative">
                   <select
@@ -128,12 +130,12 @@ export function Experience() {
                       setSortMode(next === 'default' ? 'relevant' : next)
                     }}
                     className="appearance-none rounded-full border border-border bg-background-secondary py-2 pl-4 pr-11 text-sm text-foreground outline-none transition-colors focus:border-accent"
-                    aria-label="Ordenar experiencias"
+                    aria-label={ui.experience.sortBy}
                   >
-                    <option value="default">Predeterminado</option>
-                    <option value="relevant">Más relevantes</option>
-                    <option value="recent">Más recientes</option>
-                    <option value="oldest">Más antiguas</option>
+                    <option value="default">{ui.experience.sort.default}</option>
+                    <option value="relevant">{ui.experience.sort.relevant}</option>
+                    <option value="recent">{ui.experience.sort.recent}</option>
+                    <option value="oldest">{ui.experience.sort.oldest}</option>
                     <option value="az">A–Z</option>
                   </select>
                   <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-tertiary" aria-hidden="true" />
@@ -163,7 +165,7 @@ export function Experience() {
                             ) : (
                               <Laptop className="h-3.5 w-3.5 text-violet-500 dark:text-violet-400" style={getAccentStyle(exp)} aria-hidden="true" />
                             )}
-                            {exp.type === 'employment' ? 'Empresa' : 'Freelance'}
+                            {exp.type === 'employment' ? ui.experience.filters.employment : ui.experience.filters.freelance}
                           </span>
                           <span>•</span>
                           <span>{exp.year}</span>
@@ -214,7 +216,7 @@ export function Experience() {
                           onClick={() => setActiveExperience(exp)}
                           className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-accent"
                         >
-                          Ver detalle
+                          {ui.experience.detail}
                           <ChevronRight className="h-4 w-4" />
                         </button>
                       </div>
@@ -232,7 +234,7 @@ export function Experience() {
           <>
             <motion.button
               type="button"
-              aria-label="Cerrar panel de experiencia"
+              aria-label={ui.experience.closePanel}
               onClick={closeDetail}
               className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm"
               initial={{ opacity: 0 }}
@@ -247,7 +249,7 @@ export function Experience() {
               className="fixed right-0 top-0 z-[60] h-full w-full max-w-xl overflow-y-auto border-l border-border bg-background-secondary p-6 sm:p-8"
               role="dialog"
               aria-modal="true"
-              aria-label={`Detalles de ${activeExperience.role} en ${activeExperience.company}`}
+              aria-label={`${ui.experience.detail}: ${activeExperience.role} @ ${activeExperience.company}`}
             >
               <div className="mb-6 flex items-start justify-between gap-4">
                 <div>
@@ -265,7 +267,7 @@ export function Experience() {
                         className="inline-flex items-center gap-2 rounded-full border border-border bg-background/30 px-3 py-1 text-xs text-foreground-secondary transition-colors hover:text-foreground"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
-                        Ver sitio
+                        {ui.experience.viewSite}
                       </a>
                     )}
                   </div>
@@ -274,7 +276,7 @@ export function Experience() {
                   type="button"
                   onClick={closeDetail}
                   className="rounded-full border border-border p-2 text-foreground-secondary transition-colors hover:text-foreground"
-                  aria-label="Cerrar detalles"
+                  aria-label={ui.experience.closeDetails}
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -287,6 +289,7 @@ export function Experience() {
                     images={activeExperience.images}
                     accent={activeExperience.type === 'employment' ? 'employment' : 'freelance'}
                     reduceMotion={reduceMotion}
+                    ui={ui.experience}
                   />
                 )}
                 {!!activeExperience.subProjects?.length && (
@@ -294,15 +297,16 @@ export function Experience() {
                     subProjects={activeExperience.subProjects}
                     accent={activeExperience.type === 'employment' ? 'employment' : 'freelance'}
                     reduceMotion={reduceMotion}
+                    ui={ui.experience}
                   />
                 )}
-                <DetailBlock title="Qué construí" items={activeExperience.details.built} />
-                <DetailBlock title="Qué optimicé" items={activeExperience.details.optimized} />
-                <DetailBlock title="Decisiones técnicas" items={activeExperience.details.decisions} />
-                <DetailBlock title="Resultados" items={activeExperience.details.results} />
+                <DetailBlock title={ui.experience.built} items={activeExperience.details.built} />
+                <DetailBlock title={ui.experience.optimized} items={activeExperience.details.optimized} />
+                <DetailBlock title={ui.experience.decisions} items={activeExperience.details.decisions} />
+                <DetailBlock title={ui.experience.results} items={activeExperience.details.results} />
                 {!!activeExperience.details.links?.length && (
                   <div>
-                    <h4 className="mb-2 text-sm uppercase tracking-[0.16em] text-foreground-tertiary">Enlaces</h4>
+                    <h4 className="mb-2 text-sm uppercase tracking-[0.16em] text-foreground-tertiary">{ui.experience.links}</h4>
                     <div className="flex flex-wrap gap-3">
                       {activeExperience.details.links.map((link) => (
                         <a
@@ -356,7 +360,7 @@ function getAccentDotStyle(exp: ExperienceItem): React.CSSProperties | undefined
 }
 
 function getExperienceSortValue(exp: ExperienceItem) {
-  // Orden consistente: por fecha de fin si existe; "Actualidad" => más reciente.
+  // Orden consistente: por fecha de fin si existe; "Present/Actualidad" => más reciente.
   const parsed = parsePeriod(exp.period)
   if (parsed?.end != null) return parsed.end
   if (parsed?.start != null) return parsed.start
@@ -370,7 +374,7 @@ function parsePeriod(period: string): { start?: number; end?: number } | null {
     .replace(/\s+/g, ' ')
     .trim()
 
-  const hasPresent = /actualidad|presente/.test(normalized)
+  const hasPresent = /actualidad|presente|present|current/.test(normalized)
 
   // "sept. 2025 - nov. 2025" | "abr. 2025 - oct. 2025"
   const range = normalized.split('-').map(s => s.trim())
@@ -401,6 +405,17 @@ function parseMonthYear(part: string): number | null {
     oct: 10,
     nov: 11,
     dic: 12,
+    jan: 1,
+    febr: 2,
+    march: 3,
+    apr: 4,
+    june: 6,
+    july: 7,
+    aug: 8,
+    septe: 9,
+    octob: 10,
+    novem: 11,
+    decem: 12,
   }
 
   const match = p.match(/([a-zñ]+)?\s*(\d{4})/)
@@ -431,10 +446,22 @@ function SubProjectsBlock({
   subProjects,
   accent,
   reduceMotion,
+  ui,
 }: {
   subProjects: NonNullable<ExperienceItem['subProjects']>
   accent: 'employment' | 'freelance'
   reduceMotion: boolean
+  ui: {
+    deliveredProjects: string
+    contribution: string
+    impact: string
+    viewSite: string
+    extraLink: string
+    gallery: string
+    previousImage: string
+    nextImage: string
+    goToImage: string
+  }
 }) {
   const [openIndex, setOpenIndex] = useState<number>(0)
   const headingColor = accent === 'employment' ? 'text-accent' : 'text-violet-500 dark:text-violet-400'
@@ -442,7 +469,7 @@ function SubProjectsBlock({
   return (
     <div>
       <h4 className={`mb-3 text-sm uppercase tracking-[0.16em] ${headingColor}`}>
-        Proyectos realizados ({subProjects.length})
+        {ui.deliveredProjects} ({subProjects.length})
       </h4>
       <div className="space-y-3">
         {subProjects.map((project, index) => {
@@ -473,11 +500,11 @@ function SubProjectsBlock({
                   >
                     {project.context && <p className="mb-2 text-sm text-foreground-secondary">{project.context}</p>}
                     <p className="text-sm text-foreground-secondary">
-                      <span className="text-foreground">Contribución:</span> {project.contribution}
+                      <span className="text-foreground">{ui.contribution}:</span> {project.contribution}
                     </p>
                     {project.impact && (
                       <p className="mt-2 text-sm text-foreground-secondary">
-                        <span className="text-foreground">Impacto:</span> {project.impact}
+                        <span className="text-foreground">{ui.impact}:</span> {project.impact}
                       </p>
                     )}
                     {!!project.stack?.length && (
@@ -497,7 +524,7 @@ function SubProjectsBlock({
                         className="inline-flex items-center gap-1 text-sm text-accent underline-offset-4 hover:underline"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
-                        Ver sitio
+                        {ui.viewSite}
                       </a>
                       {project.relatedLinks?.map((link) => (
                         <a
@@ -508,7 +535,7 @@ function SubProjectsBlock({
                           className="inline-flex items-center gap-1 text-sm text-foreground-secondary underline-offset-4 hover:text-foreground hover:underline"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
-                          Link adicional
+                          {ui.extraLink}
                         </a>
                       ))}
                     </div>
@@ -519,6 +546,7 @@ function SubProjectsBlock({
                           images={project.images}
                           accent={accent}
                           reduceMotion={reduceMotion}
+                          ui={ui}
                         />
                       </div>
                     )}
@@ -538,11 +566,18 @@ function ExperienceGallery({
   images,
   accent,
   reduceMotion,
+  ui,
 }: {
   title: string
   images: string[]
   accent: 'employment' | 'freelance'
   reduceMotion: boolean
+  ui: {
+    gallery: string
+    previousImage: string
+    nextImage: string
+    goToImage: string
+  }
 }) {
   const [index, setIndex] = useState(0)
   const touchStartX = useRef<number | null>(null)
@@ -578,7 +613,7 @@ function ExperienceGallery({
   return (
     <div className={`rounded-2xl border ${accentBorder} bg-background/30 p-3`}>
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h4 className="text-sm font-medium text-foreground">Galería</h4>
+        <h4 className="text-sm font-medium text-foreground">{ui.gallery}</h4>
         <p className="text-xs text-foreground-tertiary">{index + 1}/{safeImages.length}</p>
       </div>
 
@@ -597,7 +632,7 @@ function ExperienceGallery({
           if (delta > 0) next()
           else prev()
         }}
-        aria-label={`Galería de imágenes de ${title}. Usá flechas izquierda/derecha para navegar.`}
+        aria-label={`${ui.gallery}: ${title}`}
       >
         <AnimatePresence mode="wait">
           <motion.img
@@ -618,7 +653,7 @@ function ExperienceGallery({
           type="button"
           onClick={prev}
           className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/60 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-background/80"
-          aria-label="Imagen anterior"
+          aria-label={ui.previousImage}
         >
           <ArrowLeft className="h-4 w-4" />
         </button>
@@ -626,7 +661,7 @@ function ExperienceGallery({
           type="button"
           onClick={next}
           className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/60 p-2 text-foreground shadow-lg backdrop-blur-sm transition-colors hover:bg-background/80"
-          aria-label="Imagen siguiente"
+          aria-label={ui.nextImage}
         >
           <ArrowRight className="h-4 w-4" />
         </button>
@@ -640,7 +675,7 @@ function ExperienceGallery({
             onClick={() => goTo(i)}
             className={`h-2.5 w-2.5 rounded-full border border-border transition-transform ${i === index ? `${accentDot} scale-110` : 'bg-background-tertiary'
               }`}
-            aria-label={`Ir a imagen ${i + 1}`}
+            aria-label={`${ui.goToImage} ${i + 1}`}
             aria-current={i === index ? 'true' : undefined}
           />
         ))}

@@ -11,29 +11,32 @@ import { Projects } from './components/sections/Projects'
 import { Skills } from './components/sections/Skills'
 import { Contact } from './components/sections/Contact'
 import { PortfolioModeProvider } from './context/PortfolioModeContext'
+import { LocaleProvider } from './context/LocaleContext'
 
 function App() {
   return (
-    <PortfolioModeProvider>
-      <div className="relative min-h-screen scroll-smooth">
-        <CinematicLoader />
-        <SpotlightCursor />
-        <Navbar />
-        <CommandPalette />
+    <LocaleProvider>
+      <PortfolioModeProvider>
+        <div className="relative min-h-screen scroll-smooth">
+          <CinematicLoader />
+          <SpotlightCursor />
+          <Navbar />
+          <CommandPalette />
 
-        <main>
-          <Hero />
-          <About />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Contact />
-        </main>
+          <main>
+            <Hero />
+            <About />
+            <Experience />
+            <Projects />
+            <Skills />
+            <Contact />
+          </main>
 
-        <Footer />
-        <Toast />
-      </div>
-    </PortfolioModeProvider>
+          <Footer />
+          <Toast />
+        </div>
+      </PortfolioModeProvider>
+    </LocaleProvider>
   )
 }
 

@@ -1,12 +1,12 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, ExternalLink, Github, Search } from 'lucide-react'
-import { projectSortLabels, projects } from '@/data/content'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
 import { Modal } from '../ui/Modal'
 import type { Project } from '@/types'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 type SortMode = 'featured' | 'latest' | 'impact'
 
@@ -15,15 +15,20 @@ export function Projects() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const reduceMotion = useReducedMotion()
   const { isRecruiterMode } = usePortfolioMode()
+  const { projects, projectSortLabels, ui } = useLocalizedContent()
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null)
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortMode>('featured')
-  const [filter, setFilter] = useState<string>('Todos')
+  const [filter, setFilter] = useState<string>(ui.projects.allTags)
 
-  const allTags = ['Todos', ...Array.from(new Set(projects.flatMap(p => p.tags)))]
+  useEffect(() => {
+    setFilter(ui.projects.allTags)
+  }, [ui.projects.allTags])
+
+  const allTags = [ui.projects.allTags, ...Array.from(new Set(projects.flatMap(p => p.tags)))]
   const filteredProjects = useMemo(() => {
-    const byTag = filter === 'Todos' ? projects : projects.filter((project) => project.tags.includes(filter))
+    const byTag = filter === ui.projects.allTags ? projects : projects.filter((project) => project.tags.includes(filter))
 
     const query = search.trim().toLowerCase()
     const byQuery = !query
@@ -51,7 +56,7 @@ export function Projects() {
     })
 
     return sorted
-  }, [filter, search, sort])
+  }, [filter, projects, search, sort, ui.projects.allTags])
 
   const spotlightProject = useMemo(() => {
     if (hoveredProjectId) {
@@ -72,15 +77,15 @@ export function Projects() {
         >
           <div className="editorial-grid mb-8">
             <div className="space-y-4">
-              <p className="eyebrow">Proyectos</p>
+              <p className="eyebrow">{ui.projects.eyebrow}</p>
               <h2 className="text-3xl font-display font-bold sm:text-4xl">
-                Proyectos con <span className="text-accent">impacto medible</span>
+                {ui.projects.titleStart} <span className="text-accent">{ui.projects.titleAccent}</span>
               </h2>
             </div>
             <p className="max-w-2xl text-foreground-secondary">
               {isRecruiterMode
-                ? 'Vista compacta para validar impacto, rol y stack en segundos.'
-                : 'Vista de análisis: problema, solución, decisiones de arquitectura y resultados por proyecto.'}
+                ? ui.projects.recruiterIntro
+                : ui.projects.deepIntro}
             </p>
           </div>
 
@@ -97,7 +102,7 @@ export function Projects() {
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="space-y-2">
-                    <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">Proyecto destacado</p>
+                    <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">{ui.projects.featuredProject}</p>
                     <h3 className="text-2xl font-display font-semibold">{spotlightProject.title}</h3>
                     <p className="max-w-2xl text-sm text-foreground-secondary">{spotlightProject.description}</p>
                   </div>
@@ -117,9 +122,9 @@ export function Projects() {
                 type="search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Buscar por nombre, tag, año o rol..."
+                placeholder={ui.projects.searchPlaceholder}
                 className="w-full rounded-full border border-border bg-background-secondary py-2.5 pl-10 pr-4 text-sm text-foreground outline-none transition-colors focus:border-accent"
-                aria-label="Buscar proyecto"
+                aria-label={ui.projects.searchAria}
               />
             </div>
             <div className="flex items-center gap-2">
@@ -238,10 +243,10 @@ export function Projects() {
         >
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <CaseChip label="Rol" value={selectedProject.role} />
-              <CaseChip label="Alcance" value={selectedProject.scope} />
-              <CaseChip label="Duración" value={selectedProject.timeline} />
-              <CaseChip label="Impacto" value={selectedProject.impact} />
+              <CaseChip label={ui.projects.role} value={selectedProject.role} />
+              <CaseChip label={ui.projects.scope} value={selectedProject.scope} />
+              <CaseChip label={ui.projects.duration} value={selectedProject.timeline} />
+              <CaseChip label={ui.projects.impact} value={selectedProject.impact} />
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -253,17 +258,17 @@ export function Projects() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-2">Problema</h4>
+              <h4 className="font-semibold mb-2">{ui.projects.problem}</h4>
               <p className="text-foreground-secondary text-sm">{selectedProject.problem}</p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-2">Solución</h4>
+              <h4 className="font-semibold mb-2">{ui.projects.solution}</h4>
               <p className="text-foreground-secondary text-sm">{selectedProject.solution}</p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-2">Puntos clave</h4>
+              <h4 className="font-semibold mb-2">{ui.projects.highlights}</h4>
               <ul className="space-y-2">
                 {selectedProject.highlights.map((highlight, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-foreground-secondary text-sm">
@@ -275,7 +280,7 @@ export function Projects() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-3">Stack</h4>
+              <h4 className="font-semibold mb-3">{ui.projects.stack}</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedProject.technologies.map((tech) => (
                   <span key={tech} className="px-3 py-1.5 text-sm rounded-lg bg-background-tertiary text-foreground">
@@ -287,7 +292,7 @@ export function Projects() {
 
             {!!selectedProject.metrics?.length && (
               <div>
-                <h4 className="font-semibold mb-2">Métricas</h4>
+                <h4 className="font-semibold mb-2">{ui.projects.metrics}</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.metrics.map((metric) => (
                     <span key={metric} className="rounded-full bg-accent/10 px-3 py-1 text-xs text-accent">
@@ -300,7 +305,7 @@ export function Projects() {
 
             {selectedProject.caseStudy && (
               <div>
-                <h4 className="font-semibold mb-2">Caso</h4>
+                <h4 className="font-semibold mb-2">{ui.projects.caseStudy}</h4>
                 <p className="text-foreground-secondary text-sm">{selectedProject.caseStudy}</p>
               </div>
             )}
@@ -309,13 +314,13 @@ export function Projects() {
               {selectedProject.liveUrl && (
                 <Button onClick={() => window.open(selectedProject.liveUrl, '_blank')}>
                   <ExternalLink className="w-4 h-4" />
-                  Ver demo
+                  {ui.projects.viewDemo}
                 </Button>
               )}
               {selectedProject.githubUrl && (
                 <Button variant="outline" onClick={() => window.open(selectedProject.githubUrl, '_blank', 'noopener,noreferrer')}>
                   <Github className="w-4 h-4" />
-                  Ver código
+                  {ui.projects.viewCode}
                 </Button>
               )}
             </div>

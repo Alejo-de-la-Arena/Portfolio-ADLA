@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -7,22 +7,28 @@ import emailjs from '@emailjs/browser'
 import { toast } from 'sonner'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
-import { contactFormSchema, type ContactFormSchema } from '@/lib/validators'
+import { getContactFormSchema, type ContactFormSchema } from '@/lib/validators'
 import { copyToClipboard } from '@/lib/utils'
-import { personalInfo, socialLinks, emailConfig } from '@/data/content'
-
-const contactMethods = [
-  { icon: Mail, label: 'Email', value: personalInfo.email, action: 'copy' },
-  { icon: Github, label: 'GitHub', value: 'Abrir perfil', href: socialLinks.github },
-  { icon: Linkedin, label: 'LinkedIn', value: 'Abrir perfil', href: socialLinks.linkedin },
-  { icon: MessageCircle, label: 'WhatsApp', value: 'Enviar mensaje', href: socialLinks.whatsapp },
-]
+import { emailConfig } from '@/data/content'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
+import { useLocale } from '@/context/LocaleContext'
 
 export function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const { locale } = useLocale()
+  const { personalInfo, socialLinks, ui } = useLocalizedContent()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [emailCopied, setEmailCopied] = useState(false)
+
+  const contactMethods = [
+    { icon: Mail, label: 'Email', value: personalInfo.email, action: 'copy' },
+    { icon: Github, label: 'GitHub', value: ui.contact.openProfile, href: socialLinks.github },
+    { icon: Linkedin, label: 'LinkedIn', value: ui.contact.openProfile, href: socialLinks.linkedin },
+    { icon: MessageCircle, label: 'WhatsApp', value: ui.contact.sendWhatsApp, href: socialLinks.whatsapp },
+  ]
+
+  const schema = useMemo(() => getContactFormSchema(locale), [locale])
 
   const {
     register,
@@ -30,7 +36,7 @@ export function Contact() {
     formState: { errors },
     reset,
   } = useForm<ContactFormSchema>({
-    resolver: zodResolver(contactFormSchema),
+    resolver: zodResolver(schema),
   })
 
   const onSubmit = async (data: ContactFormSchema) => {
@@ -49,10 +55,10 @@ export function Contact() {
         emailConfig.publicKey
       )
       
-      toast.success('¡Mensaje enviado! Te responderé pronto.')
+      toast.success(ui.contact.sentOk)
       reset()
     } catch (error) {
-      toast.error('Error al enviar. Por favor intentá de nuevo.')
+      toast.error(ui.contact.sentError)
     } finally {
       setIsSubmitting(false)
     }
@@ -62,7 +68,7 @@ export function Contact() {
     const success = await copyToClipboard(personalInfo.email)
     if (success) {
       setEmailCopied(true)
-      toast.success('Email copiado al portapapeles')
+      toast.success(ui.contact.copied)
       setTimeout(() => setEmailCopied(false), 2000)
     }
   }
@@ -77,27 +83,27 @@ export function Contact() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4 text-center">
-            Trabajemos <span className="text-accent">juntos</span>
+            {ui.contact.titleStart} <span className="text-accent">{ui.contact.titleAccent}</span>
           </h2>
           <p className="text-foreground-secondary mb-12 text-center max-w-2xl mx-auto">
-            Si tenés un proyecto en mente, escribime. Te respondo rápido y con propuesta concreta.
+            {ui.contact.intro}
           </p>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Contact Form */}
             <Card>
-              <h3 className="text-xl font-semibold mb-6">Enviar mensaje</h3>
+              <h3 className="text-xl font-semibold mb-6">{ui.contact.sendMessage}</h3>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Nombre
+                    {ui.contact.name}
                   </label>
                   <input
                     {...register('name')}
                     type="text"
                     id="name"
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
-                    placeholder="Tu nombre"
+                    placeholder={ui.contact.namePlaceholder}
                   />
                   {errors.name && (
                     <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -106,7 +112,7 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email
+                    {ui.contact.email}
                   </label>
                   <input
                     {...register('email')}
@@ -122,14 +128,14 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Mensaje
+                    {ui.contact.message}
                   </label>
                   <textarea
                     {...register('message')}
                     id="message"
                     rows={5}
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors resize-none"
-                    placeholder="Contame en qué te puedo ayudar..."
+                    placeholder={ui.contact.messagePlaceholder}
                   />
                   {errors.message && (
                     <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
@@ -142,11 +148,11 @@ export function Contact() {
                   className="w-full"
                 >
                   {isSubmitting ? (
-                    <>Enviando...</>
+                    <>{ui.contact.sending}</>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      Enviar mensaje
+                      {ui.contact.sendMessage}
                     </>
                   )}
                 </Button>
@@ -155,7 +161,7 @@ export function Contact() {
 
             {/* Contact Methods */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-6">Otras formas de contacto</h3>
+              <h3 className="text-xl font-semibold mb-6">{ui.contact.otherWays}</h3>
               {contactMethods.map((method, idx) => (
                 <motion.div
                   key={method.label}

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { Button } from './Button'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 interface ModalProps {
   isOpen: boolean
@@ -11,6 +12,8 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+  const { ui } = useLocalizedContent()
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -54,7 +57,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
                   size="sm"
                   onClick={onClose}
                   className="ml-auto"
-                  aria-label="Cerrar modal"
+                  aria-label={ui.modal.close}
                 >
                   <X className="w-5 h-5" />
                 </Button>

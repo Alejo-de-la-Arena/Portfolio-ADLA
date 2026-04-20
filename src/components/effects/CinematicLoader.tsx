@@ -1,22 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { personalInfo } from '@/data/content'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 const SESSION_KEY = 'portfolio_loader_seen'
 
 export function CinematicLoader() {
   const reduceMotion = useReducedMotion()
+  const { personalInfo, ui } = useLocalizedContent()
   const [visible, setVisible] = useState(false)
 
-  const initials = useMemo(
-    () =>
-      personalInfo.name
-        .split(' ')
-        .map((word) => word[0])
-        .join('')
-        .slice(0, 3),
-    []
-  )
+  const initials = useMemo(() => (
+    personalInfo.name
+      .split(' ')
+      .map((word) => word[0])
+      .join('')
+      .slice(0, 3)
+  ), [personalInfo.name])
 
   useEffect(() => {
     if (reduceMotion) return
@@ -57,7 +56,7 @@ export function CinematicLoader() {
           >
             {initials}
           </motion.div>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-foreground-tertiary">Full Stack con foco en Frontend</p>
+          <p className="text-[11px] uppercase tracking-[0.22em] text-foreground-tertiary">{ui.loader.subtitle}</p>
           <button
             type="button"
             className="text-xs text-foreground-tertiary underline-offset-4 hover:text-foreground hover:underline"
@@ -66,7 +65,7 @@ export function CinematicLoader() {
               window.sessionStorage.setItem(SESSION_KEY, 'true')
             }}
           >
-            Omitir
+            {ui.loader.skip}
           </button>
         </motion.div>
       </motion.div>

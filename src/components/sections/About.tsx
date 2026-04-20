@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { about } from '@/data/content'
 import { CheckCircle2 } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
+import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function About() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const { isRecruiterMode } = usePortfolioMode()
+  const { about, ui } = useLocalizedContent()
 
   return (
     <section id="about" className="section-space">
@@ -21,9 +22,9 @@ export function About() {
         >
           <div className="editorial-grid mb-12">
             <div className="space-y-4">
-              <p className="eyebrow">Sobre mí</p>
+              <p className="eyebrow">{ui.about.eyebrow}</p>
               <h2 className="text-3xl sm:text-4xl font-display font-bold">
-                Visión de producto, <span className="text-accent">ejecución técnica</span>
+                {ui.about.titleStart} <span className="text-accent">{ui.about.titleAccent}</span>
               </h2>
             </div>
             <p className="text-foreground-secondary max-w-2xl">{about.description}</p>
@@ -33,7 +34,7 @@ export function About() {
             <div className="rounded-2xl border border-border bg-background-secondary/70 p-6">
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-accent" />
-                Lo que mejor ejecuto
+                {ui.about.highlights}
               </h3>
               <ul className="space-y-4"> {about.highlights.slice(0, isRecruiterMode ? 3 : about.highlights.length).map((item, idx) => (<motion.li key={idx} initial={{ opacity: 0, x: -20 }} animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.3, delay: idx * 0.1 }} className="flex items-start gap-3" > <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" /> <div className="min-w-0"> <p className="text-foreground font-medium text-sm leading-snug"> {item.title} </p> <p className="text-foreground-secondary text-sm leading-relaxed"> {item.desc} </p> </div> </motion.li>))} </ul>
             </div>
@@ -41,7 +42,7 @@ export function About() {
             <div className="rounded-2xl border border-border bg-background-secondary/70 p-6">
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-accent" />
-                Principios de trabajo
+                {ui.about.mindset}
               </h3>
               <ul className="space-y-4">
                 {about.mindset

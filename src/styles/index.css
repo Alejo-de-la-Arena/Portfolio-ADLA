@@ -41,7 +41,7 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv11", "ss01";
@@ -52,10 +52,37 @@
     transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease;
   }
 
-  .hero-headline {
-    font-family: 'Rubik Glitch', 'Sora', 'Inter', sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.015em;
+
+  .hero-name {
+    font-family: 'Sora', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.25rem, 7vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* En mobile permitimos wrap natural; desde sm+ "de la Arena" va en una línea */
+  @media (min-width: 640px) {
+    .hero-name-rest {
+      white-space: nowrap;
+    }
+  }
+
+  /* En mobile chico (<640px) permitimos wrap natural para evitar overflow */
+  @media (max-width: 639px) {
+    .hero-name span.whitespace-nowrap {
+      white-space: normal;
+    }
+  }
+
+  /* Si tu .text-gradient ya existe, ignorá esto. Por las dudas: */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(248 92% 75%) 0%, hsl(265 85% 65%) 50%, hsl(285 75% 55%) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   /* Scrollbar styles */
@@ -87,6 +114,7 @@
 }
 
 @layer utilities {
+
   /* Smooth scroll */
   .scroll-smooth {
     scroll-behavior: smooth;
@@ -106,11 +134,11 @@
   .animation-delay-100 {
     animation-delay: 100ms;
   }
-  
+
   .animation-delay-200 {
     animation-delay: 200ms;
   }
-  
+
   .animation-delay-300 {
     animation-delay: 300ms;
   }
@@ -129,14 +157,10 @@
   }
 }
 
-@media (max-width: 640px) {
-  .hero-headline {
-    letter-spacing: 0.005em;
-  }
-}
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
