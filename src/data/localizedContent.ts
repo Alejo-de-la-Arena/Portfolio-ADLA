@@ -16,7 +16,7 @@ import type { Locale } from '@/context/LocaleContext'
 
 const personalInfoEn = {
   ...personalInfoEs,
-  role: 'Full Stack Developer · Frontend Specialist',
+  role: 'Full Stack Developer',
   tagline: 'Solid interfaces, clear product thinking, and impact-driven technical execution.',
   valueLine: 'I build fast, clear interfaces with obsessive attention to detail.',
   recruiterSummary:
