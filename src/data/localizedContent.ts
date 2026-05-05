@@ -16,7 +16,7 @@ import type { Locale } from '@/context/LocaleContext'
 
 const personalInfoEn = {
   ...personalInfoEs,
-  role: 'Full Stack Developer',
+  role: 'Full Stack Developer · Frontend Specialist',
   tagline: 'Solid interfaces, clear product thinking, and impact-driven technical execution.',
   valueLine: 'I build fast, clear interfaces with obsessive attention to detail.',
   recruiterSummary:
@@ -312,31 +312,92 @@ const projectsEn: Project[] = [
   },
   {
     ...projectsEs[1],
-    title: 'Reference - real case (pending 1)',
-    role: 'To be defined',
-    scope: 'To be defined',
-    timeline: '-',
-    impact: 'To be documented',
-    description: 'Reserved slot for the next real project case with full narrative and validated metrics.',
-    problem: 'This section will be completed once the next real case is ready.',
-    solution: 'Replace title, narrative, highlights, and tech stack with verified project information.',
-    tags: ['Coming soon'],
-    highlights: ['Reserved for future case', 'Metrics and links pending', 'Live/repo references to be added'],
-    technologies: ['To be defined'],
+    title: 'AURA AI',
+    role: 'Frontend Developer · Vyzon (web services agency)',
+    scope: 'Enterprise landing page · 11 sections · GSAP + Canvas 2D + Framer Motion',
+    timeline: 'In development — architecture and main sections completed',
+    impact: 'Functional landing with 11 sections and an advanced animation system, production-ready.',
+    description:
+      'Landing page for an enterprise AI integration platform, built at Vyzon. The product promises to connect a team\'s existing tools to any LLM without needing an ML team. Built on Next.js 14 App Router with strict TypeScript, it pairs a dark visual aesthetic with neon accents and a two-layer animation system: GSAP handles scroll-driven sequences and complex timelines, Framer Motion manages discrete component transitions.',
+    problem:
+      'Teams trying to adopt AI face a real adoption paradox: implementing LLMs requires ML engineering talent that takes months to hire, blocking most initiatives before their first deploy. The landing needed to communicate technical credibility and ease of adoption to a decision-maker audience — fast, without overwhelming copy.',
+    solution:
+      'An 11-section SPA with a narrative from problem to conversion. The hero features an interactive Canvas 2D particle system with cursor repulsion physics and a typewriter demo showcasing the product in action. Sections include feature cards with reactive 3D tilt, an animated metrics display, an accordion FAQ, and a final CTA with a shimmer effect. All animated sections respect prefers-reduced-motion through a shared hook. The pricing section uses Framer Motion layout animations for smooth toggle transitions, and mobile navigation opens with an animated drawer.',
+    tags: ['Landing Page', 'Frontend', 'Animations', 'SaaS', 'AI/Enterprise'],
+    highlights: [
+      'Canvas 2D particle system with cursor repulsion physics and dynamic connections — implemented without external canvas libraries.',
+      'Two-layer animation architecture: GSAP for scroll-driven sequences and complex timelines, Framer Motion for component state transitions.',
+      'Reactive 3D tilt on feature cards with GSAP for smooth high-frequency updates without re-renders.',
+      'Shared reduced-motion hook integrated across all animated sections as a first-class accessibility pattern.',
+      'Centralized design token system via CSS custom properties with fully fluid typography and no explicit breakpoints.',
+    ],
+    metrics: [
+      'Scroll-driven animations with automatic cleanup after first trigger to avoid memory retention.',
+      'Adaptive particle count based on device capability for consistent performance across mobile and desktop.',
+      'All animations via transforms only — no layout-triggering properties.',
+      'Fluid typography without breakpoints: a single clamp() expression per scale covers the full size range.',
+    ],
+    decisions: [
+      'GSAP and Framer Motion with separate responsibilities: GSAP owns scroll-driven precision sequences, Framer Motion handles discrete React component state transitions.',
+      'Canvas 2D over WebGL for the particle field: sufficient visual impact with lower initialization overhead and no Three.js dependency.',
+      'SPA architecture without multiple routes, appropriate for a landing where per-route code splitting adds no value.',
+      'Shared reduced-motion hook instead of inline media queries: guarantees consistency and simplifies accessibility testing.',
+    ],
+    results: [
+      '11 sections fully implemented: Hero, Problem, How It Works, Features, Metrics, Testimonials, Pricing, FAQ, Final CTA, Nav, and Footer.',
+      'Functional scroll-driven animation system with staggered reveals, animated counters, 3D tilt, and button effects.',
+      'Responsive navigation with animated mobile drawer and scroll progress bar.',
+      'Reusable component library (Button, Eyebrow, ScrollProgress) with accessible variants and states.',
+      'Pending: form integration and production deployment.',
+    ],
+    caseStudy:
+      'AURA AI demonstrates the ability to design and build a production-quality enterprise landing from scratch with solid technical depth. The project shows real GSAP mastery across complex scenarios — scroll-driven animations, cinematic entry timelines, high-frequency interaction patterns — alongside deliberate architecture decisions: Canvas 2D over WebGL for appropriate scope, accessibility treated as a system concern rather than an afterthought, and clearly delineated roles for each animation library. It\'s a project a technical recruiter can audit layer by layer and find reasoned decisions throughout.',
   },
   {
     ...projectsEs[2],
-    title: 'Reference - real case (pending 2)',
-    role: 'To be defined',
-    scope: 'To be defined',
-    timeline: '-',
-    impact: 'To be documented',
-    description: 'Second reserved slot for another real project case ready to replace later.',
-    problem: 'This section will be completed once the second additional case is ready.',
-    solution: 'Use the same structure as the rest of projects: clear problem, solution, stack, and outcomes.',
-    tags: ['Coming soon'],
-    highlights: ['Reserved for future case', 'Metrics and links pending', 'Live/repo references to be added'],
-    technologies: ['To be defined'],
+    title: 'Obsidian',
+    role: 'Frontend Developer · Vyzon (web services agency)',
+    scope: 'Luxury brand landing · 7 sections · GSAP + Three.js + Lenis',
+    timeline: 'In development — 3D hero, main sections, and scroll system completed',
+    impact: 'Real-time WebGL hero, GSAP-integrated smooth scroll, and interactive product showcase with horizontal scroll. The most technically ambitious project in the portfolio.',
+    description:
+      'Landing page for a limited-edition mechanical watch brand (NOIR, ALBA, FORGE) targeting the Latin American luxury market, developed at Vyzon. The project operates at the upper boundary of the web stack: a Three.js scene with a custom GLSL procedural shader, a particle system, 3D models with HDR lighting, and smooth scroll unified with GSAP through Lenis. The aesthetic combines pure black with an electric green accent, fluid typography, and an art direction that communicates exclusivity from the first scroll.',
+    problem:
+      'A limited-edition luxury watch brand needs its website to communicate exclusivity and artisanal precision at the same level of care it applies to its products. A generic landing destroys perceived value. The technical challenge was delivering a cinematic, immersive experience that performs well on mobile without compromising accessibility.',
+    solution:
+      'The hero layers a WebGL canvas with a procedurally animated GLSL background shader, decorative HUD elements, and a GSAP entry timeline with multiple sequenced components. The shader generates organic background movement without static images. The 3D watch model supports cursor-driven parallax and loads from a global cache to prevent duplication. Primary CTAs are magnetic buttons that attract to the cursor with parametrizable pull strength, active only on pointer devices. Smooth scroll uses Lenis integrated into the GSAP ticker for a unified animation loop. The product section implements pinned horizontal scroll on desktop for three watch models, each with glow effects, spinning rings, and particles — with a clean animated vertical stack fallback on mobile.',
+    tags: ['Landing Page', 'WebGL', '3D', 'Luxury', 'Frontend', 'Animations'],
+    highlights: [
+      'Three.js scene with a procedural GLSL shader, particle system, and GLTF model with HDR lighting — all composited in the hero.',
+      'Lenis integrated into the GSAP ticker for a unified RAF loop, eliminating timing conflicts between scroll and animations.',
+      'Pinned horizontal scroll for the product showcase on desktop, with a fully animated vertical stack fallback on mobile.',
+      'Magnetic CTA buttons with parametrizable cursor pull force — active only on pointer devices with complete touch fallback.',
+      'Fully fluid typography across multiple scales without explicit breakpoints, from small labels to large display text.',
+    ],
+    metrics: [
+      'Canvas pixel ratio capped for a balanced quality/performance tradeoff, especially on mobile.',
+      'Adaptive particle count between desktop and mobile to maintain consistent framerate.',
+      'ScrollTrigger configured to minimize unnecessary callbacks and avoid resize recalculations on mobile.',
+      'GLTF model loaded once globally and cloned per consumer to prevent scene mutation conflicts.',
+      'Canvas resize debounced to avoid excessive recalculation on window dimension changes.',
+    ],
+    decisions: [
+      'Lenis + GSAP ticker instead of native scroll: unifies the RAF loop so ScrollTrigger can read interpolated scroll position without conflicts.',
+      'Procedural GLSL shader for the hero background instead of static images: greater visual impact with fewer asset bytes.',
+      'Global GLTF cache: the WebGL loader initializes once and each consumer receives a scene clone to modify independently.',
+      'Separate desktop/mobile component variants instead of mid-animation CSS media queries.',
+      'Three.js scoped to the hero canvas only: product sections use CSS and GSAP for visual effects, keeping WebGL overhead isolated.',
+    ],
+    results: [
+      'Hero fully implemented: WebGL scene with procedural shader, particles, GLTF model, and multi-element entry timeline.',
+      'Responsive navigation with animated mobile drawer and functional Lenis smooth scroll.',
+      'Manifesto section with animated counters and column reveals.',
+      'Product showcase with pinned horizontal scroll on desktop and three models with complete display effects.',
+      'Process section with four manufacturing stages, procedural SVG icons, and desktop/mobile layout variants.',
+      'Pending: limited edition, testimonials, and contact sections, plus production deployment.',
+    ],
+    caseStudy:
+      'Obsidian is the most technically ambitious project in the portfolio. It combines WebGL with custom GLSL shaders, high-complexity scroll-driven animations, and an interpolated scroll system in a single cohesive React stack. Every architecture decision is grounded: procedural shader instead of static assets, GLTF caching to prevent race conditions, unified Lenis+GSAP RAF loop. For a technical recruiter, the project demonstrates the ability to work at the intersection of real-time graphics, advanced web animation, and component architecture — not as separate specialties, but integrated into a coherent product with a clear premium design direction.',
   },
 ]
 
