@@ -11,7 +11,7 @@ export const personalInfo = {
   proof: ['Performance-first', 'UI craft', 'Product-minded'],
   bio: 'Desarrollador Full Stack con foco en Frontend, arquitectura de producto y experiencias digitales de alta calidad.',
   location: 'Buenos Aires, Argentina',
-  email: 'alejo@example.com',
+  email: 'alejodelaarenaa@gmail.com',
   availability: 'Disponible para proyectos freelance y roles remotos',
 }
 
@@ -402,6 +402,7 @@ export const projects: Project[] = [
     ],
     caseStudy:
       'Lo encaré como proyecto interno de Vyzon: un SaaS ficticio (TaskFlow) me permitió trabajar extremo a extremo una landing de venta real — jerarquía de mensaje, prueba social, pricing y FAQ — con el mismo rigor que llevaría a un cliente. El foco para un reclutador es el stack (Next.js App Router, TypeScript, Tailwind), el criterio de motion accesible (GSAP + reduced-motion), la separación copy/componentes y el cuidado de performance percibida y SEO técnico; el producto no es real, pero el tipo de entrega sí es el de una agencia que vende sitios que convierten.',
+    liveUrl: 'https://task-flow-opal-eight.vercel.app/',
   },
   {
     id: 2,
@@ -532,28 +533,28 @@ export const projects: Project[] = [
 
 export const skills = {
   frontend: {
-    label: "Desarrollo Frontend",
-    core: ["React", "Next.js", "TypeScript", "JavaScript (ES6+)", "HTML5/CSS3"],
-    strong: ["TailwindCSS", "Framer Motion", "React Query", "Zustand", "React Hook Form"],
-    familiar: ["Vue.js", "Svelte", "GSAP", "Three.js", "WebGL"],
+    label: "Frontend",
+    core: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3/SCSS"],
+    strong: ["Tailwind CSS", "Framer Motion", "GSAP"],
+    familiar: [] as string[],
   },
   backend: {
-    label: "Backend y APIs",
-    core: ["Node.js", "Express", "REST APIs", "PostgreSQL"],
-    strong: ["Prisma", "Supabase", "MongoDB", "Auth (JWT, OAuth)"],
-    familiar: ["GraphQL", "tRPC", "Redis", "Socket.io"],
+    label: "Backend & Bases de datos",
+    core: ["Node.js", "Express", "REST APIs"],
+    strong: ["Supabase (PostgreSQL)", "Firebase", "MongoDB", "MySQL"],
+    familiar: ["PHP", "Python"],
   },
-  devops: {
-    label: "DevOps & Tooling",
-    core: ["Git/GitHub", "Vercel", "CI/CD", "npm/pnpm"],
-    strong: ["Docker", "GitHub Actions", "AWS S3", "Optimización de performance"],
-    familiar: ["Kubernetes", "Terraform", "Monitoring (Sentry)"],
+  cms: {
+    label: "CMS & E-commerce",
+    core: ["WordPress", "Gutenberg", "ACF"],
+    strong: ["Elementor", "Tiendanube/Liquid"],
+    familiar: [] as string[],
   },
-  testing: {
-    label: "Testing y calidad",
-    core: ["Vitest", "Testing Library", "Playwright", "ESLint/Prettier"],
-    strong: ["Lighthouse", "Web Vitals", "Auditorías de accesibilidad"],
-    familiar: ["Cypress", "Storybook", "Chromatic"],
+  tools: {
+    label: "DevOps & Tools",
+    core: ["Git", "GitHub", "Vercel"],
+    strong: ["CI/CD básico"],
+    familiar: [] as string[],
   },
 }
 
@@ -561,39 +562,15 @@ export const skillExamples: Record<string, string> = {
   React: 'Arquitecturas por dominio, estado predecible y rendering optimizado.',
   TypeScript: 'Contratos estrictos para escalar equipos y evitar regresiones.',
   'Framer Motion': 'Transiciones narrativas con intención y degradación progresiva.',
-  GraphQL: 'Normalización de datos para UI complejas con baja latencia percibida.',
-  Playwright: 'Cobertura de flujos críticos para releases con alta confianza.',
-  'TailwindCSS': 'Sistemas de interfaz consistentes, rápidos de iterar y mantenibles.',
+  GSAP: 'Scroll-triggers, timelines cinemáticos y animaciones de alta frecuencia con quickTo.',
+  'Tailwind CSS': 'Sistemas de interfaz consistentes, rápidos de iterar y mantenibles.',
+  WordPress: 'Sitios a medida con Gutenberg + ACF, themes custom y performance en producción.',
 }
 
-export const optimizationFocus = [
-  {
-    icon: "⚡",
-    title: "Performance",
-    description: "Core Web Vitals, lazy loading, code splitting y optimización de imágenes",
-  },
-  {
-    icon: "♿",
-    title: "Accesibilidad",
-    description: "WCAG 2.1, HTML semántico, navegación por teclado y screen readers",
-  },
-  {
-    icon: "🛠️",
-    title: "Developer Experience",
-    description: "Type safety, código mantenible, documentación y foco en productividad",
-  },
-  {
-    icon: "🎨",
-    title: "UI/UX",
-    description: "Microinteracciones, responsive design y motion con intención",
-  },
-]
-
-// Configuración EmailJS (obtener en emailjs.com)
 export const emailConfig = {
-  serviceId: "TU_SERVICE_ID",
-  templateId: "TU_TEMPLATE_ID",
-  publicKey: "TU_PUBLIC_KEY",
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID as string,
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string,
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string,
 }
 
 export const seoMetadata = {

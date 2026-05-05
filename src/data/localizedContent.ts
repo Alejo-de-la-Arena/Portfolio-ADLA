@@ -3,7 +3,6 @@ import {
   about as aboutEs,
   experience as experienceEs,
   modeLabels as modeLabelsEs,
-  optimizationFocus as optimizationFocusEs,
   personalInfo as personalInfoEs,
   projectSortLabels as projectSortLabelsEs,
   projects as projectsEs,
@@ -404,19 +403,19 @@ const projectsEn: Project[] = [
 const skillsEn = {
   frontend: {
     ...skillsEs.frontend,
-    label: 'Frontend Development',
+    label: 'Frontend',
   },
   backend: {
     ...skillsEs.backend,
-    label: 'Backend & APIs',
+    label: 'Backend & Databases',
   },
-  devops: {
-    ...skillsEs.devops,
-    label: 'DevOps & Tooling',
+  cms: {
+    ...skillsEs.cms,
+    label: 'CMS & E-commerce',
   },
-  testing: {
-    ...skillsEs.testing,
-    label: 'Testing & Quality',
+  tools: {
+    ...skillsEs.tools,
+    label: 'DevOps & Tools',
   },
 }
 
@@ -424,33 +423,10 @@ const skillExamplesEn: Record<string, string> = {
   React: 'Domain-driven UI architecture, predictable state, and optimized rendering.',
   TypeScript: 'Strict contracts to scale teams and reduce regressions.',
   'Framer Motion': 'Narrative transitions with intent and progressive degradation.',
-  GraphQL: 'Data normalization patterns for complex, low-latency perceived UIs.',
-  Playwright: 'Critical flow coverage for high-confidence releases.',
-  TailwindCSS: 'Consistent interface systems that are fast to iterate and maintain.',
+  GSAP: 'Scroll triggers, cinematic timelines, and high-frequency animations with quickTo.',
+  'Tailwind CSS': 'Consistent interface systems that are fast to iterate and maintain.',
+  WordPress: 'Custom sites with Gutenberg + ACF, custom themes, and production performance.',
 }
-
-const optimizationFocusEn = [
-  {
-    icon: '⚡',
-    title: 'Performance',
-    description: 'Core Web Vitals, lazy loading, code splitting, and image optimization',
-  },
-  {
-    icon: '♿',
-    title: 'Accessibility',
-    description: 'WCAG 2.1, semantic HTML, keyboard navigation, and screen readers',
-  },
-  {
-    icon: '🛠️',
-    title: 'Developer Experience',
-    description: 'Type safety, maintainable code, documentation, and productivity focus',
-  },
-  {
-    icon: '🎨',
-    title: 'UI/UX',
-    description: 'Microinteractions, responsive design, and intentional motion',
-  },
-]
 
 interface LocalizedContent {
   personalInfo: typeof personalInfoEs
@@ -463,7 +439,6 @@ interface LocalizedContent {
   projects: Project[]
   skills: typeof skillsEs
   skillExamples: Record<string, string>
-  optimizationFocus: typeof optimizationFocusEs
   ui: {
     navbar: {
       talk: string
@@ -610,7 +585,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     projects: projectsEs,
     skills: skillsEs,
     skillExamples: skillExamplesEs,
-    optimizationFocus: optimizationFocusEs,
     ui: {
       navbar: {
         talk: 'Hablemos',
@@ -763,7 +737,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     projects: projectsEn,
     skills: skillsEn,
     skillExamples: skillExamplesEn,
-    optimizationFocus: optimizationFocusEn,
     ui: {
       navbar: {
         talk: "Let's talk",

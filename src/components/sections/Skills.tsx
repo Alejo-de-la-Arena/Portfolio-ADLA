@@ -7,35 +7,38 @@ export function Skills() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const { isRecruiterMode } = usePortfolioMode()
-  const { skillExamples, skills, optimizationFocus, ui } = useLocalizedContent()
+  const { skillExamples, skills, ui } = useLocalizedContent()
   const [activeSkill, setActiveSkill] = useState<string | null>(null)
 
   const skillCategories = useMemo(() => [
     { key: 'frontend', data: skills.frontend },
     { key: 'backend', data: skills.backend },
-    { key: 'devops', data: skills.devops },
-    { key: 'testing', data: skills.testing },
-  ], [])
+    { key: 'cms', data: skills.cms },
+    { key: 'tools', data: skills.tools },
+  ], [skills])
 
-  const SkillLevel = ({ items, level }: { items: string[], level: string }) => (
-    <div className="mb-4">
-      <p className="text-xs text-foreground-tertiary uppercase mb-2 font-medium">{level}</p>
-      <div className="flex flex-wrap gap-2">
-        {items.map((skill) => (
-          <button
-            type="button"
-            key={skill}
-            onMouseEnter={() => setActiveSkill(skill)}
-            onFocus={() => setActiveSkill(skill)}
-            onMouseLeave={() => setActiveSkill(null)}
-            className="px-3 py-1.5 text-sm rounded-lg bg-background-tertiary text-foreground hover:bg-border-light transition-colors"
-          >
-            {skill}
-          </button>
-        ))}
+  const SkillLevel = ({ items, level }: { items: string[], level: string }) => {
+    if (items.length === 0) return null
+    return (
+      <div className="mb-4">
+        <p className="text-xs text-foreground-tertiary uppercase mb-2 font-medium">{level}</p>
+        <div className="flex flex-wrap gap-2">
+          {items.map((skill) => (
+            <button
+              type="button"
+              key={skill}
+              onMouseEnter={() => setActiveSkill(skill)}
+              onFocus={() => setActiveSkill(skill)}
+              onMouseLeave={() => setActiveSkill(null)}
+              className="px-3 py-1.5 text-sm rounded-lg bg-background-tertiary text-foreground hover:bg-border-light transition-colors"
+            >
+              {skill}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <section id="skills" className="section-space bg-background-secondary/40">
@@ -60,7 +63,7 @@ export function Skills() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6 mb-12">
+          <div className="grid lg:grid-cols-2 gap-6 mb-6">
             {skillCategories.map((category, idx) => (
               <motion.div
                 key={category.key}
@@ -90,25 +93,6 @@ export function Skills() {
             </motion.div>
           )}
 
-          {/* Optimization Focus */}
-          <div>
-            <h3 className="text-2xl font-semibold mb-6 text-center">{ui.skills.optimizeTitle}</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {optimizationFocus.map((item, idx) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3, delay: idx * 0.1 }}
-                  className="rounded-2xl border border-border bg-background-secondary/80 p-5 text-center"
-                >
-                  <div className="text-4xl mb-3">{item.icon}</div>
-                  <h4 className="font-semibold mb-2">{item.title}</h4>
-                  <p className="text-sm text-foreground-secondary">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>
