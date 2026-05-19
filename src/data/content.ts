@@ -16,9 +16,9 @@ export const personalInfo = {
 }
 
 export const socialLinks = {
-  github: 'https://github.com/tu-usuario',
-  linkedin: 'https://linkedin.com/in/tu-perfil',
-  whatsapp: 'https://wa.me/5491112345678',
+  github: 'https://github.com/Alejo-de-la-Arena',
+  linkedin: 'https://www.linkedin.com/in/alejo-de-la-arena-372632246/',
+  whatsapp: 'https://wa.me/5491170961318',
 }
 
 export const sectionLinks = [

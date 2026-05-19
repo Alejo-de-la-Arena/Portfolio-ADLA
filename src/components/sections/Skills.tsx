@@ -17,7 +17,15 @@ export function Skills() {
     { key: 'tools', data: skills.tools },
   ], [skills])
 
-  const SkillLevel = ({ items, level }: { items: string[], level: string }) => {
+  const SkillLevel = ({
+    items,
+    level,
+    variant = 'default',
+  }: {
+    items: string[]
+    level: string
+    variant?: 'core' | 'default'
+  }) => {
     if (items.length === 0) return null
     return (
       <div className="mb-4">
@@ -30,7 +38,11 @@ export function Skills() {
               onMouseEnter={() => setActiveSkill(skill)}
               onFocus={() => setActiveSkill(skill)}
               onMouseLeave={() => setActiveSkill(null)}
-              className="px-3 py-1.5 text-sm rounded-lg bg-background-tertiary text-foreground hover:bg-border-light transition-colors"
+              className={
+                variant === 'core'
+                  ? 'px-3 py-1.5 text-sm rounded-lg border border-accent/30 bg-accent/10 text-accent/90 hover:bg-accent/20 hover:border-accent/50 transition-colors'
+                  : 'px-3 py-1.5 text-sm rounded-lg bg-background-tertiary text-foreground hover:bg-border-light transition-colors'
+              }
             >
               {skill}
             </button>
@@ -74,7 +86,7 @@ export function Skills() {
               >
                 <h3 className="text-xl font-semibold mb-6">{category.data.label}</h3>
                 <div className="space-y-4">
-                  <SkillLevel items={category.data.core} level="Core" />
+                  <SkillLevel items={category.data.core} level="Core" variant="core" />
                   <SkillLevel items={category.data.strong} level="Strong" />
                   {!isRecruiterMode && <SkillLevel items={category.data.familiar} level="Familiar" />}
                 </div>

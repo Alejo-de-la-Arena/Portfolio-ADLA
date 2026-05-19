@@ -9,6 +9,7 @@ import { SpotlightGrid } from '../effects/SpotlightGrid'
 import { scrollToSection } from '@/lib/utils'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 /* ========== 3D ORB CLUSTER ========== */
 
@@ -182,6 +183,7 @@ export function Hero() {
   const reduceMotion = useReducedMotion()
   const { isRecruiterMode } = usePortfolioMode()
   const { modeLabels, personalInfo, socialLinks, ui } = useLocalizedContent()
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
@@ -220,39 +222,41 @@ export function Hero() {
           paddingRight: 'clamp(1.25rem, 4vw, 4rem)',
         }}
       >
-        <div className="grid grid-cols-1 items-center gap-8 sm:gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
+        <div className={`grid items-center gap-8 sm:gap-14 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20'}`}>
 
-          {/* CLUSTER 3D */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
-            className="order-first lg:order-last relative mx-auto aspect-square w-full justify-self-center lg:justify-self-end"
-            style={{ maxWidth: 'min(82vw, 560px)' }}
-          >
-            <div className="absolute inset-[10%] rounded-full bg-accent/20 blur-3xl" />
+          {/* CLUSTER 3D — oculto en mobile para evitar overhead WebGL */}
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.1, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
+              className="order-first lg:order-last relative mx-auto aspect-square w-full justify-self-center lg:justify-self-end"
+              style={{ maxWidth: 'min(82vw, 560px)' }}
+            >
+              <div className="absolute inset-[10%] rounded-full bg-accent/20 blur-3xl" />
 
-            {/* overflow-hidden + padding interno: el cluster nunca se sale visualmente */}
-            <div className="relative h-full w-full overflow-hidden rounded-3xl">
-              <Canvas
-                camera={{ position: [0, 0, 8.5], fov: 45 }}
-                dpr={[1, 1.5]}
-                gl={{ antialias: true, alpha: true }}
-              >
-                <Suspense fallback={null}>
-                  <Scene mx={smoothMx} my={smoothMy} />
-                </Suspense>
-              </Canvas>
+              {/* overflow-hidden + padding interno: el cluster nunca se sale visualmente */}
+              <div className="relative h-full w-full overflow-hidden rounded-3xl">
+                <Canvas
+                  camera={{ position: [0, 0, 8.5], fov: 45 }}
+                  dpr={[1, 1.5]}
+                  gl={{ antialias: true, alpha: true }}
+                >
+                  <Suspense fallback={null}>
+                    <Scene mx={smoothMx} my={smoothMy} />
+                  </Suspense>
+                </Canvas>
 
-              <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-6 sm:right-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background-secondary/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-foreground-tertiary backdrop-blur">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                {ui.hero.move}
+                <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-6 sm:right-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background-secondary/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-foreground-tertiary backdrop-blur">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  {ui.hero.move}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
 
           {/* CONTENIDO */}
-          <div className="order-last lg:order-first space-y-7 sm:space-y-10 text-center lg:text-left">
+          <div className={`space-y-7 sm:space-y-10 text-center ${isMobile ? 'flex flex-col items-center' : 'lg:text-left lg:order-first'}`}>
             <div className="space-y-4 sm:space-y-5">
               <p className="eyebrow">
                 {isRecruiterMode ? modeLabels.recruiter : modeLabels.deep}
