@@ -152,17 +152,19 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
 /* ========== STACK MARQUEE ========== */
 
 const STACK = [
-  'React', 'TypeScript', 'Next.js', 'Tailwind', 'Framer Motion',
-  'Three.js', 'Node', 'PostgreSQL', 'Vite', 'Zod', 'Vitest', 'Figma',
+  'JavaScript', 'TypeScript', 'PHP', 'Python', 'HTML5', 'CSS3/SCSS',
+  'React', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'GSAP', 'Three.js',
+  'Node.js', 'Express', 'Supabase', 'Firebase', 'MongoDB', 'MySQL',
+  'WordPress', 'Git', 'GitHub', 'Vercel',
 ]
 
-function StackMarquee({ reduceMotion }: { reduceMotion: boolean | null }) {
+function StackMarquee({ reduceMotion, isMobile }: { reduceMotion: boolean | null; isMobile: boolean }) {
   return (
-    <div className="relative mt-14 sm:mt-20 overflow-hidden border-y border-border/60 py-5">
+    <div className="relative mt-8 sm:mt-20 overflow-hidden border-y border-border/60 py-5 ml-[calc(50%_-_50vw)] w-screen sm:ml-0 sm:w-auto">
       <motion.div
         className="flex gap-12 whitespace-nowrap text-xs sm:text-sm uppercase tracking-[0.18em] text-foreground-tertiary"
         animate={reduceMotion ? undefined : { x: ['0%', '-50%'] }}
-        transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: isMobile ? 17 : 35, repeat: Infinity, ease: 'linear' }}
       >
         {[...STACK, ...STACK].map((tech, i) => (
           <span key={i} className="flex items-center gap-3">
@@ -208,14 +210,14 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen w-full flex-col justify-center overflow-x-hidden pt-20 sm:pt-16"
+      className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-x-hidden pt-0"
     >
       <SpotlightGrid />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/80 to-transparent" />
 
       <div
-        className="relative z-10 mx-auto w-full py-8 sm:py-16"
+        className="relative z-10 mx-auto w-full pt-6 pb-4 sm:py-16"
         style={{
           maxWidth: '1480px',
           paddingLeft: 'clamp(1.25rem, 4vw, 4rem)',
@@ -333,7 +335,7 @@ export function Hero() {
           </div>
         </div>
 
-        <StackMarquee reduceMotion={reduceMotion} />
+        <StackMarquee reduceMotion={reduceMotion} isMobile={isMobile} />
       </div>
     </section>
   )

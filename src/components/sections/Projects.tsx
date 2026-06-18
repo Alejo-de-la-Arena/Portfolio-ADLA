@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
-import { ArrowUpRight, ExternalLink, Github, Search } from 'lucide-react'
+import { ArrowUpRight, ChevronDown, ExternalLink, Github } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
@@ -10,6 +10,8 @@ import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 type SortMode = 'featured' | 'latest' | 'impact'
 
+const PINNED_ID = 0
+
 export function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
@@ -18,7 +20,6 @@ export function Projects() {
   const { projects, projectSortLabels, ui } = useLocalizedContent()
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null)
-  const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortMode>('featured')
   const [filter, setFilter] = useState<string>(ui.projects.allTags)
 
@@ -28,35 +29,18 @@ export function Projects() {
 
   const allTags = [ui.projects.allTags, ...Array.from(new Set(projects.flatMap(p => p.tags)))]
   const filteredProjects = useMemo(() => {
-    const byTag = filter === ui.projects.allTags ? projects : projects.filter((project) => project.tags.includes(filter))
+    const pinned = projects.find(p => p.id === PINNED_ID)
+    const rest = projects.filter(p => p.id !== PINNED_ID)
+    const byTag = filter === ui.projects.allTags ? rest : rest.filter((project) => project.tags.includes(filter))
 
-    const query = search.trim().toLowerCase()
-    const byQuery = !query
-      ? byTag
-      : byTag.filter((project) => {
-          const haystack = [
-            project.title,
-            project.description,
-            project.role,
-            project.scope,
-            project.timeline,
-            String(project.year),
-            project.tags.join(' '),
-          ]
-            .join(' ')
-            .toLowerCase()
-
-          return haystack.includes(query)
-        })
-
-    const sorted = [...byQuery].sort((a, b) => {
+    const sorted = [...byTag].sort((a, b) => {
       if (sort === 'latest') return b.year - a.year
       if (sort === 'impact') return b.impact.localeCompare(a.impact)
       return Number(Boolean(b.featured)) - Number(Boolean(a.featured))
     })
 
-    return sorted
-  }, [filter, projects, search, sort, ui.projects.allTags])
+    return pinned ? [pinned, ...sorted] : sorted
+  }, [filter, projects, sort, ui.projects.allTags])
 
   const spotlightProject = useMemo(() => {
     if (hoveredProjectId) {
@@ -115,19 +99,9 @@ export function Projects() {
             )}
           </AnimatePresence>
 
-          <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative w-full max-w-md">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-tertiary" />
-              <input
-                type="search"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder={ui.projects.searchPlaceholder}
-                className="w-full rounded-full border border-border bg-background-secondary py-2.5 pl-10 pr-4 text-sm text-foreground outline-none transition-colors focus:border-accent"
-                aria-label={ui.projects.searchAria}
-              />
-            </div>
-            <div className="flex items-center gap-2">
+          <div className="mb-8">
+            <p className="eyebrow mb-4">{ui.projects.filterTitle}</p>
+            <div className="flex flex-wrap items-center gap-2 mb-3">
               {(['featured', 'latest', 'impact'] as SortMode[]).map((sortOption) => (
                 <button
                   key={sortOption}
@@ -143,23 +117,19 @@ export function Projects() {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-10">
-            {allTags.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => setFilter(tag)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  filter === tag
-                    ? 'bg-accent text-white shadow-lg shadow-accent/20'
-                    : 'bg-background-secondary text-foreground-secondary hover:bg-border-light'
-                }`}
+            <div className="relative w-full sm:w-auto sm:min-w-[200px]">
+              <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="w-full appearance-none rounded-full border border-border bg-background-tertiary py-2 pl-4 pr-10 text-sm text-foreground outline-none transition-colors focus:border-accent sm:w-auto"
+                aria-label={ui.projects.allTags}
               >
-                {tag}
-              </button>
-            ))}
+                {allTags.map((tag) => (
+                  <option key={tag} value={tag}>{tag}</option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-tertiary" aria-hidden="true" />
+            </div>
           </div>
 
           <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

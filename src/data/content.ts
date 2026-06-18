@@ -349,60 +349,34 @@ export const experience: Experience[] = [
 
 export const projects: Project[] = [
   {
-    id: 1,
-    title: 'TaskFlow — Landing de producto (SaaS)',
+    id: 0,
+    title: 'Vyzon — Agencia de Servicios Web',
     year: 2026,
-    role: 'Desarrollador Frontend · Vyzon (agencia de servicios web)',
-    scope: 'Marketing one-page · Hero → Pricing → FAQ · Motion · SEO',
-    timeline: 'Desarrollo end-to-end de la landing',
-    impact: 'Landing lista para producción · criterios de performance y a11y definidos en el repo',
+    role: 'Fundador & Desarrollador Full-Stack · Vyzon',
+    scope: 'Sitio web institucional de agencia · Presentación de servicios · Portfolio de proyectos',
+    timeline: 'En desarrollo',
+    impact: 'Presencia web profesional para Vyzon con presentación de servicios, casos de trabajo y canal de contacto directo con potenciales clientes.',
     description:
-      'Pieza desarrollada en Vyzon, mi agencia de servicios web, para poner en práctica arquitectura frontend, motion y contenido comercial sobre un brief ficticio: TaskFlow, un SaaS de gestión de tareas orientado a equipos remotos de 5–50 personas. Stack Next.js 14 + TypeScript + Tailwind; animación avanzada con GSAP (ScrollTrigger, prefers-reduced-motion) y copy centralizado en un solo archivo de datos.',
+      'Sitio institucional de Vyzon, mi laboratorio personal de servicios web donde desarrollo proyectos frontend de alto nivel. El sitio presenta los servicios ofrecidos, muestra los proyectos realizados y funciona como punto de contacto con potenciales clientes. Stack: Next.js 14 + TypeScript + Tailwind + GSAP.',
     problem:
-      'El brief del producto ficticio planteaba que muchas herramientas de tareas se sienten genéricas y cargan de ruido a equipos distribuidos: TaskFlow debía comunicar en una sola página valor claro, foco y diferenciación, con tono directo y rápido de leer, y cerrar con pricing, prueba social y FAQ como haría un SaaS B2B real.',
+      'Vyzon necesitaba una presencia web que comunicara el nivel técnico y el enfoque de la agencia: no un template genérico, sino un sitio que en sí mismo demostrara la calidad del trabajo.',
     solution:
-      'Construí una landing de marketing de una sola página con flujo Hero → problema/solución → features (cuatro pilares) → prueba social → pricing con toggle mensual/anual → FAQ en acordeón → CTA final; shell completo con barra de progreso de scroll, cursor personalizado, fondo reactivo, header con navegación ancla y footer multi-columna. El contenido comercial vive en un archivo de datos para iterar copy sin romper layout; el hero incluye un mock tipo tablero Kanban cargado con next/dynamic para no bloquear el primer paint; animaciones con GSAP y gsap.matchMedia respetando prefers-reduced-motion; capa SEO y sharing con metadata, Open Graph, Twitter card e imagen /og.',
+      'Diseñé y desarrollé el sitio institucional con foco en performance, estética premium y claridad de mensaje. Incluye presentación de servicios, casos de trabajo realizados y formulario de contacto.',
     image: '/favicon.svg',
-    tags: ['SaaS', 'Next.js', 'GSAP', 'Landing', 'Accesibilidad'],
+    tags: ['Agencia', 'Next.js', 'GSAP', 'Institucional'],
     highlights: [
-      'Shell de sitio: scroll progress, cursor, header/footer, navegación por anclas y estructura lista para marca.',
-      'Hero avanzado: titular con reveal tipo máscara, mock de tablero con columnas/tarjetas e indicador de scroll en desktop.',
-      'Motion “pro”: timelines y ScrollTrigger (parallax, reveals), quickTo para interacciones frecuentes (tilt 3D en cards/mock), degradación coherente con reduced-motion.',
-      'Framer Motion en acordeón y toggles donde encaja; tokens Tailwind + variables CSS; iconos Lucide; tipografía Geist Sans/Mono self-hosted.',
+      'Sitio institucional que funciona como carta de presentación técnica de Vyzon.',
+      'Diseño premium con animaciones GSAP y stack moderno (Next.js 14 + TypeScript + Tailwind).',
+      'Presenta servicios, proyectos realizados y canal de contacto directo.',
     ],
-    technologies: [
-      'Next.js 14 (App Router)',
-      'React 18',
-      'TypeScript',
-      'TailwindCSS',
-      'GSAP',
-      'ScrollTrigger',
-      '@gsap/react',
-      'Framer Motion',
-      'Lucide React',
-      'Geist Sans / Geist Mono',
-      'clsx',
-      'tailwind-merge',
-    ],
+    technologies: ['Next.js 14 (App Router)', 'TypeScript', 'TailwindCSS', 'GSAP'],
     featured: true,
-    metrics: [
-      'Presupuesto de JS (~145 kB first load en README del proyecto; objetivo ~≤160 kB)',
-      'Metas explícitas: Lighthouse performance ≥90 y a11y ≥95 (medir en entorno de producción)',
-      'Typecheck estricto (tsc --noEmit) coherente con el código',
-    ],
-    decisions: [
-      'GSAP + ScrollTrigger como motor principal de animación de producto; Framer Motion donde encaja mejor (acordeón, toggles con layout).',
-      'Copy y datos centralizados (content.ts) para separar marketing de estructura de componentes y acelerar iteraciones con cliente o equipo.',
-      'Carga diferida del mock pesado del hero; animaciones basadas en transform y opacity para mejor costo de render.',
-      'SEO y sharing explícitos: metadataBase, OG, Twitter card, favicon y themeColor.',
-    ],
-    results: [
-      'Base reutilizable para ofrecer landings SaaS/B2B desde Vyzon: narrativa comercial, componentes UI y motion acotado.',
-      'Entregable desplegable en Vercel u host similar, con objetivos de performance y accesibilidad documentados para auditoría en prod.',
-    ],
+    liveUrl: 'https://vyzon-agency.vercel.app/',
+    metrics: [],
+    decisions: [],
+    results: [],
     caseStudy:
-      'Lo encaré como proyecto interno de Vyzon: un SaaS ficticio (TaskFlow) me permitió trabajar extremo a extremo una landing de venta real — jerarquía de mensaje, prueba social, pricing y FAQ — con el mismo rigor que llevaría a un cliente. El foco para un reclutador es el stack (Next.js App Router, TypeScript, Tailwind), el criterio de motion accesible (GSAP + reduced-motion), la separación copy/componentes y el cuidado de performance percibida y SEO técnico; el producto no es real, pero el tipo de entrega sí es el de una agencia que vende sitios que convierten.',
-    liveUrl: 'https://task-flow-opal-eight.vercel.app/',
+      'Vyzon es mi espacio de experimentación y desarrollo frontend. El sitio institucional demuestra el mismo nivel de criterio técnico y estético que aplico en cada proyecto: stack moderno, performance cuidada y diseño que comunica valor.',
   },
   {
     id: 2,
@@ -528,6 +502,62 @@ export const projects: Project[] = [
     caseStudy:
       'Obsidian es el proyecto técnicamente más ambicioso del portfolio. Combina gráficos WebGL con shaders GLSL custom, animaciones scroll-driven de alta complejidad y un sistema de scroll interpolado en un único stack React cohesivo. Cada decisión de arquitectura está fundamentada: shader procedural en lugar de assets estáticos, caché de modelos GLTF para evitar race conditions, loop RAF unificado con Lenis y GSAP. Para un reclutador técnico, el proyecto demuestra capacidad para trabajar en la intersección entre gráficos en tiempo real, animación web avanzada y arquitectura de componentes — no como especialidades separadas, sino integradas en un producto coherente con un criterio de diseño premium claro.',
     liveUrl: 'https://obsidian-5vra.vercel.app/',
+  },
+  {
+    id: 1,
+    title: 'TaskFlow — Landing de producto (SaaS)',
+    year: 2026,
+    role: 'Desarrollador Frontend · Vyzon (agencia de servicios web)',
+    scope: 'Marketing one-page · Hero → Pricing → FAQ · Motion · SEO',
+    timeline: 'Desarrollo end-to-end de la landing',
+    impact: 'Landing lista para producción · criterios de performance y a11y definidos en el repo',
+    description:
+      'Pieza desarrollada en Vyzon, mi agencia de servicios web, para poner en práctica arquitectura frontend, motion y contenido comercial sobre un brief ficticio: TaskFlow, un SaaS de gestión de tareas orientado a equipos remotos de 5–50 personas. Stack Next.js 14 + TypeScript + Tailwind; animación avanzada con GSAP (ScrollTrigger, prefers-reduced-motion) y copy centralizado en un solo archivo de datos.',
+    problem:
+      'El brief del producto ficticio planteaba que muchas herramientas de tareas se sienten genéricas y cargan de ruido a equipos distribuidos: TaskFlow debía comunicar en una sola página valor claro, foco y diferenciación, con tono directo y rápido de leer, y cerrar con pricing, prueba social y FAQ como haría un SaaS B2B real.',
+    solution:
+      'Construí una landing de marketing de una sola página con flujo Hero → problema/solución → features (cuatro pilares) → prueba social → pricing con toggle mensual/anual → FAQ en acordeón → CTA final; shell completo con barra de progreso de scroll, cursor personalizado, fondo reactivo, header con navegación ancla y footer multi-columna. El contenido comercial vive en un archivo de datos para iterar copy sin romper layout; el hero incluye un mock tipo tablero Kanban cargado con next/dynamic para no bloquear el primer paint; animaciones con GSAP y gsap.matchMedia respetando prefers-reduced-motion; capa SEO y sharing con metadata, Open Graph, Twitter card e imagen /og.',
+    image: '/favicon.svg',
+    tags: ['SaaS', 'Next.js', 'GSAP', 'Landing', 'Accesibilidad'],
+    highlights: [
+      'Shell de sitio: scroll progress, cursor, header/footer, navegación por anclas y estructura lista para marca.',
+      'Hero avanzado: titular con reveal tipo máscara, mock de tablero con columnas/tarjetas e indicador de scroll en desktop.',
+      'Motion "pro": timelines y ScrollTrigger (parallax, reveals), quickTo para interacciones frecuentes (tilt 3D en cards/mock), degradación coherente con reduced-motion.',
+      'Framer Motion en acordeón y toggles donde encaja; tokens Tailwind + variables CSS; iconos Lucide; tipografía Geist Sans/Mono self-hosted.',
+    ],
+    technologies: [
+      'Next.js 14 (App Router)',
+      'React 18',
+      'TypeScript',
+      'TailwindCSS',
+      'GSAP',
+      'ScrollTrigger',
+      '@gsap/react',
+      'Framer Motion',
+      'Lucide React',
+      'Geist Sans / Geist Mono',
+      'clsx',
+      'tailwind-merge',
+    ],
+    featured: true,
+    metrics: [
+      'Presupuesto de JS (~145 kB first load en README del proyecto; objetivo ~≤160 kB)',
+      'Metas explícitas: Lighthouse performance ≥90 y a11y ≥95 (medir en entorno de producción)',
+      'Typecheck estricto (tsc --noEmit) coherente con el código',
+    ],
+    decisions: [
+      'GSAP + ScrollTrigger como motor principal de animación de producto; Framer Motion donde encaja mejor (acordeón, toggles con layout).',
+      'Copy y datos centralizados (content.ts) para separar marketing de estructura de componentes y acelerar iteraciones con cliente o equipo.',
+      'Carga diferida del mock pesado del hero; animaciones basadas en transform y opacity para mejor costo de render.',
+      'SEO y sharing explícitos: metadataBase, OG, Twitter card, favicon y themeColor.',
+    ],
+    results: [
+      'Base reutilizable para ofrecer landings SaaS/B2B desde Vyzon: narrativa comercial, componentes UI y motion acotado.',
+      'Entregable desplegable en Vercel u host similar, con objetivos de performance y accesibilidad documentados para auditoría en prod.',
+    ],
+    caseStudy:
+      'Lo encaré como proyecto interno de Vyzon: un SaaS ficticio (TaskFlow) me permitió trabajar extremo a extremo una landing de venta real — jerarquía de mensaje, prueba social, pricing y FAQ — con el mismo rigor que llevaría a un cliente. El foco para un reclutador es el stack (Next.js App Router, TypeScript, Tailwind), el criterio de motion accesible (GSAP + reduced-motion), la separación copy/componentes y el cuidado de performance percibida y SEO técnico; el producto no es real, pero el tipo de entrega sí es el de una agencia que vende sitios que convierten.',
+    liveUrl: 'https://task-flow-opal-eight.vercel.app/',
   },
 ]
 

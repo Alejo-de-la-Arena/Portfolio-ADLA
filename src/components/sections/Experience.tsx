@@ -93,6 +93,11 @@ export function Experience() {
 
           <LayoutGroup>
             <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              {/* Label visible only on mobile, sits above filter buttons */}
+              <label className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary md:hidden">
+                {ui.experience.sortBy}
+              </label>
+
               <div className="flex flex-wrap items-center gap-2">
                 {filters.map((filter) => (
                   <button
@@ -117,11 +122,12 @@ export function Experience() {
                 ))}
               </div>
 
-              <div className="flex items-center justify-between gap-3 md:justify-end">
-                <label className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
+              <div className="flex w-full items-center gap-3 md:w-auto md:justify-end">
+                {/* Label visible only on desktop, inline with select */}
+                <label className="hidden text-xs uppercase tracking-[0.16em] text-foreground-tertiary md:block">
                   {ui.experience.sortBy}
                 </label>
-                <div className="relative">
+                <div className="relative w-full md:w-auto">
                   <select
                     value={sortControlMode}
                     onChange={(e) => {
@@ -129,7 +135,7 @@ export function Experience() {
                       setSortControlMode(next)
                       setSortMode(next === 'default' ? 'relevant' : next)
                     }}
-                    className="appearance-none rounded-full border border-border bg-background-secondary py-2 pl-4 pr-11 text-sm text-foreground outline-none transition-colors focus:border-accent"
+                    className="w-full appearance-none rounded-full border border-border bg-background-secondary py-2 pl-4 pr-11 text-sm text-foreground outline-none transition-colors focus:border-accent md:w-auto"
                     aria-label={ui.experience.sortBy}
                   >
                     <option value="default">{ui.experience.sort.default}</option>

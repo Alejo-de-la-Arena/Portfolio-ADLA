@@ -273,6 +273,28 @@ const experienceEn: Experience[] = [
 const projectsEn: Project[] = [
   {
     ...projectsEs[0],
+    title: 'Vyzon — Web Services Agency',
+    role: 'Founder & Full-Stack Developer · Vyzon',
+    scope: 'Agency institutional website · Services presentation · Projects portfolio',
+    timeline: 'In development',
+    impact: 'Professional web presence for Vyzon with services presentation, work cases, and direct contact channel for potential clients.',
+    description:
+      'Institutional website for Vyzon, my personal web services lab where I develop high-level frontend projects. The site presents services offered, showcases completed projects, and serves as a contact point with potential clients. Stack: Next.js 14 + TypeScript + Tailwind + GSAP.',
+    problem:
+      'Vyzon needed a web presence that communicated the technical level and agency focus: not a generic template, but a site that itself demonstrated the quality of the work.',
+    solution:
+      'I designed and built the institutional site with a focus on performance, premium aesthetics, and message clarity. Includes services presentation, completed work cases, and a contact form.',
+    tags: ['Agency', 'Next.js', 'GSAP', 'Institutional'],
+    highlights: [
+      'Institutional site that works as a technical presentation card for Vyzon.',
+      'Premium design with GSAP animations and modern stack (Next.js 14 + TypeScript + Tailwind).',
+      'Presents services, completed projects, and direct contact channel.',
+    ],
+    caseStudy:
+      'Vyzon is my frontend experimentation and development space. The institutional site demonstrates the same level of technical and aesthetic judgment I apply to every project: modern stack, careful performance, and design that communicates value.',
+  },
+  {
+    ...projectsEs[3],
     title: 'TaskFlow - Product Landing (SaaS)',
     role: 'Frontend Developer · Vyzon (web services agency)',
     scope: 'Marketing one-page · Hero -> Pricing -> FAQ · Motion · SEO',
@@ -497,6 +519,7 @@ interface LocalizedContent {
       recruiterIntro: string
       deepIntro: string
       featuredProject: string
+      filterTitle: string
       searchPlaceholder: string
       searchAria: string
       allTags: string
@@ -651,6 +674,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         recruiterIntro: 'Vista compacta para validar impacto, rol y stack en segundos.',
         deepIntro: 'Vista de análisis: problema, solución, decisiones de arquitectura y resultados por proyecto.',
         featuredProject: 'Proyecto destacado',
+        filterTitle: 'Filtrar Proyectos',
         searchPlaceholder: 'Buscar por nombre, tag, año o rol...',
         searchAria: 'Buscar proyecto',
         allTags: 'Todos',
@@ -803,6 +827,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         recruiterIntro: 'Compact view to validate impact, role, and stack in seconds.',
         deepIntro: 'Analysis view: problem, solution, architectural decisions, and outcomes per project.',
         featuredProject: 'Featured project',
+        filterTitle: 'Filter Projects',
         searchPlaceholder: 'Search by name, tag, year, or role...',
         searchAria: 'Search project',
         allTags: 'All',
