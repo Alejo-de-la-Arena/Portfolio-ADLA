@@ -158,14 +158,109 @@
 }
 
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
+/* ─── Orb float animations (Experience section) ─── */
+@keyframes orb-float-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30% { transform: translate(28px, -42px) scale(1.04); }
+  65% { transform: translate(-18px, 20px) scale(0.96); }
+}
 
+@keyframes orb-float-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  38% { transform: translate(-36px, 26px) scale(1.06); }
+  72% { transform: translate(20px, -30px) scale(0.97); }
+}
+
+@keyframes orb-float-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  22% { transform: translate(24px, 36px) scale(1.05); }
+  78% { transform: translate(-28px, -18px) scale(0.94); }
+}
+
+@keyframes orb-float-d {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  45% { transform: translate(18px, -26px) scale(1.03); }
+  80% { transform: translate(-22px, 14px) scale(0.97); }
+}
+
+/* ─── Gradient border for Experience cards (Tarea 4) ─── */
+@property --grad-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-spin {
+  to { --grad-angle: 360deg; }
+}
+
+.exp-card-hover-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.exp-card-hover-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--grad-angle),
+    transparent 15%,
+    rgb(124 92 255 / 0.9) 38%,
+    rgb(219 39 119 / 0.85) 62%,
+    transparent 85%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.exp-card-hover-border:hover::before {
+  opacity: 1;
+  animation: border-spin 3s linear infinite;
+}
+
+/* ─── Skeleton shimmer (Projects, Skills images) ─── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--background-tertiary)) 25%,
+    rgb(var(--border-light)) 50%,
+    rgb(var(--background-tertiary)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* ─── Reduced motion support ─── */
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .exp-card-hover-border:hover::before {
+    animation: none !important;
+    background: linear-gradient(135deg, rgb(124 92 255 / 0.5), rgb(219 39 119 / 0.4)) !important;
+    opacity: 0.6 !important;
   }
 }

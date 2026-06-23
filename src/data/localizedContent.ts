@@ -7,7 +7,6 @@ import {
   projectSortLabels as projectSortLabelsEs,
   projects as projectsEs,
   sectionLinks as sectionLinksEs,
-  skillExamples as skillExamplesEs,
   skills as skillsEs,
   socialLinks,
 } from './content'
@@ -422,32 +421,20 @@ const projectsEn: Project[] = [
   },
 ]
 
-const skillsEn = {
-  frontend: {
-    ...skillsEs.frontend,
-    label: 'Frontend',
-  },
-  backend: {
-    ...skillsEs.backend,
-    label: 'Backend & Databases',
-  },
-  cms: {
-    ...skillsEs.cms,
-    label: 'CMS & E-commerce',
-  },
-  tools: {
-    ...skillsEs.tools,
-    label: 'DevOps & Tools',
-  },
+const EN_CARD_META: Record<string, { label: string; description: string }> = {
+  frontend:  { label: 'Frontend',           description: 'Interfaces, animation and user experience' },
+  backend:   { label: 'Backend & APIs',     description: 'Servers, REST APIs and integrations' },
+  devops:    { label: 'DevOps & Tooling',   description: 'Version control, deployment and workflow' },
+  cms:       { label: 'CMS & Platforms',    description: 'Content managers and e-commerce platforms' },
+  ai:        { label: 'AI & Automation',    description: 'AI tools applied to professional development' },
+  exploring: { label: 'Exploring',          description: 'Technologies I\'m actively investing time in' },
 }
 
-const skillExamplesEn: Record<string, string> = {
-  React: 'Domain-driven UI architecture, predictable state, and optimized rendering.',
-  TypeScript: 'Strict contracts to scale teams and reduce regressions.',
-  'Framer Motion': 'Narrative transitions with intent and progressive degradation.',
-  GSAP: 'Scroll triggers, cinematic timelines, and high-frequency animations with quickTo.',
-  'Tailwind CSS': 'Consistent interface systems that are fast to iterate and maintain.',
-  WordPress: 'Custom sites with Gutenberg + ACF, custom themes, and production performance.',
+const skillsEn = {
+  cards: skillsEs.cards.map(card => ({
+    ...card,
+    ...(EN_CARD_META[card.id] ?? {}),
+  })),
 }
 
 interface LocalizedContent {
@@ -460,7 +447,6 @@ interface LocalizedContent {
   experience: Experience[]
   projects: Project[]
   skills: typeof skillsEs
-  skillExamples: Record<string, string>
   ui: {
     navbar: {
       talk: string
@@ -543,6 +529,8 @@ interface LocalizedContent {
       recruiterIntro: string
       deepIntro: string
       optimizeTitle: string
+      showFamiliar: string
+      hideFamiliar: string
     }
     contact: {
       titleStart: string
@@ -607,7 +595,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     experience: experienceEs,
     projects: projectsEs,
     skills: skillsEs,
-    skillExamples: skillExamplesEs,
     ui: {
       navbar: {
         talk: 'Hablemos',
@@ -688,7 +675,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         scope: 'Alcance',
         duration: 'Duración',
         impact: 'Impacto',
-        viewDemo: 'Ver demo',
+        viewDemo: 'Ver proyecto',
         viewCode: 'Ver código',
       },
       skills: {
@@ -698,6 +685,8 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         recruiterIntro: 'Core, strong y familiar para validar encaje de stack rápidamente.',
         deepIntro: 'Vista técnica para entender cómo aplico cada tecnología en producto real.',
         optimizeTitle: 'Qué optimizo en cada proyecto',
+        showFamiliar: 'Ver más',
+        hideFamiliar: 'Ver menos',
       },
       contact: {
         titleStart: 'Trabajemos',
@@ -760,7 +749,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     experience: experienceEn,
     projects: projectsEn,
     skills: skillsEn,
-    skillExamples: skillExamplesEn,
     ui: {
       navbar: {
         talk: "Let's talk",
@@ -851,6 +839,8 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         recruiterIntro: 'Core, strong, and familiar levels to validate stack fit quickly.',
         deepIntro: 'Technical view to understand how I apply each technology in real products.',
         optimizeTitle: 'What I optimize in every project',
+        showFamiliar: 'See more',
+        hideFamiliar: 'See less',
       },
       contact: {
         titleStart: "Let's work",

@@ -69,8 +69,55 @@ export function Experience() {
   const closeDetail = () => setActiveExperience(null)
 
   return (
-    <section id="experience" className="section-space border-y border-border/60 bg-background-secondary/35">
-      <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="relative overflow-hidden section-space border-y border-border/60 bg-background-secondary/35">
+      {/* ─── Decorative orbs background (Tarea 1) ─── */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Orb 1 — top left */}
+        <div
+          className="absolute -left-16 -top-16 h-60 w-60 rounded-full sm:h-80 sm:w-80"
+          style={{
+            background: 'radial-gradient(circle, rgb(124 92 255 / 0.30) 0%, rgb(219 39 119 / 0.12) 60%, transparent 100%)',
+            filter: 'blur(85px)',
+            willChange: 'transform',
+            animation: reduceMotion ? 'none' : 'orb-float-a 21s ease-in-out infinite',
+          }}
+        />
+        {/* Orb 2 — top right (hidden on mobile) */}
+        <div
+          className="absolute -right-10 top-1/4 hidden h-72 w-72 rounded-full sm:block"
+          style={{
+            background: 'radial-gradient(circle, rgb(219 39 119 / 0.22) 0%, rgb(124 92 255 / 0.12) 60%, transparent 100%)',
+            filter: 'blur(100px)',
+            willChange: 'transform',
+            animation: reduceMotion ? 'none' : 'orb-float-b 26s ease-in-out infinite',
+            animationDelay: '-8s',
+          }}
+        />
+        {/* Orb 3 — bottom center */}
+        <div
+          className="absolute bottom-0 left-1/3 h-52 w-52 rounded-full sm:h-72 sm:w-72"
+          style={{
+            background: 'radial-gradient(circle, rgb(124 92 255 / 0.18) 0%, rgb(168 85 247 / 0.08) 60%, transparent 100%)',
+            filter: 'blur(90px)',
+            willChange: 'transform',
+            animation: reduceMotion ? 'none' : 'orb-float-c 19s ease-in-out infinite',
+            animationDelay: '-13s',
+          }}
+        />
+        {/* Orb 4 — center right (desktop only) */}
+        <div
+          className="absolute right-1/4 bottom-1/3 hidden h-48 w-48 rounded-full md:block"
+          style={{
+            background: 'radial-gradient(circle, rgb(219 39 119 / 0.18) 0%, rgb(124 92 255 / 0.08) 60%, transparent 100%)',
+            filter: 'blur(70px)',
+            willChange: 'transform',
+            animation: reduceMotion ? 'none' : 'orb-float-d 23s ease-in-out infinite',
+            animationDelay: '-5s',
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
@@ -234,6 +281,7 @@ export function Experience() {
           </LayoutGroup>
         </motion.div>
       </div>
+      {/* end z-10 content wrapper */}
 
       <AnimatePresence>
         {activeExperience && (
@@ -338,7 +386,7 @@ export function Experience() {
 }
 
 function getCardClassName(exp: ExperienceItem) {
-  const base = 'group rounded-3xl border bg-background-secondary/70 p-5 sm:p-7'
+  const base = 'exp-card-hover-border group rounded-3xl border bg-background-secondary/70 p-5 sm:p-7'
   if (exp.type === 'employment') {
     return `${base} border-border border-l-2 border-l-accent/60`
   }

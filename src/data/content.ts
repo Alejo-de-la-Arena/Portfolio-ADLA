@@ -1,4 +1,4 @@
-import type { Experience, Project } from '@/types'
+import type { Experience, Project, SkillsData } from '@/types'
 
 export const personalInfo = {
   name: 'Alejo de la Arena',
@@ -362,7 +362,7 @@ export const projects: Project[] = [
       'Vyzon necesitaba una presencia web que comunicara el nivel técnico y el enfoque de la agencia: no un template genérico, sino un sitio que en sí mismo demostrara la calidad del trabajo.',
     solution:
       'Diseñé y desarrollé el sitio institucional con foco en performance, estética premium y claridad de mensaje. Incluye presentación de servicios, casos de trabajo realizados y formulario de contacto.',
-    image: '/favicon.svg',
+    image: 'https://res.cloudinary.com/dasch1s5i/image/upload/v1782240696/vyzon-screen-desktop_xxihbv.png',
     tags: ['Agencia', 'Next.js', 'GSAP', 'Institucional'],
     highlights: [
       'Sitio institucional que funciona como carta de presentación técnica de Vyzon.',
@@ -392,7 +392,7 @@ export const projects: Project[] = [
       'Los equipos que quieren adoptar IA enfrentan una paradoja real: implementar LLMs requiere talento de ingeniería ML que tarda meses en conseguirse, lo que bloquea la mayoría de las iniciativas antes del primer deploy. La landing necesitaba comunicar credibilidad técnica y simplicidad de adopción a un perfil decisor, en segundos.',
     solution:
       'Una SPA de 11 secciones con narrativa de problema a conversión. El hero presenta un sistema de partículas interactivo en Canvas 2D con física de repulsión por cursor y una demo typewriter que muestra el producto en acción. Las secciones incluyen cards de features con tilt 3D reactivo, un display de métricas con contadores animados, FAQ en acordeón y un CTA final con efecto shimmer. Todas las secciones animadas respetan prefers-reduced-motion a través de un hook compartido. El pricing usa layout animations de Framer Motion para transiciones fluidas, y la navegación mobile se abre con un drawer animado.',
-    image: '/favicon.svg',
+    image: 'https://res.cloudinary.com/dasch1s5i/image/upload/v1782240694/AuraAI-screen-desktop_jp95tb.png',
     tags: ['Landing Page', 'Frontend', 'Animaciones', 'SaaS', 'AI/Enterprise'],
     highlights: [
       'Sistema de partículas en Canvas 2D con física de repulsión por cursor y conexiones dinámicas — implementado sin librerías externas de canvas.',
@@ -453,7 +453,7 @@ export const projects: Project[] = [
       'Una marca de relojes de lujo de edición limitada necesita que su web comunique exclusividad y precisión artesanal con la misma exigencia con que construye sus productos. Una landing genérica destruye la percepción de valor. El desafío técnico era entregar una experiencia cinematográfica e inmersiva que funcionara bien en mobile sin sacrificar performance ni accesibilidad.',
     solution:
       'El hero compone en capas un canvas WebGL con shader de fondo procedural animado, elementos decorativos tipo HUD y un timeline de entrada GSAP con múltiples elementos secuenciados. El shader genera movimiento orgánico sin imágenes estáticas. El modelo 3D del reloj soporta parallax por cursor y se carga desde una caché global para evitar duplicación. Los botones CTA principales son magnéticos y reaccionan al cursor con fuerza parametrizable, activos sólo en dispositivos de puntero. El smooth scroll usa Lenis integrado en el ticker de GSAP para un loop de animación unificado. La sección de productos implementa scroll horizontal pinneado en desktop para los tres modelos, cada uno con efectos de glow, anillos giratorios y partículas — con fallback a stack vertical animado en mobile.',
-    image: '/favicon.svg',
+    image: 'https://res.cloudinary.com/dasch1s5i/image/upload/v1782240673/Obsidian-screen-desktop_ozjg5g.png',
     tags: ['Landing Page', 'WebGL', '3D', 'Lujo', 'Frontend', 'Animaciones'],
     highlights: [
       'Escena Three.js con shader GLSL procedural, sistema de partículas y modelo GLTF con iluminación HDR — todo compuesto en el hero.',
@@ -517,7 +517,7 @@ export const projects: Project[] = [
       'El brief del producto ficticio planteaba que muchas herramientas de tareas se sienten genéricas y cargan de ruido a equipos distribuidos: TaskFlow debía comunicar en una sola página valor claro, foco y diferenciación, con tono directo y rápido de leer, y cerrar con pricing, prueba social y FAQ como haría un SaaS B2B real.',
     solution:
       'Construí una landing de marketing de una sola página con flujo Hero → problema/solución → features (cuatro pilares) → prueba social → pricing con toggle mensual/anual → FAQ en acordeón → CTA final; shell completo con barra de progreso de scroll, cursor personalizado, fondo reactivo, header con navegación ancla y footer multi-columna. El contenido comercial vive en un archivo de datos para iterar copy sin romper layout; el hero incluye un mock tipo tablero Kanban cargado con next/dynamic para no bloquear el primer paint; animaciones con GSAP y gsap.matchMedia respetando prefers-reduced-motion; capa SEO y sharing con metadata, Open Graph, Twitter card e imagen /og.',
-    image: '/favicon.svg',
+    image: 'https://res.cloudinary.com/dasch1s5i/image/upload/v1782240666/taskflow-screen-desktop_t3ll5t.png',
     tags: ['SaaS', 'Next.js', 'GSAP', 'Landing', 'Accesibilidad'],
     highlights: [
       'Shell de sitio: scroll progress, cursor, header/footer, navegación por anclas y estructura lista para marca.',
@@ -561,40 +561,138 @@ export const projects: Project[] = [
   },
 ]
 
-export const skills = {
-  frontend: {
-    label: "Frontend",
-    core: ["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "HTML5", "CSS3/SCSS"],
-    strong: ["Tailwind CSS", "Framer Motion", "GSAP"],
-    familiar: [] as string[],
-  },
-  backend: {
-    label: "Backend & Bases de datos",
-    core: ["Node.js", "Express", "REST APIs"],
-    strong: ["Supabase (PostgreSQL)", "Firebase", "MongoDB", "MySQL"],
-    familiar: ["PHP", "Python"],
-  },
-  cms: {
-    label: "CMS & E-commerce",
-    core: ["WordPress", "Gutenberg", "ACF"],
-    strong: ["Elementor", "Tiendanube/Liquid"],
-    familiar: [] as string[],
-  },
-  tools: {
-    label: "DevOps & Tools",
-    core: ["Git", "GitHub", "Vercel"],
-    strong: ["CI/CD básico"],
-    familiar: [] as string[],
-  },
-}
-
-export const skillExamples: Record<string, string> = {
-  React: 'Arquitecturas por dominio, estado predecible y rendering optimizado.',
-  TypeScript: 'Contratos estrictos para escalar equipos y evitar regresiones.',
-  'Framer Motion': 'Transiciones narrativas con intención y degradación progresiva.',
-  GSAP: 'Scroll-triggers, timelines cinemáticos y animaciones de alta frecuencia con quickTo.',
-  'Tailwind CSS': 'Sistemas de interfaz consistentes, rápidos de iterar y mantenibles.',
-  WordPress: 'Sitios a medida con Gutenberg + ACF, themes custom y performance en producción.',
+export const skills: SkillsData = {
+  cards: [
+    {
+      id: 'frontend',
+      label: 'Frontend',
+      icon: 'Monitor',
+      description: 'Interfaces, animación y experiencia de usuario',
+      core: [
+        { name: 'JavaScript', devicon: 'javascript/javascript-original' },
+        { name: 'TypeScript', devicon: 'typescript/typescript-original' },
+        { name: 'React', devicon: 'react/react-original' },
+        { name: 'Next.js', devicon: 'nextjs/nextjs-original', darkBg: true },
+        { name: 'Tailwind CSS', devicon: 'tailwindcss/tailwindcss-original' },
+      ],
+      strong: [
+        { name: 'GSAP', fallback: 'GSAP', fallbackColor: '#88CE02' },
+        { name: 'Framer Motion', fallback: 'FM', fallbackColor: 'accent' },
+        { name: 'CSS3 / SCSS', devicon: 'sass/sass-original' },
+        { name: 'Three.js', devicon: 'threejs/threejs-original', darkBg: true },
+      ],
+      familiar: [
+        { name: 'VueJS', devicon: 'vuejs/vuejs-original' },
+        { name: 'Canvas 2D', lucide: 'Layers' },
+        { name: 'Webpack', devicon: 'webpack/webpack-original' },
+      ],
+    },
+    {
+      id: 'backend',
+      label: 'Backend & APIs',
+      icon: 'Server',
+      description: 'Servidores, APIs REST e integraciones',
+      core: [
+        { name: 'Node.js', devicon: 'nodejs/nodejs-original' },
+        { name: 'Express', devicon: 'express/express-original', darkBg: true },
+        { name: 'Supabase', devicon: 'supabase/supabase-original' },
+        { name: 'PostgreSQL', devicon: 'postgresql/postgresql-original' },
+        { name: 'REST APIs', lucide: 'Zap' },
+      ],
+      strong: [
+        { name: 'PHP', devicon: 'php/php-original' },
+        { name: 'MongoDB', devicon: 'mongodb/mongodb-original' },
+        { name: 'MySQL', devicon: 'mysql/mysql-original' },
+        { name: 'Webhooks', lucide: 'Webhook' },
+      ],
+      familiar: [
+        { name: 'NestJS', devicon: 'nestjs/nestjs-original' },
+        { name: 'Python', devicon: 'python/python-original' },
+        { name: 'Firebase', devicon: 'firebase/firebase-plain' },
+      ],
+    },
+    {
+      id: 'devops',
+      label: 'DevOps & Tooling',
+      icon: 'GitBranch',
+      description: 'Control de versiones, deploy y flujo de trabajo',
+      core: [
+        { name: 'Git', devicon: 'git/git-original' },
+        { name: 'GitHub', devicon: 'github/github-original', invert: true },
+        { name: 'Vercel', devicon: 'vercel/vercel-original', invert: true },
+      ],
+      strong: [
+        { name: 'CI/CD básico', lucide: 'RefreshCw' },
+        { name: 'npm / pnpm', devicon: 'npm/npm-original-wordmark' },
+        { name: 'Linux / Bash', devicon: 'linux/linux-original' },
+      ],
+      familiar: [
+        { name: 'GitHub Actions', devicon: 'githubactions/githubactions-original' },
+        { name: 'Docker (básico)', devicon: 'docker/docker-original' },
+        { name: 'Cloudinary', fallback: 'CDN', fallbackColor: 'accent' },
+      ],
+    },
+    {
+      id: 'cms',
+      label: 'CMS & Plataformas',
+      icon: 'Globe',
+      description: 'Gestores de contenido y plataformas de e-commerce',
+      core: [
+        { name: 'WordPress', devicon: 'wordpress/wordpress-plain' },
+      ],
+      strong: [
+        { name: 'Tiendanube', fallback: 'TN', fallbackColor: 'accent' },
+        { name: 'Mercado Pago', fallback: 'MP', fallbackColor: '#009ee3' },
+        { name: 'EmailJS', fallback: 'EJS', fallbackColor: 'accent' },
+      ],
+      familiar: [
+        { name: 'Shopify (Liquid)', fallback: 'SF', fallbackColor: '#96bf48' },
+        { name: 'Strapi', devicon: 'strapi/strapi-original' },
+      ],
+    },
+    {
+      id: 'ai',
+      label: 'AI & Automatización',
+      icon: 'Bot',
+      description: 'Herramientas de IA aplicadas al desarrollo profesional',
+      core: [
+        { name: 'Claude API', fallback: 'CL', fallbackColor: 'accent' },
+        { name: 'OpenAI API', fallback: 'AI', fallbackColor: '#10a37f' },
+        { name: 'Cursor', fallback: 'CR', fallbackColor: 'accent' },
+        { name: 'Claude Code', fallback: 'CC', fallbackColor: 'accent' },
+      ],
+      strong: [
+        { name: 'Prompt Engineering', lucide: 'MessageSquare' },
+        { name: 'Agentes IA', lucide: 'Bot' },
+        { name: 'RAG básico', lucide: 'Database' },
+        { name: 'v0 / Lovable', fallback: 'v0', fallbackColor: 'accent' },
+      ],
+      familiar: [
+        { name: 'LangChain (básico)', fallback: 'LC', fallbackColor: '#1c3c6e' },
+        { name: 'Embeddings', lucide: 'Braces' },
+        { name: 'MCP Servers', fallback: 'MCP', fallbackColor: 'accent' },
+      ],
+    },
+    {
+      id: 'exploring',
+      label: 'Explorando',
+      icon: 'Compass',
+      description: 'Tecnologías en las que estoy invirtiendo tiempo activamente',
+      core: [],
+      strong: [
+        { name: 'React Native', devicon: 'react/react-original' },
+        { name: 'Three.js / WebGL', devicon: 'threejs/threejs-original', darkBg: true },
+        { name: 'GLSL Shaders', lucide: 'Triangle' },
+        { name: 'Testing (Vitest)', devicon: 'vitest/vitest-original' },
+      ],
+      familiar: [
+        { name: 'N8N', fallback: 'n8n', fallbackColor: 'accent' },
+        { name: 'Playwright', devicon: 'playwright/playwright-original' },
+        { name: 'tRPC', fallback: 'tRPC', fallbackColor: 'accent' },
+        { name: 'Turborepo', fallback: 'TB', fallbackColor: 'accent' },
+      ],
+    },
+  ],
 }
 
 export const emailConfig = {

@@ -56,11 +56,28 @@ export interface Experience {
   }
 }
 
-export interface SkillCategory {
+export interface SkillItem {
+  name: string
+  devicon?: string
+  darkBg?: boolean
+  invert?: boolean
+  lucide?: string
+  fallback?: string
+  fallbackColor?: string
+}
+
+export interface SkillCard {
+  id: string
   label: string
-  core: string[]
-  strong: string[]
-  familiar: string[]
+  icon: string
+  description: string
+  core: SkillItem[]
+  strong: SkillItem[]
+  familiar: SkillItem[]
+}
+
+export interface SkillsData {
+  cards: SkillCard[]
 }
 
 export interface ContactFormData {

@@ -44,7 +44,7 @@ function Orb({ position, scale, color, distort = 0.3, speed = 1 }: OrbProps) {
   )
 }
 
-const MAX_ROT = 0.12 // clamp de rotación en radianes (≈7°) — evita que los orbs se salgan del frustum
+const MAX_ROT = 0.12
 
 function clamp(v: number, min: number, max: number) {
   return Math.max(min, Math.min(max, v))
@@ -53,29 +53,33 @@ function clamp(v: number, min: number, max: number) {
 function Scene({
   mx,
   my,
+  isMobile = false,
 }: {
   mx: ReturnType<typeof useMotionValue<number>>
   my: ReturnType<typeof useMotionValue<number>>
+  isMobile?: boolean
 }) {
   const groupRef = useRef<THREE.Group>(null!)
+  const mult = isMobile ? 0.45 : 1
+
   useFrame(() => {
-    if (!groupRef.current) return
+    if (!groupRef.current || isMobile) return
     const targetY = clamp(mx.get() * 0.0004, -MAX_ROT, MAX_ROT)
     const targetX = clamp(my.get() * 0.0004, -MAX_ROT, MAX_ROT)
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY, 0.06)
     groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, 0.06)
   })
+
   return (
     <group ref={groupRef}>
       <ambientLight intensity={0.35} />
       <directionalLight position={[5, 5, 5]} intensity={1.2} color="#a78bff" />
       <directionalLight position={[-5, -3, -5]} intensity={0.6} color="#5a3fff" />
-      {/* Posiciones más conservadoras (radios reducidos ~15%) para que con la rotación no toquen los bordes */}
-      <Orb position={[0, 0, 0]} scale={1.5} color="#7c5cff" distort={0.45} speed={0.8} />
-      <Orb position={[1.9, 1.2, -1]} scale={0.5} color="#1a1730" distort={0.2} speed={1.2} />
-      <Orb position={[-2.0, -1.0, -0.5]} scale={0.6} color="#a78bff" distort={0.3} speed={0.9} />
-      <Orb position={[1.6, -1.4, 0.4]} scale={0.4} color="#3d2a8c" distort={0.25} speed={1.5} />
-      <Orb position={[-1.4, 1.6, -1.1]} scale={0.45} color="#7c5cff" distort={0.35} speed={1.1} />
+      <Orb position={[0, 0, 0]}          scale={1.5} color="#7c5cff" distort={0.45} speed={0.8  * mult} />
+      <Orb position={[1.9, 1.2, -1]}     scale={0.5} color="#1a1730" distort={0.2}  speed={1.2  * mult} />
+      <Orb position={[-2.0, -1.0, -0.5]} scale={0.6} color="#a78bff" distort={0.3}  speed={0.9  * mult} />
+      <Orb position={[1.6, -1.4, 0.4]}   scale={0.4} color="#3d2a8c" distort={0.25} speed={1.5  * mult} />
+      <Orb position={[-1.4, 1.6, -1.1]}  scale={0.45} color="#7c5cff" distort={0.35} speed={1.1 * mult} />
       <Environment preset="city" />
     </group>
   )
@@ -97,8 +101,7 @@ function PillCTA({
       <span className="inline-flex items-center gap-3">
         <span>{children}</span>
         <span
-          className={`grid h-7 w-7 place-items-center rounded-full transition-transform duration-300 group-hover:rotate-45 ${primary ? 'bg-background/15' : 'bg-foreground/10'
-            }`}
+          className={`grid h-7 w-7 place-items-center rounded-full transition-transform duration-300 group-hover:rotate-45 ${primary ? 'bg-background/15' : 'bg-foreground/10'}`}
         >
           <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.4} />
         </span>
@@ -149,36 +152,6 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
   )
 }
 
-/* ========== STACK MARQUEE ========== */
-
-const STACK = [
-  'JavaScript', 'TypeScript', 'PHP', 'Python', 'HTML5', 'CSS3/SCSS',
-  'React', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'GSAP', 'Three.js',
-  'Node.js', 'Express', 'Supabase', 'Firebase', 'MongoDB', 'MySQL',
-  'WordPress', 'Git', 'GitHub', 'Vercel',
-]
-
-function StackMarquee({ reduceMotion, isMobile }: { reduceMotion: boolean | null; isMobile: boolean }) {
-  return (
-    <div className="relative mt-8 sm:mt-20 overflow-hidden border-y border-border/60 py-5 ml-[calc(50%_-_50vw)] w-screen sm:ml-0 sm:w-auto">
-      <motion.div
-        className="flex gap-12 whitespace-nowrap text-xs sm:text-sm uppercase tracking-[0.18em] text-foreground-tertiary"
-        animate={reduceMotion ? undefined : { x: ['0%', '-50%'] }}
-        transition={{ duration: isMobile ? 17 : 35, repeat: Infinity, ease: 'linear' }}
-      >
-        {[...STACK, ...STACK].map((tech, i) => (
-          <span key={i} className="flex items-center gap-3">
-            <span className="h-1 w-1 rounded-full bg-accent/70" />
-            {tech}
-          </span>
-        ))}
-      </motion.div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent" />
-    </div>
-  )
-}
-
 /* ========== HERO ========== */
 
 export function Hero() {
@@ -224,9 +197,10 @@ export function Hero() {
           paddingRight: 'clamp(1.25rem, 4vw, 4rem)',
         }}
       >
-        <div className={`grid items-center gap-8 sm:gap-14 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20'}`}>
+        {/* Main content grid */}
+        <div className="grid items-center gap-8 sm:gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
 
-          {/* CLUSTER 3D — oculto en mobile para evitar overhead WebGL */}
+          {/* CLUSTER 3D — desktop: right column */}
           {!isMobile && (
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
@@ -236,8 +210,6 @@ export function Hero() {
               style={{ maxWidth: 'min(82vw, 560px)' }}
             >
               <div className="absolute inset-[10%] rounded-full bg-accent/20 blur-3xl" />
-
-              {/* overflow-hidden + padding interno: el cluster nunca se sale visualmente */}
               <div className="relative h-full w-full overflow-hidden rounded-3xl">
                 <Canvas
                   camera={{ position: [0, 0, 8.5], fov: 45 }}
@@ -298,7 +270,7 @@ export function Hero() {
               </button>
             </motion.div>
 
-            {/* Proof + socials — solo desde sm+ (en mobile va limpio tipo dialedweb) */}
+            {/* Proof + socials — solo desde sm+ */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -335,7 +307,28 @@ export function Hero() {
           </div>
         </div>
 
-        <StackMarquee reduceMotion={reduceMotion} isMobile={isMobile} />
+        {/* Canvas 3D mobile — debajo del texto, en el flujo */}
+        {isMobile && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.5, ease: [0.19, 1, 0.22, 1] }}
+            className="mx-auto mt-8 h-[280px] w-full max-w-sm"
+          >
+            <div className="relative h-full w-full overflow-hidden rounded-2xl">
+              <div className="absolute inset-[10%] rounded-full bg-accent/15 blur-3xl" />
+              <Canvas
+                camera={{ position: [0, 0, 8.5], fov: 45 }}
+                dpr={[1, 1]}
+                gl={{ antialias: true, alpha: true }}
+              >
+                <Suspense fallback={null}>
+                  <Scene mx={smoothMx} my={smoothMy} isMobile />
+                </Suspense>
+              </Canvas>
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   )
