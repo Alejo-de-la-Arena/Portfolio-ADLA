@@ -316,7 +316,7 @@ export function Hero() {
             className="mx-auto mt-8 h-[280px] w-full max-w-sm"
           >
             <div className="relative h-full w-full overflow-hidden rounded-2xl">
-              <div className="absolute inset-[10%] rounded-full bg-accent/15 blur-3xl" />
+              <div className="absolute inset-[10%] rounded-full" />
               <Canvas
                 camera={{ position: [0, 0, 8.5], fov: 45 }}
                 dpr={[1, 1]}
