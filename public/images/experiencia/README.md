@@ -1,10 +1,13 @@
 # Capturas de experiencia
 
-Subí las capturas en la carpeta de cada experiencia con el nombre definido en `src/data/experiences.ts`.
+Cada archivo WebP se registra en `src/data/experiences.ts` sin el prefijo `public/`.
 
-Ejemplo: `zetenta/manantial-01.webp`.
-
+- `<proyecto>.webp`: captura desktop.
+- `<proyecto>-mobile.webp`: captura mobile del mismo proyecto.
 - Formato: WebP.
-- Dimensiones recomendadas: 1600 x 1000 px (aspect ratio 16:10).
-- Para una galería, agregá `-02.webp`, `-03.webp`, etc., y sumá cada archivo a `images` del proyecto correspondiente.
-- Usá capturas completas, nítidas y aprobadas para publicación.
+- Desktop recomendado: 1600 px de ancho o más, con alto real de la captura.
+- Mobile recomendado: entre 390 y 430 px de ancho, con alto real de la captura.
+
+Los nombres actualmente esperados son: `solution-home`, `yacoub-bajo-de-precio`, `madero-walk`, `exagon-impact`, `aeroclub-capitan-sarmiento`, `zetenta-web-portfolio`, `zetenta-web-servicios-desarrollo-web`, `zetenta-web-servicios-redes-y-marketing`, `go-building`, `espacio-boa`, `renova-tu-cocina`, `mdvproyectos` y `fefebakes`.
+
+Manantial todavía no tiene captura: al sumar una, usá `manantial.webp` y, si corresponde, `manantial-mobile.webp`.
