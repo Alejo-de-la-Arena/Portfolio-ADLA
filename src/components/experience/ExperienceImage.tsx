@@ -2,12 +2,11 @@ import { ImageOff } from 'lucide-react'
 import { useState } from 'react'
 import type { Screenshot } from '@/data/experiences'
 
-type ExperienceImageProps = { image: Screenshot; onOpen: () => void; className?: string; label?: string }
-
-export function ExperienceImage({ image, onOpen, className = '', label }: ExperienceImageProps) {
+type ExperienceImageProps = { desktop: Screenshot; mobile?: Screenshot; onOpen: () => void; className?: string }
+export function ExperienceImage({ desktop, mobile, onOpen, className = '' }: ExperienceImageProps) {
   const [failed, setFailed] = useState(false)
-  if (failed) return <ExperiencePlaceholder label={image.alt} className={className} />
-  return <button type="button" onClick={onOpen} className={`group block w-full overflow-hidden text-left focus-visible:rounded-2xl ${className}`} aria-label={label ?? `Ampliar ${image.alt}`}><img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" onError={() => setFailed(true)} className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" /></button>
+  if (failed) return <ExperiencePlaceholder label={desktop.alt} className={className} />
+  return <button type="button" onClick={onOpen} className={`group block w-full overflow-hidden text-left focus-visible:rounded-2xl ${className}`} aria-label={`Ampliar ${desktop.alt}`}><picture>{mobile && <source media="(min-width: 1024px)" srcSet={desktop.src} />}<img src={mobile?.src ?? desktop.src} alt={mobile?.alt ?? desktop.alt} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" onError={() => setFailed(true)} className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" /></picture></button>
 }
 
 export function ExperiencePlaceholder({ label, className = '' }: { label: string; className?: string }) {
