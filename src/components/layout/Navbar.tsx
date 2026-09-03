@@ -9,6 +9,7 @@ import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useTheme } from '@/hooks/useTheme'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 import { useLocale } from '@/context/LocaleContext'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -20,6 +21,8 @@ export function Navbar() {
   const activeSection = useScrollSpy(sectionLinks.map(link => link.id))
   const { theme, toggleTheme } = useTheme()
   const { locale, setLocale } = useLocale()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   // Scroll listener
   useEffect(() => {
@@ -60,7 +63,8 @@ export function Navbar() {
   }, [])
 
   const handleNavClick = (sectionId: string) => {
-    scrollToSection(sectionId)
+    if (pathname !== '/') navigate(`/#${sectionId}`)
+    else scrollToSection(sectionId)
     setMobileMenuOpen(false)
     setSettingsOpen(false)
   }
