@@ -1,11 +1,59 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import { useEffect } from 'react'
 import type { LocalizedScreenshot } from '@/data/experiences'
+import { ModalSurface } from '../ui/ModalSurface'
 
-type ImageLightboxProps = { images: LocalizedScreenshot[]; activeIndex: number | null; onClose: () => void; onNavigate: (index: number) => void; closeLabel: string; previousLabel: string; nextLabel: string }
+type ImageLightboxProps = {
+  images: LocalizedScreenshot[]
+  activeIndex: number | null
+  onClose: () => void
+  onNavigate: (index: number) => void
+  closeLabel: string
+  previousLabel: string
+  nextLabel: string
+}
+
 export function ImageLightbox({ images, activeIndex, onClose, onNavigate, closeLabel, previousLabel, nextLabel }: ImageLightboxProps) {
   const image = activeIndex === null ? null : images[activeIndex]
-  useEffect(() => { if (!image) return; const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); if (event.key === 'ArrowLeft' && activeIndex !== null) onNavigate((activeIndex - 1 + images.length) % images.length); if (event.key === 'ArrowRight' && activeIndex !== null) onNavigate((activeIndex + 1) % images.length) }; document.addEventListener('keydown', onKeyDown); return () => document.removeEventListener('keydown', onKeyDown) }, [activeIndex, image, images.length, onClose, onNavigate])
-  return <AnimatePresence>{image && <motion.div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4 sm:p-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} role="dialog" aria-modal="true" aria-label={image.alt}><motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="relative max-h-full max-w-6xl" onClick={(event) => event.stopPropagation()}><button type="button" onClick={onClose} className="absolute right-3 top-3 z-10 rounded-full bg-background/90 p-2 text-foreground shadow-lg" aria-label={closeLabel}><X className="h-5 w-5" /></button><img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" className="max-h-[85vh] w-auto rounded-xl border border-border object-contain" />{images.length > 1 && <><button type="button" onClick={() => onNavigate((activeIndex! - 1 + images.length) % images.length)} className="absolute left-3 top-1/2 rounded-full bg-background/90 p-2 text-foreground" aria-label={previousLabel}><ChevronLeft className="h-5 w-5" /></button><button type="button" onClick={() => onNavigate((activeIndex! + 1) % images.length)} className="absolute right-3 top-1/2 rounded-full bg-background/90 p-2 text-foreground" aria-label={nextLabel}><ChevronRight className="h-5 w-5" /></button></>}</motion.div></motion.div>}</AnimatePresence>
+  const navigate = (offset: number) => {
+    if (activeIndex !== null) onNavigate((activeIndex + offset + images.length) % images.length)
+  }
+
+  return (
+    <AnimatePresence>
+      {image && (
+        <ModalSurface onClose={onClose} label={image.alt}>
+          <motion.div
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4 sm:p-8"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={onClose}
+            onKeyDown={event => {
+              if (event.key === 'ArrowLeft') { event.preventDefault(); navigate(-1) }
+              if (event.key === 'ArrowRight') { event.preventDefault(); navigate(1) }
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }}
+              className="relative max-h-full max-w-6xl" onClick={event => event.stopPropagation()}
+            >
+              <button type="button" data-dialog-initial-focus onClick={onClose} className="absolute right-3 top-3 z-10 rounded-full bg-background/90 p-2 text-foreground shadow-lg" aria-label={closeLabel}>
+                <X className="h-5 w-5" />
+              </button>
+              <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" className="max-h-[85vh] w-auto rounded-xl border border-border object-contain" />
+              {images.length > 1 && (
+                <>
+                  <button type="button" onClick={() => navigate(-1)} className="absolute left-3 top-1/2 rounded-full bg-background/90 p-2 text-foreground" aria-label={previousLabel}>
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button type="button" onClick={() => navigate(1)} className="absolute right-3 top-1/2 rounded-full bg-background/90 p-2 text-foreground" aria-label={nextLabel}>
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        </ModalSurface>
+      )}
+    </AnimatePresence>
+  )
 }

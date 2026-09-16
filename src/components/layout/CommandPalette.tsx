@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { ModalSurface } from '../ui/ModalSurface'
 import { Command } from 'cmdk'
 import { 
+  X,
   Search, 
   User, 
   Briefcase, 
@@ -49,7 +51,7 @@ export function CommandPalette() {
   return (
     <AnimatePresence>
       {open && (
-        <>
+        <ModalSurface onClose={() => setOpen(false)} label={ui.command.title}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -57,7 +59,7 @@ export function CommandPalette() {
             onClick={() => setOpen(false)}
             className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
           />
-          <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] px-4">
+          <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] px-4" onClick={event => { if (event.target === event.currentTarget) setOpen(false) }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -72,14 +74,13 @@ export function CommandPalette() {
                 <div className="flex items-center border-b border-border px-4">
                   <Search className="w-5 h-5 text-foreground-secondary mr-2" />
                   <Command.Input
+                    data-dialog-initial-focus
                     value={search}
                     onValueChange={setSearch}
                     placeholder={ui.command.placeholder}
                     className="flex-1 bg-transparent py-4 outline-none text-foreground placeholder:text-foreground-tertiary"
                   />
-                  <kbd className="hidden sm:inline-flex h-6 px-2 items-center gap-1 rounded border border-border bg-background-tertiary text-xs text-foreground-secondary">
-                    ESC
-                  </kbd>
+                  <button type="button" onClick={() => setOpen(false)} aria-label={ui.modal.close} className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-lg"><span className="hidden sm:inline">ESC</span><X className="h-4 w-4" /></button>
                 </div>
 
                 <Command.List className="max-h-96 overflow-y-auto p-2">
@@ -128,7 +129,7 @@ export function CommandPalette() {
               </Command>
             </motion.div>
           </div>
-        </>
+        </ModalSurface>
       )}
     </AnimatePresence>
   )

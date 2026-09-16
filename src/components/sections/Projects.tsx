@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowDownRight, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
+import { useLocale } from '@/context/LocaleContext'
 import { Card } from '../ui/Card'
-import { Button } from '../ui/Button'
 import { Modal } from '../ui/Modal'
 import type { Project } from '@/types'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
@@ -77,16 +77,19 @@ interface SliderProps {
 function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderProps) {
   const [current, setCurrent] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [hasFocus, setHasFocus] = useState(false)
+  const { isSpanish } = useLocale()
   const total = projects.length
 
   const prev = useCallback(() => setCurrent(c => (c - 1 + total) % total), [total])
   const next = useCallback(() => setCurrent(c => (c + 1) % total), [total])
 
   useEffect(() => {
-    if (isHovered || reduceMotion || total <= 1) return
+    if (isPaused || hasFocus || isHovered || reduceMotion || total <= 1) return
     const id = setInterval(next, 5000)
     return () => clearInterval(id)
-  }, [isHovered, reduceMotion, total, next])
+  }, [isPaused, hasFocus, isHovered, reduceMotion, total, next])
 
   const project = projects[current]
   if (!project) return null
@@ -96,6 +99,8 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
       className="mb-8 overflow-hidden rounded-3xl border border-border bg-background-secondary/60 shadow-lg shadow-black/20"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onFocusCapture={() => { setHasFocus(true); setIsPaused(true) }}
+      onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setHasFocus(false) }}
     >
       {/* Browser chrome */}
       <div className="flex items-center gap-2 border-b border-border bg-background-tertiary/80 px-4 py-2.5">
@@ -139,7 +144,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
         <button
           type="button"
           onClick={prev}
-          aria-label="Proyecto anterior"
+          aria-label={isSpanish ? 'Proyecto anterior' : 'Previous project'}
           className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -147,7 +152,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
         <button
           type="button"
           onClick={next}
-          aria-label="Proyecto siguiente"
+          aria-label={isSpanish ? 'Proyecto siguiente' : 'Next project'}
           className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
         >
           <ChevronRight className="h-4 w-4" />
@@ -192,19 +197,20 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
               <ArrowDownRight className="h-3.5 w-3.5" />
             </button>
             {project.liveUrl && (
-              <Button
-                size="sm"
-                className="min-w-[130px] justify-center"
-                onClick={() => window.open(project.liveUrl, '_blank', 'noopener,noreferrer')}
-              >
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex min-w-[130px] items-center justify-center gap-2 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-hover sm:text-sm">
                 {ui.projects.viewDemo}
                 <ExternalLink className="h-3.5 w-3.5" />
-              </Button>
+              </a>
             )}
           </div>
         </motion.div>
       </AnimatePresence>
 
+      <div className="flex justify-center pt-3">
+        <button type="button" aria-pressed={isPaused || Boolean(reduceMotion)} disabled={Boolean(reduceMotion)} onClick={() => setIsPaused(value => !value)} className="min-h-11 rounded-full border border-border px-4 text-sm">
+          {isPaused || reduceMotion ? (isSpanish ? 'Reanudar' : 'Resume') : (isSpanish ? 'Pausar' : 'Pause')}
+        </button>
+      </div>
       {/* Dot indicators */}
       <div className="flex items-center justify-center gap-2 bg-background-secondary/20 py-3">
         {projects.map((_, i) => (
@@ -212,14 +218,12 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
             key={i}
             type="button"
             onClick={() => setCurrent(i)}
-            aria-label={`Ir al proyecto ${i + 1}`}
+            aria-label={(isSpanish ? 'Ir al proyecto ' : 'Go to project ') + (i + 1)}
             aria-current={i === current ? 'true' : undefined}
-            className={`rounded-full transition-all duration-300 ${
-              i === current
-                ? 'h-2 w-6 bg-accent'
-                : 'h-2 w-2 bg-border-light hover:bg-foreground-tertiary'
-            }`}
-          />
+            className="flex h-11 w-11 items-center justify-center rounded-full"
+          >
+            <span className={i === current ? 'h-2 w-6 rounded-full bg-accent' : 'h-2 w-2 rounded-full bg-border-light'} />
+          </button>
         ))}
       </div>
     </div>
@@ -370,8 +374,7 @@ export function Projects() {
                 >
                   <Card
                     hover
-                    className="group h-full cursor-pointer overflow-hidden"
-                    onClick={() => setSelectedProject(project)}
+                    className="group relative h-full overflow-hidden"
                   >
                     <ProjectCardImage project={project} />
 
@@ -380,7 +383,7 @@ export function Projects() {
                         {project.year}
                       </p>
                       <h3 className="text-xl font-semibold transition-colors group-hover:text-accent">
-                        {project.title}
+                        <button type="button" onClick={() => setSelectedProject(project)} className="text-left after:absolute after:inset-0 after:rounded-2xl" aria-haspopup="dialog">{project.title}</button>
                       </h3>
                       <p className="text-xs text-foreground-secondary">{project.role}</p>
                     </div>
@@ -404,28 +407,10 @@ export function Projects() {
                       <span className="text-xs text-accent">{project.impact}</span>
                       <div className="flex items-center gap-1">
                         {project.liveUrl && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={e => {
-                              e.stopPropagation()
-                              window.open(project.liveUrl, '_blank', 'noopener,noreferrer')
-                            }}
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                          </Button>
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${ui.projects.viewDemo}: ${project.title}`} className="relative z-10 inline-flex rounded-full p-3 hover:bg-background-tertiary"><ExternalLink className="h-4 w-4" /></a>
                         )}
                         {project.githubUrl && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={e => {
-                              e.stopPropagation()
-                              window.open(project.githubUrl, '_blank', 'noopener,noreferrer')
-                            }}
-                          >
-                            <Github className="h-4 w-4" />
-                          </Button>
+                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${ui.projects.viewCode}: ${project.title}`} className="relative z-10 inline-flex rounded-full p-3 hover:bg-background-tertiary"><Github className="h-4 w-4" /></a>
                         )}
                       </div>
                     </div>
@@ -464,17 +449,17 @@ export function Projects() {
             </div>
 
             <div>
-              <h4 className="mb-2 font-semibold">{ui.projects.problem}</h4>
+              <h3 className="mb-2 font-semibold">{ui.projects.problem}</h3>
               <p className="text-sm text-foreground-secondary">{selectedProject.problem}</p>
             </div>
 
             <div>
-              <h4 className="mb-2 font-semibold">{ui.projects.solution}</h4>
+              <h3 className="mb-2 font-semibold">{ui.projects.solution}</h3>
               <p className="text-sm text-foreground-secondary">{selectedProject.solution}</p>
             </div>
 
             <div>
-              <h4 className="mb-2 font-semibold">{ui.projects.highlights}</h4>
+              <h3 className="mb-2 font-semibold">{ui.projects.highlights}</h3>
               <ul className="space-y-2">
                 {selectedProject.highlights.map((highlight, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-sm text-foreground-secondary">
@@ -486,7 +471,7 @@ export function Projects() {
             </div>
 
             <div>
-              <h4 className="mb-3 font-semibold">{ui.projects.stack}</h4>
+              <h3 className="mb-3 font-semibold">{ui.projects.stack}</h3>
               <div className="flex flex-wrap gap-2">
                 {selectedProject.technologies.map(tech => (
                   <span
@@ -501,7 +486,7 @@ export function Projects() {
 
             {!!selectedProject.metrics?.length && (
               <div>
-                <h4 className="mb-2 font-semibold">{ui.projects.metrics}</h4>
+                <h3 className="mb-2 font-semibold">{ui.projects.metrics}</h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.metrics.map(metric => (
                     <span
@@ -517,28 +502,23 @@ export function Projects() {
 
             {selectedProject.caseStudy && (
               <div>
-                <h4 className="mb-2 font-semibold">{ui.projects.caseStudy}</h4>
+                <h3 className="mb-2 font-semibold">{ui.projects.caseStudy}</h3>
                 <p className="text-sm text-foreground-secondary">{selectedProject.caseStudy}</p>
               </div>
             )}
 
             <div className="flex gap-3 pt-4">
               {selectedProject.liveUrl && (
-                <Button onClick={() => window.open(selectedProject.liveUrl, '_blank')}>
+                <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover sm:text-base">
                   <ExternalLink className="h-4 w-4" />
                   {ui.projects.viewDemo}
-                </Button>
+                </a>
               )}
               {selectedProject.githubUrl && (
-                <Button
-                  variant="outline"
-                  onClick={() =>
-                    window.open(selectedProject.githubUrl, '_blank', 'noopener,noreferrer')
-                  }
-                >
+                <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground hover:border-border-light sm:text-base">
                   <Github className="h-4 w-4" />
                   {ui.projects.viewCode}
-                </Button>
+                </a>
               )}
             </div>
           </div>

@@ -102,11 +102,13 @@ export function Contact() {
                     {...register('name')}
                     type="text"
                     id="name"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? "name-error" : undefined}
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
                     placeholder={ui.contact.namePlaceholder}
                   />
                   {errors.name && (
-                    <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                    <p id="name-error" className="text-red-500 text-sm mt-1">{errors.name.message}</p>
                   )}
                 </div>
 
@@ -118,11 +120,13 @@ export function Contact() {
                     {...register('email')}
                     type="email"
                     id="email"
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "email-error" : undefined}
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
                     placeholder="your.email@example.com"
                   />
                   {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                    <p id="email-error" className="text-red-500 text-sm mt-1">{errors.email.message}</p>
                   )}
                 </div>
 
@@ -133,12 +137,14 @@ export function Contact() {
                   <textarea
                     {...register('message')}
                     id="message"
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? "message-error" : undefined}
                     rows={5}
                     className="w-full px-4 py-2 rounded-lg bg-background-tertiary border border-border focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors resize-none"
                     placeholder={ui.contact.messagePlaceholder}
                   />
                   {errors.message && (
-                    <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                    <p id="message-error" className="text-red-500 text-sm mt-1">{errors.message.message}</p>
                   )}
                 </div>
 
@@ -162,45 +168,27 @@ export function Contact() {
             {/* Contact Methods */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold mb-6">{ui.contact.otherWays}</h3>
-              {contactMethods.map((method, idx) => (
+              {contactMethods.map((method, idx) => {
+                const content = <>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10"><method.icon className="h-6 w-6 text-accent" /></span>
+                  <span className="flex-1"><span className="block font-medium">{method.label}</span><span className="block text-sm text-foreground-secondary">{method.value}</span></span>
+                  {method.action === 'copy' && <span className="text-accent">{emailCopied ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}</span>}
+                </>
+                const className = 'flex w-full items-center gap-4 rounded-2xl border border-border bg-background-secondary/80 p-6 text-left transition-colors hover:border-border-light'
+                return (
                 <motion.div
                   key={method.label}
                   initial={{ opacity: 0, x: 20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                   transition={{ duration: 0.3, delay: idx * 0.1 }}
                 >
-                  <Card
-                    hover
-                    className="cursor-pointer"
-                    onClick={() => {
-                      if (method.action === 'copy') {
-                        handleCopyEmail()
-                      } else if (method.href) {
-                        window.open(method.href, '_blank')
-                      }
-                    }}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
-                        <method.icon className="w-6 h-6 text-accent" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium">{method.label}</p>
-                        <p className="text-sm text-foreground-secondary">{method.value}</p>
-                      </div>
-                      {method.action === 'copy' && (
-                        <div className="text-accent">
-                          {emailCopied ? (
-                            <Check className="w-5 h-5" />
-                          ) : (
-                            <Copy className="w-5 h-5" />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </Card>
+                  {method.href ? (
+                    <a href={method.href} target="_blank" rel="noopener noreferrer" className={className}>{content}</a>
+                  ) : (
+                    <button type="button" onClick={handleCopyEmail} className={className}>{content}</button>
+                  )}
                 </motion.div>
-              ))}
+              )})}
             </div>
           </div>
         </motion.div>

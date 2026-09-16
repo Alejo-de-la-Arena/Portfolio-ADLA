@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useId } from 'react'
+import { ModalSurface } from './ModalSurface'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { Button } from './Button'
@@ -13,27 +14,12 @@ interface ModalProps {
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   const { ui } = useLocalizedContent()
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'hidden'
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen, onClose])
+  const titleId = useId()
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
+        <ModalSurface onClose={onClose} labelledBy={title ? titleId : undefined} label={title ? undefined : ui.command.title}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -41,7 +27,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             onClick={onClose}
             className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
           />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={event => { if (event.target === event.currentTarget) onClose() }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -50,7 +36,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             >
               <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-background-secondary/95 backdrop-blur-sm border-b border-border">
                 {title && (
-                  <h2 className="text-2xl font-display font-bold">{title}</h2>
+                  <h2 id={titleId} tabIndex={-1} data-dialog-initial-focus className="text-2xl font-display font-bold">{title}</h2>
                 )}
                 <Button
                   variant="ghost"
@@ -67,7 +53,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
               </div>
             </motion.div>
           </div>
-        </>
+        </ModalSurface>
       )}
     </AnimatePresence>
   )

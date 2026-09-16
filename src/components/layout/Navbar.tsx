@@ -1,3 +1,4 @@
+import { ModalSurface } from '../ui/ModalSurface'
 import { useState, useEffect, useRef, type RefObject } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Github, Globe2, Linkedin, Menu, MessageCircle, Moon, SlidersHorizontal, Sun, X } from 'lucide-react'
@@ -31,16 +32,11 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Body scroll lock when drawer is open
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [mobileMenuOpen])
-
   // Close on Escape + close settings when clicking outside
   useEffect(() => {
     const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Node
+      const target = event.target
+      if (!(target instanceof Node)) return
       if (
         !settingsRef.current?.contains(target) &&
         !settingsButtonRef.current?.contains(target)
@@ -155,25 +151,11 @@ export function Navbar() {
 
       {/* ── Mobile Drawer — fuera del nav, z-index superior a todo ── */}
 
-      {/* Backdrop */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            key="mobile-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
-
       {/* Drawer panel */}
       <AnimatePresence>
         {mobileMenuOpen && (
+          <ModalSurface onClose={() => setMobileMenuOpen(false)} label={ui.navbar.menuLabel}>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
           <motion.div
             id="mobile-drawer"
             key="mobile-drawer"
@@ -182,9 +164,7 @@ export function Navbar() {
             exit={{ x: '100%' }}
             transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
             className="fixed right-0 top-0 z-[100] flex h-[100dvh] w-[75vw] flex-col border-l border-border bg-background shadow-2xl shadow-black/50"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menú de navegación"
+
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
@@ -194,7 +174,7 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                aria-label="Cerrar menú"
+                aria-label={ui.modal.close} data-dialog-initial-focus
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground-secondary transition-colors hover:bg-background-secondary hover:text-foreground"
               >
                 <X className="h-4 w-4" />
@@ -311,6 +291,7 @@ export function Navbar() {
               </div>
             </div>
           </motion.div>
+          </ModalSurface>
         )}
       </AnimatePresence>
     </>
