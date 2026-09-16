@@ -12,4 +12,4 @@ Cada archivo WebP se registra en `src/data/experiences.ts` sin el prefijo `publi
 
 Zetenta usa tres vistas ordenadas: `01-zetenta-web-portfolio`, `02-zetenta-web-servicios-desarrollo-web` y `03-zetenta-web-servicios-redes-y-marketing`.
 
-Manantial todavía no tiene captura: al sumar una, usá `manantial.webp` y, si corresponde, `manantial-mobile.webp`.
+Manantial usa el par `zetenta/manantial-home.webp` (2526 × 1274) y `zetenta/manantial-home-mobile.webp` (850 × 1100) en un mismo objeto ProjectMedia. El cambio entre mobile y desktop se realiza con `<picture>` en el breakpoint de 1024 px.
