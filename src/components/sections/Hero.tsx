@@ -1,5 +1,7 @@
+import { useRenderActivity } from '@/hooks/useRenderActivity'
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { Suspense, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowUpRight, Github, Linkedin, MessageCircle } from 'lucide-react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, MeshDistortMaterial, Environment } from '@react-three/drei'
@@ -19,23 +21,24 @@ type OrbProps = {
   color: string
   distort?: number
   speed?: number
+  running: boolean
 }
 
-function Orb({ position, scale, color, distort = 0.3, speed = 1 }: OrbProps) {
+function Orb({ position, scale, color, distort = 0.3, speed = 1, running }: OrbProps) {
   const ref = useRef<THREE.Mesh>(null!)
   useFrame((state) => {
-    if (!ref.current) return
+    if (!running || !ref.current) return
     ref.current.rotation.x = state.clock.elapsedTime * 0.1 * speed
     ref.current.rotation.y = state.clock.elapsedTime * 0.15 * speed
   })
   return (
-    <Float speed={1.6} rotationIntensity={0.4} floatIntensity={0.7}>
+    <Float enabled={running} speed={1.6} rotationIntensity={0.4} floatIntensity={0.7}>
       <mesh ref={ref} position={position} scale={scale}>
         <sphereGeometry args={[1, 64, 64]} />
         <MeshDistortMaterial
           color={color}
           distort={distort}
-          speed={speed * 1.4}
+          speed={running ? speed * 1.4 : 0}
           roughness={0.15}
           metalness={0.55}
         />
@@ -54,16 +57,18 @@ function Scene({
   mx,
   my,
   isMobile = false,
+  running,
 }: {
   mx: ReturnType<typeof useMotionValue<number>>
   my: ReturnType<typeof useMotionValue<number>>
   isMobile?: boolean
+  running: boolean
 }) {
   const groupRef = useRef<THREE.Group>(null!)
   const mult = isMobile ? 0.45 : 1
 
   useFrame(() => {
-    if (!groupRef.current || isMobile) return
+    if (!running || !groupRef.current || isMobile) return
     const targetY = clamp(mx.get() * 0.0004, -MAX_ROT, MAX_ROT)
     const targetX = clamp(my.get() * 0.0004, -MAX_ROT, MAX_ROT)
     groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY, 0.06)
@@ -75,11 +80,11 @@ function Scene({
       <ambientLight intensity={0.35} />
       <directionalLight position={[5, 5, 5]} intensity={1.2} color="#a78bff" />
       <directionalLight position={[-5, -3, -5]} intensity={0.6} color="#5a3fff" />
-      <Orb position={[0, 0, 0]}          scale={1.5} color="#7c5cff" distort={0.45} speed={0.8  * mult} />
-      <Orb position={[1.9, 1.2, -1]}     scale={0.5} color="#1a1730" distort={0.2}  speed={1.2  * mult} />
-      <Orb position={[-2.0, -1.0, -0.5]} scale={0.6} color="#a78bff" distort={0.3}  speed={0.9  * mult} />
-      <Orb position={[1.6, -1.4, 0.4]}   scale={0.4} color="#3d2a8c" distort={0.25} speed={1.5  * mult} />
-      <Orb position={[-1.4, 1.6, -1.1]}  scale={0.45} color="#7c5cff" distort={0.35} speed={1.1 * mult} />
+      <Orb running={running} position={[0, 0, 0]}          scale={1.5} color="#7c5cff" distort={0.45} speed={0.8  * mult} />
+      <Orb running={running} position={[1.9, 1.2, -1]}     scale={0.5} color="#1a1730" distort={0.2}  speed={1.2  * mult} />
+      <Orb running={running} position={[-2.0, -1.0, -0.5]} scale={0.6} color="#a78bff" distort={0.3}  speed={0.9  * mult} />
+      <Orb running={running} position={[1.6, -1.4, 0.4]}   scale={0.4} color="#3d2a8c" distort={0.25} speed={1.5  * mult} />
+      <Orb running={running} position={[-1.4, 1.6, -1.1]}  scale={0.45} color="#7c5cff" distort={0.35} speed={1.1 * mult} />
       <Environment preset="city" />
     </group>
   )
@@ -121,7 +126,7 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
     show: (i: number) => ({
       opacity: 1,
       y: '0%',
-      transition: { delay: 0.15 + i * 0.08, duration: 0.85, ease: [0.19, 1, 0.22, 1] },
+      transition: reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.15 + i * 0.08, duration: 0.85, ease: [0.19, 1, 0.22, 1] },
     }),
   }
   return (
@@ -130,7 +135,7 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
         <motion.span
           className="block"
           variants={variants}
-          initial={reduceMotion ? 'show' : 'hidden'}
+          initial={reduceMotion ? false : 'hidden'}
           animate="show"
           custom={0}
         >
@@ -141,7 +146,7 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
         <motion.span
           className="text-gradient block hero-name-rest"
           variants={variants}
-          initial={reduceMotion ? 'show' : 'hidden'}
+          initial={reduceMotion ? false : 'hidden'}
           animate="show"
           custom={1}
         >
@@ -155,9 +160,12 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
 /* ========== HERO ========== */
 
 export function Hero() {
-  const reduceMotion = useReducedMotion()
+  const sectionRef = useRef<HTMLElement>(null)
+  const visible = useRenderActivity(sectionRef)
+  const reduceMotion = useReducedMotionPreference()
   const { isRecruiterMode } = usePortfolioMode()
   const { modeLabels, personalInfo, socialLinks, ui } = useLocalizedContent()
+  const running = visible && !reduceMotion
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   const mx = useMotionValue(0)
@@ -166,13 +174,14 @@ export function Hero() {
   const smoothMy = useSpring(my, { stiffness: 60, damping: 20 })
 
   useEffect(() => {
+    if (!running) return
     const handler = (e: MouseEvent) => {
       mx.set(e.clientX - window.innerWidth / 2)
       my.set(e.clientY - window.innerHeight / 2)
     }
     window.addEventListener('mousemove', handler)
     return () => window.removeEventListener('mousemove', handler)
-  }, [mx, my])
+  }, [mx, my, running])
 
   const socials = [
     { icon: Github, href: socialLinks.github, label: 'GitHub' },
@@ -182,6 +191,7 @@ export function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-x-hidden pt-0"
     >
@@ -203,21 +213,22 @@ export function Hero() {
           {/* CLUSTER 3D — desktop: right column */}
           {!isMobile && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.1, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
+              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 1.1, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
               className="order-first lg:order-last relative mx-auto aspect-square w-full justify-self-center lg:justify-self-end"
               style={{ maxWidth: 'min(82vw, 560px)' }}
             >
               <div className="absolute inset-[10%] rounded-full bg-accent/20 blur-3xl" />
               <div className="relative h-full w-full overflow-hidden rounded-3xl">
                 <Canvas
+                frameloop={running ? 'always' : 'demand'}
                   camera={{ position: [0, 0, 8.5], fov: 45 }}
                   dpr={[1, 1.5]}
                   gl={{ antialias: true, alpha: true }}
                 >
                   <Suspense fallback={null}>
-                    <Scene mx={smoothMx} my={smoothMy} />
+                    <Scene running={running} mx={smoothMx} my={smoothMy} />
                   </Suspense>
                 </Canvas>
 
@@ -242,18 +253,18 @@ export function Hero() {
             </div>
 
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.5 }}
               className="mx-auto lg:mx-0 max-w-xl text-base sm:text-lg leading-relaxed text-foreground-secondary"
             >
               {isRecruiterMode ? personalInfo.recruiterSummary : personalInfo.deepDiveSummary}
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.6 }}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
             >
               <PillCTA primary onClick={() => scrollToSection('projects')}>
@@ -272,9 +283,9 @@ export function Hero() {
 
             {/* Proof + socials — solo desde sm+ */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={reduceMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.75 }}
+              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.75 }}
               className="hidden sm:block space-y-6 pt-2"
             >
               <ul className="flex flex-wrap justify-center lg:justify-start gap-2">
@@ -296,7 +307,7 @@ export function Hero() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    whileHover={{ y: -2 }}
+                    whileHover={reduceMotion ? undefined : { y: -2 }}
                     className="grid h-10 w-10 place-items-center rounded-full border border-border/70 bg-background-secondary/40 text-foreground-secondary transition-colors hover:border-accent/50 hover:text-foreground"
                   >
                     <Icon className="h-4 w-4" />
@@ -310,20 +321,21 @@ export function Hero() {
         {/* Canvas 3D mobile — debajo del texto, en el flujo */}
         {isMobile && (
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.19, 1, 0.22, 1] }}
+            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.9, delay: 0.5, ease: [0.19, 1, 0.22, 1] }}
             className="mx-auto mt-8 h-[280px] w-full max-w-sm"
           >
             <div className="relative h-full w-full overflow-hidden rounded-2xl">
               <div className="absolute inset-[10%] rounded-full" />
               <Canvas
+                  frameloop={running ? 'always' : 'demand'}
                 camera={{ position: [0, 0, 8.5], fov: 45 }}
                 dpr={[1, 1]}
                 gl={{ antialias: true, alpha: true }}
               >
                 <Suspense fallback={null}>
-                  <Scene mx={smoothMx} my={smoothMy} isMobile />
+                  <Scene running={running} mx={smoothMx} my={smoothMy} isMobile />
                 </Suspense>
               </Canvas>
             </div>

@@ -1,5 +1,6 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { ArrowDownRight, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { useLocale } from '@/context/LocaleContext'
@@ -129,7 +130,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
             initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: 24 }}
             animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 1 } : { opacity: 0, x: -24 }}
-            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
           >
             <ProjectPreviewImage
               imageUrl={project.image}
@@ -166,7 +167,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.22 }}
+          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.22 }}
           className="border-t border-border bg-background-secondary/40 px-5 py-4 sm:px-6"
         >
           {/* Technologies */}
@@ -253,7 +254,7 @@ function ProjectCardImage({ project }: { project: Project }) {
 export function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   const { isRecruiterMode } = usePortfolioMode()
   const { projects, projectSortLabels, ui } = useLocalizedContent()
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
@@ -296,9 +297,9 @@ export function Projects() {
       <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.5 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 50 }}
+          animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.5 }}
         >
           <div className="editorial-grid mb-8">
             <div className="space-y-4">
@@ -361,16 +362,16 @@ export function Projects() {
           </div>
 
           {/* Cards grid */}
-          <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div layout={!reduceMotion} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, idx) => (
                 <motion.div
                   key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.28, delay: idx * 0.04 }}
+                  layout={!reduceMotion}
+                  initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+                  animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+                  transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.28, delay: idx * 0.04 }}
                 >
                   <Card
                     hover

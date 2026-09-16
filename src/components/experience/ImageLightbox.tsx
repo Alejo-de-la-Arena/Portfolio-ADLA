@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import type { LocalizedScreenshot } from '@/data/experiences'
@@ -14,6 +15,7 @@ type ImageLightboxProps = {
 }
 
 export function ImageLightbox({ images, activeIndex, onClose, onNavigate, closeLabel, previousLabel, nextLabel }: ImageLightboxProps) {
+  const reduceMotion = useReducedMotionPreference()
   const image = activeIndex === null ? null : images[activeIndex]
   const navigate = (offset: number) => {
     if (activeIndex !== null) onNavigate((activeIndex + offset + images.length) % images.length)
@@ -24,8 +26,9 @@ export function ImageLightbox({ images, activeIndex, onClose, onNavigate, closeL
       {image && (
         <ModalSurface onClose={onClose} label={image.alt}>
           <motion.div
+            transition={reduceMotion ? { duration: 0 } : undefined}
             className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4 sm:p-8"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={reduceMotion ? undefined : { opacity: 0 }}
             onClick={onClose}
             onKeyDown={event => {
               if (event.key === 'ArrowLeft') { event.preventDefault(); navigate(-1) }
@@ -33,7 +36,8 @@ export function ImageLightbox({ images, activeIndex, onClose, onNavigate, closeL
             }}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }}
+              transition={reduceMotion ? { duration: 0 } : undefined}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={reduceMotion ? undefined : { opacity: 0, scale: 0.98 }}
               className="relative max-h-full max-w-6xl" onClick={event => event.stopPropagation()}
             >
               <button type="button" data-dialog-initial-focus onClick={onClose} className="absolute right-3 top-3 z-10 rounded-full bg-background/90 p-2 text-foreground shadow-lg" aria-label={closeLabel}>

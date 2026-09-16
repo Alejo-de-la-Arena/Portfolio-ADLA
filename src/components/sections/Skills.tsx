@@ -1,6 +1,7 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
 import {
   Monitor, Server, GitBranch, Globe, Bot, Compass,
   Zap, RefreshCw, MessageSquare, Database, Braces, Triangle, Layers, Link2,
@@ -66,7 +67,7 @@ function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>, re
           { p: 4, q: 3, tube: 0.14, size: 0.65, offset: [3.0, -1.4, -3],  speed: [0.002, 0.007, 0.004] },
         ]
 
-    const meshes: THREE.LineSegments[] = []
+    const meshes: { mesh: THREE.LineSegments<THREE.WireframeGeometry, THREE.LineBasicMaterial>; speed: [number, number, number] }[] = []
 
     configs.forEach(({ p, q, tube, size, offset, speed }) => {
       const geo = new THREE.TorusKnotGeometry(1, tube, 100, 16, p, q)
@@ -76,26 +77,44 @@ function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>, re
       const mesh = new THREE.LineSegments(wireGeo, mat)
       mesh.scale.setScalar(size)
       mesh.position.set(...offset)
-      mesh.userData = { speed }
       scene.add(mesh)
-      meshes.push(mesh)
+      meshes.push({ mesh, speed })
     })
 
-    let raf: number
+    let raf: number | null = null
+    let intersecting = false
+    const visible = () => intersecting && !document.hidden
+
+    function stop() {
+      if (raf !== null) cancelAnimationFrame(raf)
+      raf = null
+    }
 
     function animate() {
-      raf = requestAnimationFrame(animate)
-      if (!reduceMotion) {
-        meshes.forEach(m => {
-          const [rx, ry, rz] = m.userData.speed as [number, number, number]
-          m.rotation.x += rx
-          m.rotation.y += ry
-          m.rotation.z += rz
-        })
-      }
+      raf = null
+      if (!visible() || reduceMotion) return
+      meshes.forEach(({ mesh, speed: [rx, ry, rz] }) => {
+        mesh.rotation.x += rx
+        mesh.rotation.y += ry
+        mesh.rotation.z += rz
+      })
       renderer.render(scene, camera)
+      raf = requestAnimationFrame(animate)
     }
-    animate()
+
+    function updateActivity() {
+      stop()
+      if (!visible()) return
+      renderer.render(scene, camera)
+      if (!reduceMotion) raf = requestAnimationFrame(animate)
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      intersecting = entry.isIntersecting
+      updateActivity()
+    })
+    observer.observe(parent ?? canvas)
+    document.addEventListener('visibilitychange', updateActivity)
 
     function onResize() {
       if (!canvas || !canvas.parentElement) return
@@ -104,15 +123,18 @@ function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>, re
       renderer.setSize(nw, nh)
       camera.aspect = nw / nh
       camera.updateProjectionMatrix()
+      if (visible()) renderer.render(scene, camera)
     }
     window.addEventListener('resize', onResize)
 
     return () => {
-      cancelAnimationFrame(raf)
+      stop()
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', updateActivity)
       window.removeEventListener('resize', onResize)
-      meshes.forEach(m => {
-        m.geometry.dispose()
-        ;(m.material as THREE.LineBasicMaterial).dispose()
+      meshes.forEach(({ mesh }) => {
+        mesh.geometry.dispose()
+        mesh.material.dispose()
       })
       renderer.dispose()
     }
@@ -143,9 +165,9 @@ function SkillItemTile({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-      transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : index * 0.025 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+      animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+      transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.2, delay: index * 0.025 }}
       className="flex flex-col items-center gap-1 rounded-lg px-1 py-2 cursor-default select-none"
       style={{
         backgroundColor: hovered ? 'rgb(124 92 255 / 0.10)' : 'transparent',
@@ -284,9 +306,9 @@ function SkillCardPanel({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: reduceMotion ? 0 : 0.35, delay: reduceMotion ? 0 : cardIndex * 0.08 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+      animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.35, delay: cardIndex * 0.08 }}
       className="flex flex-col rounded-2xl border border-border bg-background-secondary/60 p-5"
     >
       {/* Card header */}
@@ -344,10 +366,10 @@ function SkillCardPanel({
         {showFamiliar && hasFamiliar && (
           <motion.div
             key="familiar"
-            initial={{ height: 0, opacity: 0 }}
+            initial={reduceMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.25, ease: 'easeInOut' }}
+            exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.25, ease: 'easeInOut' }}
             style={{ overflow: 'hidden' }}
           >
             <div className="mt-3 border-t border-border/30 pt-3">
@@ -373,7 +395,7 @@ export function Skills() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const inViewRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(inViewRef, { once: true, margin: '-80px' })
-  const reduceMotion = Boolean(useReducedMotion())
+  const reduceMotion = Boolean(useReducedMotionPreference())
   const { isRecruiterMode } = usePortfolioMode()
   const { skills, ui } = useLocalizedContent()
 
@@ -395,9 +417,9 @@ export function Skills() {
       <div className="relative z-10 mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={inViewRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: reduceMotion ? 0 : 0.5 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+          animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.5 }}
         >
           {/* Section header */}
           <div className="editorial-grid mb-10">

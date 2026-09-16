@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { ModalSurface } from '../ui/ModalSurface'
 import { useState, useEffect, useRef, type RefObject } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -13,6 +14,7 @@ import { useLocale } from '@/context/LocaleContext'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export function Navbar() {
+  const reduceMotion = useReducedMotionPreference()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -47,7 +49,6 @@ export function Navbar() {
     const onEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setSettingsOpen(false)
-        setMobileMenuOpen(false)
       }
     }
     window.addEventListener('pointerdown', onPointerDown)
@@ -75,7 +76,7 @@ export function Navbar() {
     <>
       {/* ── Fixed navbar ── */}
       <motion.nav
-        initial={{ y: -72, opacity: 0 }}
+        initial={reduceMotion ? false : { y: -72, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className={`fixed top-0 left-0 right-0 z-40 border-b border-border/60 backdrop-blur-md transition-colors duration-300 ${
           isScrolled ? 'bg-background/95' : 'bg-background/75'
@@ -85,9 +86,9 @@ export function Navbar() {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <motion.button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => window.scrollTo({ top: 0, behavior: reduceMotion ? 'instant' : 'smooth' })}
               className="text-sm font-display font-semibold uppercase tracking-[0.16em] text-foreground"
-              whileTap={{ scale: 0.97 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
             >
               {personalInfo.name}
             </motion.button>
@@ -159,10 +160,10 @@ export function Navbar() {
           <motion.div
             id="mobile-drawer"
             key="mobile-drawer"
-            initial={{ x: '100%' }}
+            initial={reduceMotion ? false : { x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+            exit={reduceMotion ? undefined : { x: '100%' }}
+            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
             className="fixed right-0 top-0 z-[100] flex h-[100dvh] w-[75vw] flex-col border-l border-border bg-background shadow-2xl shadow-black/50"
 
           >
@@ -187,9 +188,9 @@ export function Navbar() {
                 {sectionLinks.map((link, idx) => (
                   <li key={link.id}>
                     <motion.button
-                      initial={{ opacity: 0, x: 14 }}
+                      initial={reduceMotion ? false : { opacity: 0, x: 14 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 + idx * 0.05, duration: 0.24 }}
+                      transition={reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.05 + idx * 0.05, duration: 0.24 }}
                       onClick={() => handleNavClick(link.id)}
                       className={`group flex w-full items-center justify-between rounded-xl px-4 py-4 text-left text-lg font-medium transition-colors ${
                         activeSection === link.id
@@ -211,9 +212,9 @@ export function Navbar() {
 
               {/* CTA */}
               <motion.div
-                initial={{ opacity: 0, y: 6 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.3 }}
                 className="mt-6"
               >
                 <Button className="w-full" onClick={() => handleNavClick('contact')}>
@@ -223,9 +224,9 @@ export function Navbar() {
 
               {/* Settings compactos */}
               <motion.div
-                initial={{ opacity: 0 }}
+                initial={reduceMotion ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.35 }}
+                transition={reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.35 }}
                 className="mt-5 space-y-4 rounded-xl border border-border/60 bg-background-secondary/50 p-4"
               >
                 {/* Idioma */}

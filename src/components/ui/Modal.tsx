@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useId } from 'react'
 import { ModalSurface } from './ModalSurface'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -13,6 +14,7 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+  const reduceMotion = useReducedMotionPreference()
   const { ui } = useLocalizedContent()
   const titleId = useId()
 
@@ -21,17 +23,18 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       {isOpen && (
         <ModalSurface onClose={onClose} labelledBy={title ? titleId : undefined} label={title ? undefined : ui.command.title}>
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0 }}
             onClick={onClose}
             className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
           />
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={event => { if (event.target === event.currentTarget) onClose() }}>
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={reduceMotion ? { duration: 0 } : undefined}
+              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-background-secondary border border-border rounded-2xl shadow-2xl"
             >
               <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-background-secondary/95 backdrop-blur-sm border-b border-border">

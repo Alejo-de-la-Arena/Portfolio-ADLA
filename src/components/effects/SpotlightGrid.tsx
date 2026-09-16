@@ -1,10 +1,11 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useEffect, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const MOBILE_BREAKPOINT = 768
 
 export function SpotlightGrid() {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionPreference()
   const [isMobile, setIsMobile] = useState(false)
   const [pointer, setPointer] = useState({ x: 50, y: 35 })
 

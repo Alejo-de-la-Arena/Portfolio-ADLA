@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '../ui/Button'
@@ -15,6 +16,7 @@ export function MagneticButton({
   onClick, 
   variant = 'primary' 
 }: MagneticButtonProps) {
+  const reduceMotion = useReducedMotionPreference()
   const ref = useRef<HTMLButtonElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
@@ -35,8 +37,8 @@ export function MagneticButton({
 
   return (
     <motion.div
-      animate={position}
-      transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
+      animate={reduceMotion ? { x: 0, y: 0 } : position}
+      transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
     >
       <Button
         ref={ref}

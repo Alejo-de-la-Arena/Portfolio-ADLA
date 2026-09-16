@@ -1,11 +1,12 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useEffect, useRef } from 'react'
 
 export function SpotlightCursor() {
+  const reduceMotion = useReducedMotionPreference()
   const spotlightRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    if (reduceMotion) return
 
     const handleMouseMove = (e: MouseEvent) => {
       if (spotlightRef.current) {
@@ -16,7 +17,7 @@ export function SpotlightCursor() {
 
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
+  }, [reduceMotion])
 
   return (
     <div

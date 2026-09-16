@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useEffect, useState } from 'react'
 import { ModalSurface } from '../ui/ModalSurface'
 import { Command } from 'cmdk'
@@ -19,6 +20,7 @@ import { scrollToSection } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function CommandPalette() {
+  const reduceMotion = useReducedMotionPreference()
   const { open, setOpen } = useCommandPalette()
   const { sectionLinks, socialLinks, ui } = useLocalizedContent()
   const [search, setSearch] = useState('')
@@ -53,18 +55,18 @@ export function CommandPalette() {
       {open && (
         <ModalSurface onClose={() => setOpen(false)} label={ui.command.title}>
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0 }}
             onClick={() => setOpen(false)}
             className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
           />
           <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] px-4" onClick={event => { if (event.target === event.currentTarget) setOpen(false) }}>
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.2 }}
+              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.95, y: -20 }}
+              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.2 }}
               className="w-full max-w-2xl"
             >
               <Command 

@@ -1,9 +1,11 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { Github, Linkedin, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { scrollToSection } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function Footer() {
+  const reduceMotion = useReducedMotionPreference()
   const { personalInfo, sectionLinks, socialLinks, ui } = useLocalizedContent()
   const socials = [
     { icon: Github, href: socialLinks.github, label: 'GitHub' },
@@ -54,8 +56,8 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={reduceMotion ? undefined : { scale: 1.1, y: -2 }}
+                  whileTap={reduceMotion ? undefined : { scale: 0.95 }}
                   className="w-10 h-10 rounded-lg bg-background-tertiary hover:bg-border-light flex items-center justify-center transition-colors"
                   aria-label={social.label}
                 >
@@ -79,10 +81,8 @@ export function Footer() {
         {/* Subtle animation detail */}
         <motion.div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-accent to-transparent"
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
+          animate={reduceMotion ? { opacity: 0.3 } : { opacity: [0.3, 0.6, 0.3] }}
+          transition={reduceMotion ? { duration: 0, delay: 0 } : {
             duration: 3,
             repeat: Infinity,
             ease: 'easeInOut',

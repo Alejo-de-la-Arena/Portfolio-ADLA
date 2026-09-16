@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Layers3, Sparkles } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
@@ -5,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function ModeToggle() {
+  const reduceMotion = useReducedMotionPreference()
   const { mode, setMode, isRecruiterMode } = usePortfolioMode()
   const { ui } = useLocalizedContent()
 
@@ -30,7 +32,7 @@ export function ModeToggle() {
             <motion.span
               layoutId="mode-toggle-highlight"
               className="absolute inset-0 -z-10 rounded-full bg-accent/15"
-              transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
+              transition={reduceMotion ? { duration: 0 } : { type: 'spring', duration: 0.4, bounce: 0.2 }}
             />
           )}
         </AnimatePresence>
@@ -51,7 +53,7 @@ export function ModeToggle() {
             <motion.span
               layoutId="mode-toggle-highlight"
               className="absolute inset-0 -z-10 rounded-full bg-accent/15"
-              transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
+              transition={reduceMotion ? { duration: 0 } : { type: 'spring', duration: 0.4, bounce: 0.2 }}
             />
           )}
         </AnimatePresence>

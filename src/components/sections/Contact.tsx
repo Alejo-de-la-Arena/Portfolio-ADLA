@@ -1,3 +1,4 @@
+import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useMemo, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useForm } from 'react-hook-form'
@@ -14,6 +15,7 @@ import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 import { useLocale } from '@/context/LocaleContext'
 
 export function Contact() {
+  const reduceMotion = useReducedMotionPreference()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const { locale } = useLocale()
@@ -78,9 +80,9 @@ export function Contact() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.5 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 50 }}
+          animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.5 }}
         >
           <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4 text-center">
             {ui.contact.titleStart} <span className="text-accent">{ui.contact.titleAccent}</span>
@@ -178,9 +180,9 @@ export function Contact() {
                 return (
                 <motion.div
                   key={method.label}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3, delay: idx * 0.1 }}
+                  initial={reduceMotion ? false : { opacity: 0, x: 20 }}
+                  animate={reduceMotion || isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                  transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.3, delay: idx * 0.1 }}
                 >
                   {method.href ? (
                     <a href={method.href} target="_blank" rel="noopener noreferrer" className={className}>{content}</a>
