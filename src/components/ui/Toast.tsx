@@ -9,7 +9,7 @@ export function Toast() {
           toast: 'bg-background-secondary border-border',
           title: 'text-foreground',
           description: 'text-foreground-secondary',
-          actionButton: 'bg-accent text-white',
+          actionButton: 'bg-accent-solid text-white',
           cancelButton: 'bg-background-tertiary text-foreground-secondary',
         },
       }}

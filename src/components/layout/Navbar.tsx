@@ -230,7 +230,7 @@ export function Navbar() {
               >
                 {/* Idioma */}
                 <div>
-                  <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
+                  <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
                     {ui.navbar.language}
                   </p>
                   <div className="inline-flex rounded-full border border-border bg-background p-1">
@@ -254,7 +254,7 @@ export function Navbar() {
 
                 {/* Modo de lectura */}
                 <div>
-                  <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
+                  <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
                     {ui.navbar.readingMode}
                   </p>
                   <ModeToggle />
@@ -262,7 +262,7 @@ export function Navbar() {
 
                 {/* Tema */}
                 <div>
-                  <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
+                  <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
                     {ui.navbar.theme}
                   </p>
                   <Button variant="outline" size="sm" onClick={toggleTheme}>

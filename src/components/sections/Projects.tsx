@@ -111,11 +111,11 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
         </div>
         <div className="mx-auto flex min-w-0 max-w-xs flex-1 items-center gap-1.5 rounded-full bg-background-secondary px-3 py-1">
           <div className="h-2 w-2 shrink-0 rounded-full border border-border-light" />
-          <span className="truncate text-[11px] text-foreground-tertiary">
+          <span className="truncate text-xs text-foreground-tertiary">
             {project.liveUrl ?? 'preview'}
           </span>
         </div>
-        <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-[10px] text-foreground-tertiary">
+        <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-xs text-foreground-tertiary">
           {current + 1}/{total}
         </span>
       </div>
@@ -174,7 +174,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
             {project.technologies.map(tech => (
               <span
                 key={tech}
-                className="rounded-full border border-border/60 bg-background-secondary/40 px-2.5 py-0.5 text-[11px] text-foreground-secondary"
+                className="rounded-full border border-border/60 bg-background-secondary/40 px-2.5 py-0.5 text-xs text-foreground-secondary"
               >
                 {tech}
               </span>
@@ -197,7 +197,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
               <ArrowDownRight className="h-3.5 w-3.5" />
             </button>
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex min-w-[130px] items-center justify-center gap-2 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-hover sm:text-sm">
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex min-w-[130px] items-center justify-center gap-2 rounded-full bg-accent-solid px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-solid-hover sm:text-sm">
                 {ui.projects.viewDemo}
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
@@ -379,7 +379,7 @@ export function Projects() {
                     <ProjectCardImage project={project} />
 
                     <div className="mb-4 space-y-1">
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-foreground-tertiary">
+                      <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
                         {project.year}
                       </p>
                       <h3 className="text-xl font-semibold transition-colors group-hover:text-accent">
@@ -509,7 +509,7 @@ export function Projects() {
 
             <div className="flex gap-3 pt-4">
               {selectedProject.liveUrl && (
-                <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover sm:text-base">
+                <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex items-center justify-center gap-2 rounded-full bg-accent-solid px-4 py-2 text-sm font-medium text-white hover:bg-accent-solid-hover sm:text-base">
                   <ExternalLink className="h-4 w-4" />
                   {ui.projects.viewDemo}
                 </a>
@@ -531,7 +531,7 @@ export function Projects() {
 function CaseChip({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-border bg-background-tertiary/50 px-3 py-2">
-      <p className="text-[10px] uppercase tracking-[0.16em] text-foreground-tertiary">{label}</p>
+      <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">{label}</p>
       <p className="mt-1 text-xs text-foreground-secondary">{value}</p>
     </div>
   )

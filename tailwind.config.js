@@ -22,6 +22,9 @@ export default {
           DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
           hover: 'rgb(var(--accent-hover) / <alpha-value>)',
           light: 'rgb(var(--accent-light) / <alpha-value>)',
+          solid: 'rgb(var(--accent-solid) / <alpha-value>)',
+          'solid-hover': 'rgb(var(--accent-solid-hover) / <alpha-value>)',
+          'on-subtle': 'rgb(var(--accent-on-subtle) / <alpha-value>)',
         },
         border: {
           DEFAULT: 'rgb(var(--border) / <alpha-value>)',

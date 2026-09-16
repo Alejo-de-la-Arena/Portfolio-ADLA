@@ -138,8 +138,8 @@ function SkillItemTile({
   const LucideComp = item.lucide ? (SKILL_ICONS[item.lucide] ?? null) : null
   const fallbackColor =
     item.fallbackColor === 'accent'
-      ? 'var(--accent)'
-      : (item.fallbackColor ?? 'var(--accent)')
+      ? 'rgb(var(--accent))'
+      : (item.fallbackColor ?? 'rgb(var(--accent))')
 
   return (
     <motion.div
@@ -159,17 +159,17 @@ function SkillItemTile({
         className="flex h-8 w-8 items-center justify-center"
         style={{
           transform: hovered && !reduceMotion ? 'scale(1.1)' : 'scale(1)',
-          filter: hovered && !reduceMotion ? 'drop-shadow(0 0 6px var(--accent))' : 'none',
+          filter: hovered && !reduceMotion ? 'drop-shadow(0 0 6px rgb(var(--accent)))' : 'none',
           transition: 'transform 0.18s ease, filter 0.18s ease',
         }}
       >
         {item.fallback ? (
           <div
-            className="flex h-7 w-7 items-center justify-center rounded-md text-[9px] font-bold leading-none"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-xs font-bold leading-none"
             style={{
               color: fallbackColor,
-              backgroundColor: `${fallbackColor}18`,
-              border: `1px solid ${fallbackColor}44`,
+              backgroundColor: `color-mix(in srgb, ${fallbackColor} 9.4%, transparent)`,
+              border: `1px solid color-mix(in srgb, ${fallbackColor} 26.7%, transparent)`,
             }}
           >
             {item.fallback}
@@ -203,7 +203,7 @@ function SkillItemTile({
             />
           )
         ) : (
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-accent/30 bg-accent/10 text-[9px] font-bold text-accent">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-accent/30 bg-accent/10 text-xs font-bold text-accent">
             {item.name.slice(0, 2).toUpperCase()}
           </div>
         )}
@@ -211,8 +211,8 @@ function SkillItemTile({
 
       {/* Name — always visible */}
       <span
-        className="max-w-[64px] text-center text-[9px] leading-tight transition-colors duration-200"
-        style={{ color: hovered ? 'var(--accent)' : 'var(--foreground-tertiary, #888)' }}
+        className="max-w-full break-words text-center text-xs leading-tight transition-colors duration-200"
+        style={{ color: hovered ? 'rgb(var(--accent))' : 'rgb(var(--foreground-tertiary, 136 136 136))' }}
       >
         {item.name}
       </span>
@@ -240,7 +240,7 @@ function LevelSection({
   if (items.length === 0) return null
   return (
     <div>
-      <span className={`mb-2 inline-flex items-center rounded px-2 py-0.5 text-[9px] font-bold tracking-widest ${badgeClass}`}>
+      <span className={`mb-2 inline-flex items-center rounded px-2 py-0.5 text-xs font-bold tracking-widest ${badgeClass}`}>
         {label}
       </span>
       <div className="grid grid-cols-4 gap-0 sm:grid-cols-5 lg:grid-cols-6">
@@ -290,7 +290,7 @@ function SkillCardPanel({
       className="flex flex-col rounded-2xl border border-border bg-background-secondary/60 p-5"
     >
       {/* Card header */}
-      <div className="mb-3 flex items-start justify-between gap-2">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
         <div className="flex items-start gap-3">
           <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
             <CardIcon size={16} />
@@ -304,7 +304,7 @@ function SkillCardPanel({
         {hasFamiliar && (
           <button
             onClick={() => setShowFamiliar(v => !v)}
-            className="shrink-0 flex items-center gap-1 rounded-md border border-border/50 px-2 py-1 text-[10px] text-foreground-tertiary transition-colors duration-200 hover:border-accent/40 hover:text-accent"
+            className="shrink-0 flex items-center gap-1 rounded-md border border-border/50 px-2 py-1 text-xs text-foreground-tertiary transition-colors duration-200 hover:border-accent/40 hover:text-accent"
             aria-expanded={showFamiliar}
           >
             {showFamiliar ? hideFamiliarLabel : showFamiliarLabel}
@@ -323,7 +323,7 @@ function SkillCardPanel({
       <div className="flex-1 space-y-3">
         <LevelSection
           label="CORE"
-          badgeClass="bg-accent text-white"
+          badgeClass="bg-accent-solid text-white"
           items={card.core}
           startIndex={baseIdx}
           isInView={isInView}
@@ -331,7 +331,7 @@ function SkillCardPanel({
         />
         <LevelSection
           label="STRONG"
-          badgeClass="bg-accent/15 text-accent border border-accent/30"
+          badgeClass="bg-accent/15 text-accent-on-subtle border border-accent/30"
           items={card.strong}
           startIndex={baseIdx + card.core.length}
           isInView={isInView}

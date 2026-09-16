@@ -221,7 +221,7 @@ export function Hero() {
                   </Suspense>
                 </Canvas>
 
-                <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-6 sm:right-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background-secondary/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-foreground-tertiary backdrop-blur">
+                <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-6 sm:right-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background-secondary/60 px-3 py-1.5 text-xs uppercase tracking-[0.2em] text-foreground-tertiary backdrop-blur">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                   {ui.hero.move}
                 </div>

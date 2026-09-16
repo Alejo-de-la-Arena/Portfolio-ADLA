@@ -16,6 +16,9 @@
     --accent: 108 78 240;
     --accent-hover: 91 61 230;
     --accent-light: 177 159 255;
+    --accent-solid: 108 78 240;
+    --accent-solid-hover: 91 61 230;
+    --accent-on-subtle: 80 50 187;
     --border: 205 213 229;
     --border-light: 187 196 216;
     --surface-glow-a: rgba(108, 78, 240, 0.09);
@@ -32,6 +35,9 @@
     --accent: 124 92 255;
     --accent-hover: 152 125 255;
     --accent-light: 200 188 255;
+    --accent-solid: 108 78 240;
+    --accent-solid-hover: 91 61 230;
+    --accent-on-subtle: 188 170 255;
     --border: 35 38 58;
     --border-light: 49 53 80;
     --surface-glow-a: rgba(124, 92, 255, 0.14);
@@ -153,7 +159,7 @@
   }
 
   .eyebrow {
-    @apply text-[11px] uppercase tracking-[0.25em] text-foreground-tertiary;
+    @apply text-xs uppercase tracking-[0.25em] text-foreground-tertiary;
   }
 }
 
