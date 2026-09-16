@@ -13,8 +13,8 @@ import { Projects } from './components/sections/Projects'
 import { Skills } from './components/sections/Skills'
 import { Contact } from './components/sections/Contact'
 import { ExperienceDetailPage } from './components/experience/ExperienceDetailPage'
-import { PortfolioModeProvider } from './context/PortfolioModeContext'
-import { LocaleProvider } from './context/LocaleContext'
+import { PortfolioModeProvider } from './context/PortfolioModeProvider'
+import { LocaleProvider } from './context/LocaleProvider'
 
 function Home() {
   const { hash } = useLocation()
