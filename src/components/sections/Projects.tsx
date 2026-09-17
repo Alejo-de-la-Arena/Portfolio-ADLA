@@ -104,26 +104,9 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
       onFocusCapture={() => { setHasFocus(true); setIsPaused(true) }}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setHasFocus(false) }}
     >
-      {/* Browser chrome */}
-      <div className="flex items-center gap-2 border-b border-border bg-background-tertiary/80 px-4 py-2.5">
-        <div className="flex shrink-0 items-center gap-1.5">
-          <div className="h-3 w-3 rounded-full bg-red-400/60" />
-          <div className="h-3 w-3 rounded-full bg-yellow-400/60" />
-          <div className="h-3 w-3 rounded-full bg-green-400/60" />
-        </div>
-        <div className="mx-auto flex min-w-0 max-w-xs flex-1 items-center gap-1.5 rounded-full bg-background-secondary px-3 py-1">
-          <div className="h-2 w-2 shrink-0 rounded-full border border-border-light" />
-          <span className="truncate text-xs text-foreground-tertiary">
-            {project.liveUrl ?? 'preview'}
-          </span>
-        </div>
-        <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-xs text-foreground-tertiary">
-          {current + 1}/{total}
-        </span>
-      </div>
-
+      <div className="grid md:grid-cols-[1.1fr_1fr]">
       {/* Image area — aspect-video on mobile, aspect-[2/1] on sm+ */}
-      <div className="relative aspect-video overflow-hidden bg-background sm:aspect-[2/1]">
+      <div className="relative h-44 overflow-hidden bg-background sm:h-56 md:h-full md:min-h-64">
         <AnimatePresence mode="wait">
           <motion.div
             key={project.id}
@@ -169,11 +152,13 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
           transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.22 }}
-          className="border-t border-border bg-background-secondary/40 px-5 py-4 sm:px-6"
+          className="min-w-0 border-t border-border bg-background-secondary/40 p-5 md:border-l md:border-t-0 lg:p-6"
         >
+          <p className="mb-2 text-xs font-medium text-accent">{current + 1} / {total}</p>
+          <h3 className="mb-3 font-display text-2xl font-semibold">{project.title}</h3>
           {/* Technologies */}
           <div className="mb-3 flex flex-wrap gap-1.5">
-            {project.technologies.map(tech => (
+            {project.technologies.slice(0, 4).map(tech => (
               <span
                 key={tech}
                 className="rounded-full border border-border/60 bg-background-secondary/40 px-2.5 py-0.5 text-xs text-foreground-secondary"
@@ -184,22 +169,22 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           </div>
 
           {/* Impact / brief description */}
-          <p className="mb-4 line-clamp-2 text-sm text-foreground-secondary">
+          <p className="mb-4 text-sm leading-relaxed text-foreground-secondary">
             {project.impact}
           </p>
 
           {/* CTA buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={() => onProjectClick(project)}
-              className="inline-flex min-w-[130px] items-center justify-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-foreground-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-foreground-secondary transition-colors hover:border-accent/40 hover:text-foreground"
             >
               {isSpanish ? 'Ver detalle' : 'View details'}
               <ArrowDownRight className="h-3.5 w-3.5" />
             </button>
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex min-w-[130px] items-center justify-center gap-2 rounded-full bg-accent-solid px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-solid-hover sm:text-sm">
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex items-center justify-center gap-2 rounded-full bg-accent-solid px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-solid-hover sm:text-sm">
                 {ui.projects.viewDemo}
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
@@ -208,13 +193,13 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
         </motion.div>
       </AnimatePresence>
 
-      <div className="flex justify-center pt-3">
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border px-4 py-2">
         <button type="button" aria-pressed={isPaused || Boolean(reduceMotion)} disabled={Boolean(reduceMotion)} onClick={() => setIsPaused(value => !value)} className="min-h-11 rounded-full border border-border px-4 text-sm">
           {isPaused || reduceMotion ? (isSpanish ? 'Reanudar' : 'Resume') : (isSpanish ? 'Pausar' : 'Pause')}
         </button>
-      </div>
       {/* Dot indicators */}
-      <div className="flex items-center justify-center gap-2 bg-background-secondary/20 py-3">
+      <div className="flex items-center gap-1">
         {projects.map((_, i) => (
           <button
             key={i}
@@ -227,6 +212,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
             <span className={i === current ? 'h-2 w-6 rounded-full bg-accent' : 'h-2 w-2 rounded-full bg-border-light'} />
           </button>
         ))}
+      </div>
       </div>
     </div>
   )
