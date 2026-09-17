@@ -11,7 +11,7 @@ import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 type SortMode = 'featured' | 'latest' | 'impact'
 
-const PINNED_ID = 0
+const PINNED_ID = 4
 
 // ─── Preview image component (used in slider + cards) ────────────────────────
 
@@ -28,6 +28,7 @@ function ProjectPreviewImage({
   className = '',
   objectPosition = 'top',
 }: PreviewImageProps) {
+  const { isSpanish } = useLocale()
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState(false)
 
@@ -48,7 +49,7 @@ function ProjectPreviewImage({
       {!loaded && <div className="absolute inset-0 skeleton-shimmer" />}
       <img
         src={imageUrl}
-        alt={`Preview de ${title}`}
+        alt={`${isSpanish ? 'Vista previa de' : 'Preview of'} ${title}`}
         loading="lazy"
         decoding="async"
         width={2530}
@@ -194,7 +195,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
               onClick={() => onProjectClick(project)}
               className="inline-flex min-w-[130px] items-center justify-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-foreground-secondary transition-colors hover:border-accent/40 hover:text-foreground"
             >
-              Ver detalle
+              {isSpanish ? 'Ver detalle' : 'View details'}
               <ArrowDownRight className="h-3.5 w-3.5" />
             </button>
             {project.liveUrl && (
@@ -257,7 +258,9 @@ export function Projects() {
   const reduceMotion = useReducedMotionPreference()
   const { isRecruiterMode } = usePortfolioMode()
   const { projects, projectSortLabels, ui } = useLocalizedContent()
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const { isSpanish } = useLocale()
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
+  const selectedProject = projects.find(project => project.id === selectedProjectId)
   const [sort, setSort] = useState<SortMode>('featured')
   const [filter, setFilter] = useState<string>(ui.projects.allTags)
 
@@ -317,7 +320,7 @@ export function Projects() {
           {/* Slider */}
           <ProjectSlider
             projects={sliderProjects}
-            onProjectClick={setSelectedProject}
+            onProjectClick={project => setSelectedProjectId(project.id)}
             reduceMotion={Boolean(reduceMotion)}
             ui={ui}
           />
@@ -384,7 +387,7 @@ export function Projects() {
                         {project.year}
                       </p>
                       <h3 className="text-xl font-semibold transition-colors group-hover:text-accent">
-                        <button type="button" onClick={() => setSelectedProject(project)} className="text-left after:absolute after:inset-0 after:rounded-2xl" aria-haspopup="dialog">{project.title}</button>
+                        <button type="button" onClick={() => setSelectedProjectId(project.id)} className="text-left after:absolute after:inset-0 after:rounded-2xl" aria-haspopup="dialog">{project.title}</button>
                       </h3>
                       <p className="text-xs text-foreground-secondary">{project.role}</p>
                     </div>
@@ -427,10 +430,11 @@ export function Projects() {
       {selectedProject && (
         <Modal
           isOpen={!!selectedProject}
-          onClose={() => setSelectedProject(null)}
+          onClose={() => setSelectedProjectId(null)}
           title={selectedProject.title}
         >
           <div className="space-y-6">
+            <p className="text-sm leading-relaxed text-foreground-secondary">{selectedProject.description}</p>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               <CaseChip label={ui.projects.role} value={selectedProject.role} />
               <CaseChip label={ui.projects.scope} value={selectedProject.scope} />
@@ -485,6 +489,22 @@ export function Projects() {
               </div>
             </div>
 
+            <ProjectCopyList title={isSpanish ? 'Decisiones técnicas' : 'Technical decisions'} items={selectedProject.decisions} />
+            <ProjectCopyList title={isSpanish ? 'Estado actual' : 'Current status'} items={selectedProject.results} />
+            <ProjectCopyList title="Roadmap" items={selectedProject.roadmap} />
+            {selectedProject.demos && <div className="space-y-6">
+              <h3 className="font-semibold">{isSpanish ? 'Implementaciones dentro de VYZON' : 'Implementations within VYZON'}</h3>
+              <p className="text-sm text-foreground-secondary">{isSpanish ? 'Demos con briefs ficticios. El contenido comercial de sus interfaces es parte del ejercicio, no evidencia de clientes ni de resultados.' : 'Demos based on fictional briefs. Marketing content in their interfaces is part of the exercise, not evidence of clients or results.'}</p>
+              {selectedProject.demos.map(demo => <article key={demo.id} className="space-y-3 border-t border-border pt-5">
+                <p className="eyebrow">{demo.label}</p>
+                <h4 className="font-display text-xl font-semibold">{demo.title}</h4>
+                <p className="text-sm text-foreground-secondary">{demo.description}</p>
+                <ProjectPreviewImage imageUrl={demo.image} title={demo.title + ' · ' + demo.label} className="aspect-video overflow-hidden rounded-xl" />
+                <ul className="space-y-2 text-sm text-foreground-secondary">{demo.decisions.map(decision => <li key={decision}>{decision}</li>)}</ul>
+                <p className="text-sm text-foreground-secondary">{demo.status}</p>
+                {demo.liveUrl && <a href={demo.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex text-sm text-accent">{isSpanish ? 'Abrir demo ficticia' : 'Open fictional demo'}: {demo.title}</a>}
+              </article>)}
+            </div>}
             {!!selectedProject.metrics?.length && (
               <div>
                 <h3 className="mb-2 font-semibold">{ui.projects.metrics}</h3>
@@ -536,4 +556,9 @@ function CaseChip({ label, value }: { label: string; value: string }) {
       <p className="mt-1 text-xs text-foreground-secondary">{value}</p>
     </div>
   )
+}
+
+function ProjectCopyList({ title, items }: { title: string; items?: string[] }) {
+  if (!items?.length) return null
+  return <div><h3 className="mb-2 font-semibold">{title}</h3><ul className="space-y-2 text-sm text-foreground-secondary">{items.map(item => <li key={item}>{item}</li>)}</ul></div>
 }

@@ -6,6 +6,7 @@ import { CommandPalette } from './components/layout/CommandPalette'
 import { SpotlightCursor } from './components/effects/SpotlightCursor'
 import { Toast } from './components/ui/Toast'
 import { Hero } from './components/sections/Hero'
+import { SelectedCases } from './components/sections/SelectedCases'
 import { About } from './components/sections/About'
 import { Experience } from './components/sections/Experience'
 import { Projects } from './components/sections/Projects'
@@ -17,11 +18,12 @@ import { LocaleProvider } from './context/LocaleProvider'
 
 function Home() {
   const { hash } = useLocation()
-  useEffect(() => { if (hash === '#experience') requestAnimationFrame(() => document.getElementById('experience')?.scrollIntoView({ block: 'start' })) }, [hash])
+  useEffect(() => { if (hash) requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' })) }, [hash])
   return <main>
     <Hero />
-    <About />
+    <SelectedCases />
     <Experience />
+    <About />
     <Projects />
     <Skills />
     <Contact />

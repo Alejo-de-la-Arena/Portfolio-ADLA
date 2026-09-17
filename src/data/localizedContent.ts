@@ -1,7 +1,6 @@
-import type { Experience, Project } from '@/types'
+import type { Project } from '@/types'
 import {
   about as aboutEs,
-  experience as experienceEs,
   modeLabels as modeLabelsEs,
   personalInfo as personalInfoEs,
   projectSortLabels as projectSortLabelsEs,
@@ -9,417 +8,15 @@ import {
   sectionLinks as sectionLinksEs,
   skills as skillsEs,
   socialLinks,
+  enProfile,
 } from './content'
 import type { Locale } from '@/context/LocaleContext'
 
-const personalInfoEn = {
-  ...personalInfoEs,
-  role: 'Full Stack Developer · Frontend Specialist',
-  tagline: 'Solid interfaces, clear product thinking, and impact-driven technical execution.',
-  valueLine: 'I build fast, clear interfaces with obsessive attention to detail.',
-  recruiterSummary:
-    'I build high-impact web products with a focus on performance, UX, and technical decisions that move business metrics.',
-  deepDiveSummary:
-    'I design and build high-complexity frontend experiences for product teams: from architecture and design systems to optimization, observability, and continuous iteration.',
-  bio: 'Full Stack Developer focused on frontend, product architecture, and high-quality digital experiences.',
-  location: 'Buenos Aires, Argentina',
-  availability: 'Available for freelance projects and remote roles',
-}
-
-const sectionLinksEn = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'contact', label: 'Contact' },
-] as const
-
-const modeLabelsEn = {
-  recruiter: 'Quick profile',
-  deep: 'Deep dive',
-}
-
-const projectSortLabelsEn = {
-  featured: 'Featured',
-  latest: 'Latest',
-  impact: 'Impact',
-}
-
-const aboutEn = {
-  description:
-    'I design and build interfaces with product criteria: fast, clear, and maintainable. I work closely with design and business so what ships gets used and scales.',
-  highlights: [
-    {
-      title: 'End-to-end interfaces (UI/UX)',
-      desc: 'I define structure, hierarchy, components, and states (empty/loading/error) for a consistent user experience.',
-    },
-    {
-      title: 'Scalable frontend architecture',
-      desc: 'Component systems, design tokens, routing, and state patterns that support growth without piling up technical debt.',
-    },
-    {
-      title: 'Intentional motion (not decorative)',
-      desc: 'Transitions, microinteractions, and scroll reveals that improve readability and feedback while protecting performance.',
-    },
-    {
-      title: 'Product-backend integration',
-      desc: 'Auth, APIs, and data models when the flow requires it, ensuring consistency between UI and business logic.',
-    },
-    {
-      title: 'Quality in critical flows',
-      desc: 'Validation, error handling, edge cases, and testing where it matters most: login, forms, checkout, and admin.',
-    },
-  ],
-  mindset: [
-    {
-      title: 'Experience over visual noise',
-      desc: 'Every interaction should be clear: immediate feedback, explicit states, and minimal friction.',
-    },
-    {
-      title: 'Clear communication and trade-offs',
-      desc: 'I align scope, priorities, and trade-offs with design/product/dev to avoid rework.',
-    },
-    {
-      title: 'Maintainable code by default',
-      desc: 'Good practices, clear naming, and reusable components so teams can iterate with confidence.',
-    },
-    {
-      title: 'Accessibility and visual craft',
-      desc: 'Contrast, keyboard support, focus states, and typographic hierarchy. Premium feel, usable for everyone.',
-    },
-    {
-      title: 'Incremental and controlled delivery',
-      desc: 'I iterate in small steps, validate early, and reduce risk with reversible changes.',
-    },
-  ],
-}
-
-const experienceEn: Experience[] = [
-  {
-    ...experienceEs[0],
-    period: 'Sep 2025 - Nov 2025 (3 months)',
-    location: 'Buenos Aires Province, Argentina (remote)',
-    summary:
-      'I designed and developed Espacio BOA’s web platform (specialty coffee + holistic center), unifying gastronomy, spaces, and activities/events scheduling into a single product experience. I delivered the product from zero to production, including an internal panel to operate content and sales (gift cards included), plus a clear user journey to explore, register, and manage bookings.',
-    achievements: [
-      'Interactive food menu + spaces module with navigation and readability-first UX.',
-      'Unified activities/events calendar (date/time/capacity/status) with complete detail.',
-      'End-to-end registrations with validations, capacity control, confirmations, and user-account management.',
-      'Digital Gift Cards with issuance, redemption, traceability, and reuse prevention.',
-      'Internal CRUD panel to operate activities/events, content, and gift cards without developer dependency.',
-    ],
-    details: {
-      ...experienceEs[0].details,
-      built: [
-        'Interactive food menu (categorized, mobile-first reading).',
-        'Spaces section (environments/use cases with practical information).',
-        'Activities/events system with operational states: visibility, capacity, schedules, and content.',
-        'Complete calendar rendering active activities/events with key context (date, time, capacity/participants, detail).',
-        'Registrations with validations, capacity control, and confirmations.',
-        'User panel to review registrations (activities/events), inspect details, and cancel when applicable.',
-        'Digital Gift Cards: issuance/administration, unique code, validation/redemption, and state traceability.',
-        'Complete authentication (login/register/sessions) and access control.',
-        'Internal CRUD panel (activities/events/gift cards) tailored for day-to-day operations.',
-      ],
-      optimized: [
-        'Front-back consistency in states, validations, and error handling for critical flows (registrations, capacity, redemption).',
-      ],
-      decisions: [
-        'Operational-state modeling and rule design for real content management logic (capacity, visibility, dates, cancellations).',
-        'UI architecture focused on fast exploration, hierarchy, and mobile-first navigation.',
-        'Front-back integration with data consistency and predictable error handling.',
-      ],
-      results: ['Production-ready product with autonomous internal operations and complete user registration flows.'],
-      links: [{ label: 'Espacio BOA', href: 'https://espacioboa.com/' }],
-    },
-  },
-  {
-    ...experienceEs[1],
-    role: 'Web Developer',
-    period: 'Apr 2025 - Oct 2025 (7 months)',
-    location: 'Buenos Aires Province, Argentina (hybrid)',
-    summary:
-      'I delivered pixel-perfect frontends and custom WordPress websites (Gutenberg + ACF), leading the Figma-to-code workflow and building reusable components. I prioritized performance, accessibility, and technical SEO, testing across breakpoints and devices with phased deliveries together with design.',
-    achievements: [
-      'Pixel-perfect frontends from Figma and reusable components.',
-      'Custom WordPress sites with Gutenberg + ACF.',
-      'Performance, accessibility, and technical SEO integrated into delivery.',
-      'Mobile-first and true responsive implementation (360px to desktop) with fine breakpoint tuning.',
-    ],
-    details: {
-      ...experienceEs[1].details,
-      built: [
-        'Custom WordPress websites using Gutenberg + ACF.',
-        'Reusable components and scalable templates.',
-      ],
-      optimized: ['Performance, accessibility, and technical SEO in production environments.'],
-      decisions: ['Figma-to-code flow with visual precision and maintainability as first-class goals.'],
-      results: ['Component reuse accelerated new page delivery and post-launch iteration.'],
-      links: [{ label: 'Zetenta Portfolio', href: 'https://www.zetenta.com/web/es/portfolio/' }],
-    },
-  },
-  {
-    ...experienceEs[2],
-    period: 'Feb 2026 - Apr 2026',
-    location: 'Argentina · Remote',
-    summary:
-      'Design and implementation of a complete e-commerce system integrated into SOLUTION’s existing website, an Argentine fragrance brand. Scope includes product catalog, checkout with NAVE payments, dual shipping logic by region (AMBA + Correo Argentino), and a wholesale portal with access levels by plan. Project completed and pending publication.',
-    achievements: [
-      'End-to-end purchase flow (catalog -> cart -> checkout) integrated with NAVE payment gateway.',
-      'Dual shipping logic: internal delivery for AMBA and Correo Argentino for the rest of the country.',
-      'Wholesale portal with account request/approval and plan-based dashboard (Starter / Pro / Elite).',
-      'Strict separation between retail and wholesale business rules to avoid logic collisions.',
-    ],
-    details: {
-      ...experienceEs[2].details,
-      built: [
-        'Product catalog with filters, item detail, and stock handling for shopping UX.',
-        'Persistent cart with quantities, variants, and real-time order summary.',
-        'Checkout with native NAVE integration: payment preference generation, state handling, and user feedback.',
-        'Region-based shipping selection and cost logic (AMBA internal delivery vs Correo Argentino).',
-        'Wholesale portal end-to-end: request form, approval workflow, authentication, and plan-specific dashboard.',
-      ],
-      optimized: [
-        'Checkout states explicitly modeled to reduce friction and abandonment.',
-        'Client/server validations to ensure data consistency before order processing.',
-        'Error recovery with clear messaging without losing cart context.',
-      ],
-      decisions: [
-        'Strict business separation for retail vs wholesale flows, pricing, and shipping rules.',
-        'NAVE selected for local market fit and clear integration documentation.',
-        'Wholesale plan system designed to be extensible with minimal structural changes.',
-      ],
-      results: [
-        'Production-ready system covering the full purchasing cycle for retail and wholesale customers.',
-        'Client receives operational capability at launch: catalog, payments, shipping, and wholesale management.',
-      ],
-      links: [{ label: 'Website (coming soon)', href: 'https://' }],
-    },
-  },
-  {
-    ...experienceEs[3],
-    role: 'WordPress Developer',
-    period: 'Nov 2024 - Apr 2025 (part-time)',
-    location: 'Argentina (remote)',
-    summary:
-      'Website optimization (performance, SEO, and best practices), structural and functional updates for better UX/UI, and campaign landing pages focused on conversion.',
-    achievements: [
-      'Site optimization across performance, SEO, and best practices.',
-      'Structural/functional updates to improve user experience and interface quality.',
-      'Landing pages for marketing campaigns focused on conversion.',
-    ],
-    details: {
-      ...experienceEs[3].details,
-      built: [
-        'Campaign landing pages focused on conversion.',
-        'Structural and functional updates improving UX/UI.',
-      ],
-      optimized: ['Performance, SEO, and best practices.'],
-      decisions: ['Short iteration cycles to validate quickly without breaking production.'],
-      results: ['Sustained quality improvements for campaigns and daily navigation.'],
-      links: [{ label: 'Website', href: 'https://' }],
-    },
-  },
-  {
-    ...experienceEs[4],
-    period: 'Oct 2024 - Dec 2024',
-    location: 'Argentina (remote)',
-    summary:
-      'Custom e-commerce for a client. Frontend with ReactJS and backend with Node/Express + PostgreSQL (Sequelize).',
-    achievements: [
-      'Frontend: ReactJS + HTML/CSS + Axios + Redux.',
-      'Backend: NodeJS + Express + PostgreSQL + Sequelize.',
-      'Custom full-stack e-commerce implementation.',
-    ],
-    details: {
-      ...experienceEs[4].details,
-      built: [
-        'Frontend: ReactJS + HTML/CSS + Axios + Redux.',
-        'Backend: NodeJS + Express + PostgreSQL + Sequelize.',
-        'Custom e-commerce for client requirements.',
-      ],
-      optimized: ['State and request structure to keep UI interactions fluid.'],
-      decisions: ['Clear frontend/backend separation of responsibilities.'],
-      results: ['Functional base ready to evolve catalog, orders, and content.'],
-      links: [{ label: 'Website (pending)', href: 'https://' }],
-    },
-  },
-  {
-    ...experienceEs[5],
-    period: 'In development (near production)',
-    location: 'Argentina (remote)',
-    summary:
-      'Project for MDV: full CRUD to manage projects (images + info) with private admin-only login. Near production, not published yet.',
-    achievements: [
-      'Full CRUD for projects with images and metadata.',
-      'Private admin-only authentication flow.',
-      'Final stage before production release.',
-    ],
-    details: {
-      ...experienceEs[5].details,
-      built: [
-        'Full CRUD to manage projects (images + information).',
-        'Private login restricted to admin users.',
-      ],
-      optimized: ['Create/edit workflow designed for daily operational usage.'],
-      decisions: ['Separation between public website and private admin panel for clarity and security.'],
-      results: ['Project is near production (not publicly published yet).'],
-      links: [{ label: 'Website (pending)', href: 'https://' }],
-    },
-  },
-]
-
-const projectsEn: Project[] = [
-  {
-    ...projectsEs[0],
-    title: 'Vyzon — Web Services Agency',
-    role: 'Founder & Full-Stack Developer · Vyzon',
-    scope: 'Agency institutional website · Services presentation · Projects portfolio',
-    timeline: 'In development',
-    impact: 'Professional web presence for Vyzon with services presentation, work cases, and direct contact channel for potential clients.',
-    description:
-      'Institutional website for Vyzon, my personal web services lab where I develop high-level frontend projects. The site presents services offered, showcases completed projects, and serves as a contact point with potential clients. Stack: Next.js 14 + TypeScript + Tailwind + GSAP.',
-    problem:
-      'Vyzon needed a web presence that communicated the technical level and agency focus: not a generic template, but a site that itself demonstrated the quality of the work.',
-    solution:
-      'I designed and built the institutional site with a focus on performance, premium aesthetics, and message clarity. Includes services presentation, completed work cases, and a contact form.',
-    tags: ['Agency', 'Next.js', 'GSAP', 'Institutional'],
-    highlights: [
-      'Institutional site that works as a technical presentation card for Vyzon.',
-      'Premium design with GSAP animations and modern stack (Next.js 14 + TypeScript + Tailwind).',
-      'Presents services, completed projects, and direct contact channel.',
-    ],
-    caseStudy:
-      'Vyzon is my frontend experimentation and development space. The institutional site demonstrates the same level of technical and aesthetic judgment I apply to every project: modern stack, careful performance, and design that communicates value.',
-  },
-  {
-    ...projectsEs[3],
-    title: 'TaskFlow - Product Landing (SaaS)',
-    role: 'Frontend Developer · Vyzon (web services agency)',
-    scope: 'Marketing one-page · Hero -> Pricing -> FAQ · Motion · SEO',
-    timeline: 'End-to-end landing implementation',
-    impact: 'Production-ready landing · performance and accessibility criteria defined in repository',
-    description:
-      'Built at Vyzon, my web services agency, to practice frontend architecture, motion, and conversion-oriented copy over a fictitious brief: TaskFlow, a task-management SaaS for remote teams of 5-50 people.',
-    problem:
-      'The fictitious product brief required positioning against generic task tools through a one-page narrative with clear value, differentiation, social proof, pricing, FAQ, and a strong closing CTA.',
-    solution:
-      'I built a complete marketing one-page flow with Hero -> problem/solution -> features -> social proof -> pricing toggle -> FAQ accordion -> CTA, plus full shell (scroll progress, reactive background, anchor header, multi-column footer), dynamic hero mock loading, GSAP motion with reduced-motion handling, and SEO/social metadata.',
-    tags: ['SaaS', 'Next.js', 'GSAP', 'Landing', 'Accessibility'],
-    highlights: [
-      'Site shell with scroll progress, custom cursor, anchor navigation, and structured footer.',
-      'Advanced hero with masked heading reveal, board-style mock, and desktop scroll cue.',
-      'Production-oriented motion: timelines, ScrollTrigger, quickTo interactions, and reduced-motion fallback.',
-      'Reusable Tailwind token system plus Framer Motion where lightweight interactions fit best.',
-    ],
-    metrics: [
-      'JavaScript budget documented in README (~145 kB first load, target ~<=160 kB).',
-      'Explicit quality goals: Lighthouse performance >=90 and accessibility >=95 (validated in production).',
-      'Strict TypeScript check (`tsc --noEmit`) aligned with current code state.',
-    ],
-    decisions: [
-      'GSAP + ScrollTrigger for premium motion; Framer Motion for simpler interaction patterns.',
-      'Marketing copy separated from UI structure to accelerate content iteration.',
-      'Deferred hero-heavy component and transform/opacity-first animations for render efficiency.',
-      'SEO/social setup with metadataBase, OG, Twitter card, favicon, and themeColor.',
-    ],
-    results: [
-      'Reusable baseline for SaaS/B2B landing delivery at agency level.',
-      'Deploy-ready deliverable for Vercel-like platforms with clear performance and a11y validation targets.',
-    ],
-    caseStudy:
-      'Built as an internal Vyzon project to simulate a real SaaS commercial landing workflow end-to-end. The product is fictitious, but the implementation standards (architecture, motion quality, accessibility, and technical SEO) match real client delivery.',
-  },
-  {
-    ...projectsEs[1],
-    title: 'AURA AI',
-    role: 'Frontend Developer · Vyzon (web services agency)',
-    scope: 'Enterprise landing page · 11 sections · GSAP + Canvas 2D + Framer Motion',
-    timeline: 'In development — architecture and main sections completed',
-    impact: 'Functional landing with 11 sections and an advanced animation system, production-ready.',
-    description:
-      'Landing page for an enterprise AI integration platform, built at Vyzon. The product promises to connect a team\'s existing tools to any LLM without needing an ML team. Built on Next.js 14 App Router with strict TypeScript, it pairs a dark visual aesthetic with neon accents and a two-layer animation system: GSAP handles scroll-driven sequences and complex timelines, Framer Motion manages discrete component transitions.',
-    problem:
-      'Teams trying to adopt AI face a real adoption paradox: implementing LLMs requires ML engineering talent that takes months to hire, blocking most initiatives before their first deploy. The landing needed to communicate technical credibility and ease of adoption to a decision-maker audience — fast, without overwhelming copy.',
-    solution:
-      'An 11-section SPA with a narrative from problem to conversion. The hero features an interactive Canvas 2D particle system with cursor repulsion physics and a typewriter demo showcasing the product in action. Sections include feature cards with reactive 3D tilt, an animated metrics display, an accordion FAQ, and a final CTA with a shimmer effect. All animated sections respect prefers-reduced-motion through a shared hook. The pricing section uses Framer Motion layout animations for smooth toggle transitions, and mobile navigation opens with an animated drawer.',
-    tags: ['Landing Page', 'Frontend', 'Animations', 'SaaS', 'AI/Enterprise'],
-    highlights: [
-      'Canvas 2D particle system with cursor repulsion physics and dynamic connections — implemented without external canvas libraries.',
-      'Two-layer animation architecture: GSAP for scroll-driven sequences and complex timelines, Framer Motion for component state transitions.',
-      'Reactive 3D tilt on feature cards with GSAP for smooth high-frequency updates without re-renders.',
-      'Shared reduced-motion hook integrated across all animated sections as a first-class accessibility pattern.',
-      'Centralized design token system via CSS custom properties with fully fluid typography and no explicit breakpoints.',
-    ],
-    metrics: [
-      'Scroll-driven animations with automatic cleanup after first trigger to avoid memory retention.',
-      'Adaptive particle count based on device capability for consistent performance across mobile and desktop.',
-      'All animations via transforms only — no layout-triggering properties.',
-      'Fluid typography without breakpoints: a single clamp() expression per scale covers the full size range.',
-    ],
-    decisions: [
-      'GSAP and Framer Motion with separate responsibilities: GSAP owns scroll-driven precision sequences, Framer Motion handles discrete React component state transitions.',
-      'Canvas 2D over WebGL for the particle field: sufficient visual impact with lower initialization overhead and no Three.js dependency.',
-      'SPA architecture without multiple routes, appropriate for a landing where per-route code splitting adds no value.',
-      'Shared reduced-motion hook instead of inline media queries: guarantees consistency and simplifies accessibility testing.',
-    ],
-    results: [
-      '11 sections fully implemented: Hero, Problem, How It Works, Features, Metrics, Testimonials, Pricing, FAQ, Final CTA, Nav, and Footer.',
-      'Functional scroll-driven animation system with staggered reveals, animated counters, 3D tilt, and button effects.',
-      'Responsive navigation with animated mobile drawer and scroll progress bar.',
-      'Reusable component library (Button, Eyebrow, ScrollProgress) with accessible variants and states.',
-      'Pending: form integration and production deployment.',
-    ],
-    caseStudy:
-      'AURA AI demonstrates the ability to design and build a production-quality enterprise landing from scratch with solid technical depth. The project shows real GSAP mastery across complex scenarios — scroll-driven animations, cinematic entry timelines, high-frequency interaction patterns — alongside deliberate architecture decisions: Canvas 2D over WebGL for appropriate scope, accessibility treated as a system concern rather than an afterthought, and clearly delineated roles for each animation library. It\'s a project a technical recruiter can audit layer by layer and find reasoned decisions throughout.',
-  },
-  {
-    ...projectsEs[2],
-    title: 'Obsidian',
-    role: 'Frontend Developer · Vyzon (web services agency)',
-    scope: 'Luxury brand landing · 7 sections · GSAP + Three.js + Lenis',
-    timeline: 'In development — 3D hero, main sections, and scroll system completed',
-    impact: 'Real-time WebGL hero, GSAP-integrated smooth scroll, and interactive product showcase with horizontal scroll. The most technically ambitious project in the portfolio.',
-    description:
-      'Landing page for a limited-edition mechanical watch brand (NOIR, ALBA, FORGE) targeting the Latin American luxury market, developed at Vyzon. The project operates at the upper boundary of the web stack: a Three.js scene with a custom GLSL procedural shader, a particle system, 3D models with HDR lighting, and smooth scroll unified with GSAP through Lenis. The aesthetic combines pure black with an electric green accent, fluid typography, and an art direction that communicates exclusivity from the first scroll.',
-    problem:
-      'A limited-edition luxury watch brand needs its website to communicate exclusivity and artisanal precision at the same level of care it applies to its products. A generic landing destroys perceived value. The technical challenge was delivering a cinematic, immersive experience that performs well on mobile without compromising accessibility.',
-    solution:
-      'The hero layers a WebGL canvas with a procedurally animated GLSL background shader, decorative HUD elements, and a GSAP entry timeline with multiple sequenced components. The shader generates organic background movement without static images. The 3D watch model supports cursor-driven parallax and loads from a global cache to prevent duplication. Primary CTAs are magnetic buttons that attract to the cursor with parametrizable pull strength, active only on pointer devices. Smooth scroll uses Lenis integrated into the GSAP ticker for a unified animation loop. The product section implements pinned horizontal scroll on desktop for three watch models, each with glow effects, spinning rings, and particles — with a clean animated vertical stack fallback on mobile.',
-    tags: ['Landing Page', 'WebGL', '3D', 'Luxury', 'Frontend', 'Animations'],
-    highlights: [
-      'Three.js scene with a procedural GLSL shader, particle system, and GLTF model with HDR lighting — all composited in the hero.',
-      'Lenis integrated into the GSAP ticker for a unified RAF loop, eliminating timing conflicts between scroll and animations.',
-      'Pinned horizontal scroll for the product showcase on desktop, with a fully animated vertical stack fallback on mobile.',
-      'Magnetic CTA buttons with parametrizable cursor pull force — active only on pointer devices with complete touch fallback.',
-      'Fully fluid typography across multiple scales without explicit breakpoints, from small labels to large display text.',
-    ],
-    metrics: [
-      'Canvas pixel ratio capped for a balanced quality/performance tradeoff, especially on mobile.',
-      'Adaptive particle count between desktop and mobile to maintain consistent framerate.',
-      'ScrollTrigger configured to minimize unnecessary callbacks and avoid resize recalculations on mobile.',
-      'GLTF model loaded once globally and cloned per consumer to prevent scene mutation conflicts.',
-      'Canvas resize debounced to avoid excessive recalculation on window dimension changes.',
-    ],
-    decisions: [
-      'Lenis + GSAP ticker instead of native scroll: unifies the RAF loop so ScrollTrigger can read interpolated scroll position without conflicts.',
-      'Procedural GLSL shader for the hero background instead of static images: greater visual impact with fewer asset bytes.',
-      'Global GLTF cache: the WebGL loader initializes once and each consumer receives a scene clone to modify independently.',
-      'Separate desktop/mobile component variants instead of mid-animation CSS media queries.',
-      'Three.js scoped to the hero canvas only: product sections use CSS and GSAP for visual effects, keeping WebGL overhead isolated.',
-    ],
-    results: [
-      'Hero fully implemented: WebGL scene with procedural shader, particles, GLTF model, and multi-element entry timeline.',
-      'Responsive navigation with animated mobile drawer and functional Lenis smooth scroll.',
-      'Manifesto section with animated counters and column reveals.',
-      'Product showcase with pinned horizontal scroll on desktop and three models with complete display effects.',
-      'Process section with four manufacturing stages, procedural SVG icons, and desktop/mobile layout variants.',
-      'Pending: limited edition, testimonials, and contact sections, plus production deployment.',
-    ],
-    caseStudy:
-      'Obsidian is the most technically ambitious project in the portfolio. It combines WebGL with custom GLSL shaders, high-complexity scroll-driven animations, and an interpolated scroll system in a single cohesive React stack. Every architecture decision is grounded: procedural shader instead of static assets, GLTF caching to prevent race conditions, unified Lenis+GSAP RAF loop. For a technical recruiter, the project demonstrates the ability to work at the intersection of real-time graphics, advanced web animation, and component architecture — not as separate specialties, but integrated into a coherent product with a clear premium design direction.',
-  },
-]
+import { ownProjects } from './personalProjects'
+const { personalInfo: personalInfoEn, about: aboutEn, sectionLinks: sectionLinksEn } = enProfile
+const modeLabelsEn = { recruiter: 'Quick profile', deep: 'Technical detail' }
+const projectSortLabelsEn = { featured: 'Featured', latest: 'Latest', impact: 'Description' }
+const projectsEn = ownProjects.en
 
 const EN_CARD_META: Record<string, { label: string; description: string }> = {
   frontend:  { label: 'Frontend',           description: 'Interfaces, animation and user experience' },
@@ -430,10 +27,12 @@ const EN_CARD_META: Record<string, { label: string; description: string }> = {
   exploring: { label: 'Exploring',          description: 'Technologies I\'m actively investing time in' },
 }
 
+const skillNamesEn: Record<string, string> = { 'CI/CD básico': 'Basic CI/CD', 'Docker (básico)': 'Docker (basic)', 'Agentes IA': 'AI agents', 'RAG básico': 'Basic RAG', 'LangChain (básico)': 'LangChain (basic)' }
 const skillsEn = {
   cards: skillsEs.cards.map(card => ({
     ...card,
     ...(EN_CARD_META[card.id] ?? {}),
+    ...Object.fromEntries((['core', 'strong', 'familiar'] as const).map(level => [level, card[level].map(item => ({ ...item, name: skillNamesEn[item.name] ?? item.name }))])),
   })),
 }
 
@@ -444,7 +43,6 @@ interface LocalizedContent {
   modeLabels: typeof modeLabelsEs
   projectSortLabels: typeof projectSortLabelsEs
   about: typeof aboutEs
-  experience: Experience[]
   projects: Project[]
   skills: typeof skillsEs
   ui: {
@@ -592,7 +190,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     modeLabels: modeLabelsEs,
     projectSortLabels: projectSortLabelsEs,
     about: aboutEs,
-    experience: experienceEs,
     projects: projectsEs,
     skills: skillsEs,
     ui: {
@@ -608,25 +205,25 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         dark: 'Oscuro',
       },
       hero: {
-        move: 'Move',
-        viewProjects: 'Ver proyectos',
+        move: 'Mové el cursor',
+        viewProjects: 'Ver casos',
         viewExperience: 'Ver experiencia',
       },
       about: {
         eyebrow: 'Sobre mí',
-        titleStart: 'Visión de producto,',
-        titleAccent: 'ejecución técnica',
-        highlights: 'Lo que mejor ejecuto',
+        titleStart: 'Cómo',
+        titleAccent: 'trabajo',
+        highlights: 'Decisiones en proyectos',
         mindset: 'Principios de trabajo',
       },
       experience: {
-        eyebrow: 'Experiencia',
-        titleStart: 'Experiencia',
+        eyebrow: 'Trayectoria',
+        titleStart: 'Trayectoria',
         titleAccent: 'profesional',
         recruiterIntro:
-          'Construyo productos web de punta a punta con foco en experiencia de usuario y calidad de ejecución: UI prolija, buenas prácticas y flows que cierran.',
+          'Trabajo profesionalmente desde abril de 2024, combinando proyectos independientes y experiencia dentro de Zetenta.',
         deepIntro:
-          'Mi recorrido mezcla freelance y trabajo en equipo en empresa. Cuando el contexto lo requiere, cubro proceso completo: interfaz, estados, implementación y escalabilidad.',
+          'Sitios, aplicaciones e integraciones desarrollados de forma independiente y dentro de un equipo.',
         filters: { all: 'Todo', employment: 'Empresa', freelance: 'Freelance' },
         sortBy: 'Ordenar por',
         sort: {
@@ -647,7 +244,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         links: 'Enlaces',
         deliveredProjects: 'Proyectos realizados',
         contribution: 'Contribución',
-        impact: 'Impacto',
+        impact: 'Estado y alcance',
         extraLink: 'Link adicional',
         gallery: 'Galería',
         previousImage: 'Imagen anterior',
@@ -655,11 +252,11 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         goToImage: 'Ir a imagen',
       },
       projects: {
-        eyebrow: 'Proyectos',
-        titleStart: 'Proyectos con',
-        titleAccent: 'impacto medible',
-        recruiterIntro: 'Vista compacta para validar impacto, rol y stack en segundos.',
-        deepIntro: 'Vista de análisis: problema, solución, decisiones de arquitectura y resultados por proyecto.',
+        eyebrow: 'Proyectos propios',
+        titleStart: 'Proyectos',
+        titleAccent: 'propios',
+        recruiterIntro: 'JobSearchBot y VYZON: herramientas propias, decisiones de implementación y trabajo pendiente.',
+        deepIntro: 'Qué funciona, por qué lo construí así y qué queda por desarrollar.',
         featuredProject: 'Proyecto destacado',
         filterTitle: 'Filtrar Proyectos',
         searchPlaceholder: 'Buscar por nombre, tag, año o rol...',
@@ -669,12 +266,12 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         solution: 'Solución',
         highlights: 'Puntos clave',
         stack: 'Stack',
-        metrics: 'Métricas',
+        metrics: 'Decisiones de implementación',
         caseStudy: 'Caso',
         role: 'Rol',
         scope: 'Alcance',
         duration: 'Duración',
-        impact: 'Impacto',
+        impact: 'Estado y alcance',
         viewDemo: 'Ver proyecto',
         viewCode: 'Ver código',
       },
@@ -682,7 +279,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Mapa de habilidades',
         titleStart: 'Capacidades por',
         titleAccent: 'nivel de profundidad',
-        recruiterIntro: 'Core, strong y familiar para validar encaje de stack rápidamente.',
+        recruiterIntro: 'Tecnologías que uso y otras que estoy explorando.',
         deepIntro: 'Vista técnica para entender cómo aplico cada tecnología en producto real.',
         optimizeTitle: 'Qué optimizo en cada proyecto',
         showFamiliar: 'Ver más',
@@ -691,13 +288,13 @@ const localizedContent: Record<Locale, LocalizedContent> = {
       contact: {
         titleStart: 'Trabajemos',
         titleAccent: 'juntos',
-        intro: 'Si tenés un proyecto en mente, escribime. Te respondo rápido y con propuesta concreta.',
+        intro: 'Si buscás sumar un desarrollador a tu equipo, escribime con el rol y la modalidad. También podemos conversar sobre un proyecto freelance.',
         sendMessage: 'Enviar mensaje',
         name: 'Nombre',
         namePlaceholder: 'Tu nombre',
         email: 'Email',
         message: 'Mensaje',
-        messagePlaceholder: 'Contame en qué te puedo ayudar...',
+        messagePlaceholder: 'Contame sobre el puesto, el equipo o el proyecto...',
         sending: 'Enviando...',
         otherWays: 'Otras formas de contacto',
         openProfile: 'Abrir perfil',
@@ -746,7 +343,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     modeLabels: modeLabelsEn,
     projectSortLabels: projectSortLabelsEn,
     about: aboutEn,
-    experience: experienceEn,
     projects: projectsEn,
     skills: skillsEn,
     ui: {
@@ -762,15 +358,15 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         dark: 'Dark',
       },
       hero: {
-        move: 'Move',
-        viewProjects: 'View projects',
+        move: 'Move your cursor',
+        viewProjects: 'View selected work',
         viewExperience: 'View experience',
       },
       about: {
         eyebrow: 'About',
-        titleStart: 'Product vision,',
-        titleAccent: 'technical execution',
-        highlights: 'What I execute best',
+        titleStart: 'How I',
+        titleAccent: 'work',
+        highlights: 'Project decisions',
         mindset: 'Working principles',
       },
       experience: {
@@ -778,9 +374,9 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         titleStart: 'Professional',
         titleAccent: 'experience',
         recruiterIntro:
-          'I build web products end to end with focus on user experience and execution quality: polished UI, sound practices, and complete flows.',
+          'I’ve worked professionally since April 2024, combining independent projects with experience at Zetenta.',
         deepIntro:
-          'My path combines freelance projects and in-company teamwork. Depending on context, I cover the full process: interface definition, state modeling, implementation, and scalability readiness.',
+          'Websites, applications, and integrations developed independently and within a team.',
         filters: { all: 'All', employment: 'Company', freelance: 'Freelance' },
         sortBy: 'Sort by',
         sort: {
@@ -801,7 +397,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         links: 'Links',
         deliveredProjects: 'Delivered projects',
         contribution: 'Contribution',
-        impact: 'Impact',
+        impact: 'Status and scope',
         extraLink: 'Additional link',
         gallery: 'Gallery',
         previousImage: 'Previous image',
@@ -809,11 +405,11 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         goToImage: 'Go to image',
       },
       projects: {
-        eyebrow: 'Projects',
-        titleStart: 'Projects with',
-        titleAccent: 'measurable impact',
-        recruiterIntro: 'Compact view to validate impact, role, and stack in seconds.',
-        deepIntro: 'Analysis view: problem, solution, architectural decisions, and outcomes per project.',
+        eyebrow: 'Personal projects',
+        titleStart: 'Personal',
+        titleAccent: 'projects',
+        recruiterIntro: 'JobSearchBot and VYZON: personal tools, implementation decisions, and pending work.',
+        deepIntro: 'What works, why I built it this way, and what remains to be developed.',
         featuredProject: 'Featured project',
         filterTitle: 'Filter Projects',
         searchPlaceholder: 'Search by name, tag, year, or role...',
@@ -823,12 +419,12 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         solution: 'Solution',
         highlights: 'Key points',
         stack: 'Stack',
-        metrics: 'Metrics',
+        metrics: 'Implementation decisions',
         caseStudy: 'Case',
         role: 'Role',
         scope: 'Scope',
         duration: 'Duration',
-        impact: 'Impact',
+        impact: 'Status and scope',
         viewDemo: 'View demo',
         viewCode: 'View code',
       },
@@ -836,7 +432,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Skills map',
         titleStart: 'Capabilities by',
         titleAccent: 'depth level',
-        recruiterIntro: 'Core, strong, and familiar levels to validate stack fit quickly.',
+        recruiterIntro: 'Technologies I use and others I’m exploring.',
         deepIntro: 'Technical view to understand how I apply each technology in real products.',
         optimizeTitle: 'What I optimize in every project',
         showFamiliar: 'See more',
@@ -845,13 +441,13 @@ const localizedContent: Record<Locale, LocalizedContent> = {
       contact: {
         titleStart: "Let's work",
         titleAccent: 'together',
-        intro: 'If you have a project in mind, send me a message. I reply quickly with a concrete proposal.',
+        intro: 'If you’re hiring a developer, send me the role and working arrangement. I’m also available to discuss freelance projects.',
         sendMessage: 'Send message',
         name: 'Name',
         namePlaceholder: 'Your name',
         email: 'Email',
         message: 'Message',
-        messagePlaceholder: 'Tell me how I can help...',
+        messagePlaceholder: 'Tell me about the role, team, or project...',
         sending: 'Sending...',
         otherWays: 'Other contact options',
         openProfile: 'Open profile',

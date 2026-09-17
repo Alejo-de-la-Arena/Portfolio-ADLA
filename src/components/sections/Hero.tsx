@@ -260,6 +260,8 @@ export function Hero() {
             >
               {isRecruiterMode ? personalInfo.recruiterSummary : personalInfo.deepDiveSummary}
             </motion.p>
+            <p className="mx-auto max-w-xl text-sm text-foreground-secondary lg:mx-0">{personalInfo.location}</p>
+            <p className="mx-auto max-w-xl text-sm leading-relaxed text-foreground-secondary lg:mx-0">{personalInfo.availability}</p>
 
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -267,7 +269,7 @@ export function Hero() {
               transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.6 }}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
             >
-              <PillCTA primary onClick={() => scrollToSection('projects')}>
+              <PillCTA primary onClick={() => scrollToSection('cases')}>
                 {ui.hero.viewProjects}
               </PillCTA>
               <PillCTA onClick={() => scrollToSection('contact')}>{ui.navbar.talk}</PillCTA>

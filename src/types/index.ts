@@ -19,6 +19,8 @@ export interface Project {
   results?: string[]
   liveUrl?: string
   githubUrl?: string
+  roadmap?: string[]
+  demos?: Array<{ id: number; title: string; label: string; description: string; decisions: string[]; status: string; image: string; liveUrl?: string; technologies: string[] }>
   caseStudy?: string
 }
 

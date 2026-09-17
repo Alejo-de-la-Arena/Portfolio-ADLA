@@ -1,11 +1,14 @@
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { Github, Linkedin, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { scrollToSection } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function Footer() {
   const reduceMotion = useReducedMotionPreference()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
   const { personalInfo, sectionLinks, socialLinks, ui } = useLocalizedContent()
   const socials = [
     { icon: Github, href: socialLinks.github, label: 'GitHub' },
@@ -36,7 +39,7 @@ export function Footer() {
               {sectionLinks.map((link) => (
                 <li key={link.id}>
                   <button
-                    onClick={() => scrollToSection(link.id)}
+                    onClick={() => pathname === '/' ? scrollToSection(link.id) : navigate(`/#${link.id}`)}
                     className="text-foreground-secondary hover:text-accent transition-colors text-sm"
                   >
                     {link.label}

@@ -175,7 +175,7 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                aria-label={ui.modal.close} data-dialog-initial-focus
+                aria-label={locale === 'es' ? 'Cerrar menú' : 'Close menu'} data-dialog-initial-focus
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground-secondary transition-colors hover:bg-background-secondary hover:text-foreground"
               >
                 <X className="h-4 w-4" />

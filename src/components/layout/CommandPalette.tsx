@@ -17,6 +17,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCommandPalette } from '@/hooks/useCommandPalette'
 import { scrollToSection } from '@/lib/utils'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function CommandPalette() {
@@ -25,13 +26,13 @@ export function CommandPalette() {
   const { sectionLinks, socialLinks, ui } = useLocalizedContent()
   const [search, setSearch] = useState('')
 
-  const navigationCommands = [
-    { icon: User, label: sectionLinks[0]?.label ?? '', action: () => scrollToSection(sectionLinks[0]?.id ?? '') },
-    { icon: Briefcase, label: sectionLinks[1]?.label ?? '', action: () => scrollToSection(sectionLinks[1]?.id ?? '') },
-    { icon: FolderGit2, label: sectionLinks[2]?.label ?? '', action: () => scrollToSection(sectionLinks[2]?.id ?? '') },
-    { icon: Code2, label: sectionLinks[3]?.label ?? '', action: () => scrollToSection(sectionLinks[3]?.id ?? '') },
-    { icon: Mail, label: sectionLinks[4]?.label ?? '', action: () => scrollToSection(sectionLinks[4]?.id ?? '') },
-  ]
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const navigationIcons: Record<string, typeof User> = { cases: FolderGit2, about: User, experience: Briefcase, projects: FolderGit2, skills: Code2, contact: Mail }
+  const navigationCommands = sectionLinks.map(link => ({
+    icon: navigationIcons[link.id] ?? FolderGit2, label: link.label,
+    action: () => pathname === '/' ? scrollToSection(link.id) : navigate(`/#${link.id}`),
+  }))
 
   const socialCommands = [
     { icon: Github, label: ui.command.openGithub, action: () => window.open(socialLinks.github, '_blank') },

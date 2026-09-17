@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
+import { useLocale } from '@/context/LocaleContext'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 import type { SkillItem, SkillCard } from '@/types'
 
@@ -297,6 +298,7 @@ function SkillCardPanel({
   showFamiliarLabel: string
   hideFamiliarLabel: string
 }) {
+  const { isSpanish } = useLocale()
   const [showFamiliar, setShowFamiliar] = useState(false)
   const CardIcon = CARD_ICONS[card.icon] ?? Monitor
   const hasFamiliar = card.familiar.length > 0
@@ -344,7 +346,7 @@ function SkillCardPanel({
       {/* Core + Strong — always visible */}
       <div className="flex-1 space-y-3">
         <LevelSection
-          label="CORE"
+          label={isSpanish ? 'PRINCIPALES' : 'CORE'}
           badgeClass="bg-accent-solid text-white"
           items={card.core}
           startIndex={baseIdx}
@@ -352,7 +354,7 @@ function SkillCardPanel({
           reduceMotion={reduceMotion}
         />
         <LevelSection
-          label="STRONG"
+          label={isSpanish ? 'USO HABITUAL' : 'REGULAR USE'}
           badgeClass="bg-accent/15 text-accent-on-subtle border border-accent/30"
           items={card.strong}
           startIndex={baseIdx + card.core.length}
@@ -374,7 +376,7 @@ function SkillCardPanel({
           >
             <div className="mt-3 border-t border-border/30 pt-3">
               <LevelSection
-                label="FAMILIAR"
+                label={isSpanish ? 'FAMILIARIDAD' : 'FAMILIAR'}
                 badgeClass="bg-background text-foreground-secondary border border-border/50"
                 items={card.familiar}
                 startIndex={baseIdx + card.core.length + card.strong.length}
