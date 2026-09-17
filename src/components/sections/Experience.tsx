@@ -19,7 +19,7 @@ export function Experience() {
           <h2 className="font-display text-3xl font-bold sm:text-4xl">{ui.experience.titleStart} <span className="text-accent">{ui.experience.titleAccent}</span>
           </h2>
         </div>
-        <p className="max-w-xl text-foreground-secondary">{ui.experience.recruiterIntro}</p>
+        <p className="max-w-xl text-foreground-secondary">{ui.experience.intro}</p>
       </header>
       <ol className="border-l border-border pl-6 sm:pl-8">{experiences.map((item, index) => {
         const experience = localizeExperience(item, locale)

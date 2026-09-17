@@ -2,7 +2,6 @@ import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { ArrowDownRight, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
-import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { useLocale } from '@/context/LocaleContext'
 import { Card } from '../ui/Card'
 import { Modal } from '../ui/Modal'
@@ -242,7 +241,6 @@ export function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const reduceMotion = useReducedMotionPreference()
-  const { isRecruiterMode } = usePortfolioMode()
   const { projects, projectSortLabels, ui } = useLocalizedContent()
   const { isSpanish } = useLocale()
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
@@ -299,7 +297,7 @@ export function Projects() {
               </h2>
             </div>
             <p className="max-w-2xl text-foreground-secondary">
-              {isRecruiterMode ? ui.projects.recruiterIntro : ui.projects.deepIntro}
+              {ui.projects.intro}
             </p>
           </div>
 
@@ -383,7 +381,7 @@ export function Projects() {
                     </p>
 
                     <div className="mb-4 flex flex-wrap gap-2">
-                      {project.tags.slice(0, isRecruiterMode ? 2 : 3).map(tag => (
+                      {project.tags.slice(0, 2).map(tag => (
                         <span
                           key={tag}
                           className="rounded-full border border-border px-2.5 py-1 text-xs text-foreground-secondary"

@@ -9,7 +9,6 @@ import * as THREE from 'three'
 import { MagneticButton } from '../effects/MagneticButton'
 import { SpotlightGrid } from '../effects/SpotlightGrid'
 import { scrollToSection } from '@/lib/utils'
-import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
@@ -163,8 +162,7 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const visible = useRenderActivity(sectionRef)
   const reduceMotion = useReducedMotionPreference()
-  const { isRecruiterMode } = usePortfolioMode()
-  const { modeLabels, personalInfo, socialLinks, ui } = useLocalizedContent()
+  const { personalInfo, socialLinks, ui } = useLocalizedContent()
   const running = visible && !reduceMotion
   const isMobile = useMediaQuery('(max-width: 768px)')
 
@@ -243,16 +241,13 @@ export function Hero() {
           {/* CONTENIDO */}
           <div className={`space-y-7 sm:space-y-10 text-center ${isMobile ? 'flex flex-col items-center' : 'lg:text-left lg:order-first'}`}>
             <div className="space-y-4 sm:space-y-5">
-              <p className="eyebrow">
-                {isRecruiterMode ? modeLabels.recruiter : modeLabels.deep}
-              </p>
               <StaggeredHeadline name={personalInfo.name} reduceMotion={reduceMotion} />
             </div>
 
             <div className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-background-secondary/80 p-5 text-left shadow-lg shadow-black/5 sm:p-6 lg:mx-0">
               <p className="max-w-lg font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">{personalInfo.role}</p>
               <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
-                {isRecruiterMode ? personalInfo.recruiterSummary : personalInfo.deepDiveSummary}
+                {personalInfo.summary}
               </p>
               <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-accent">
                 {personalInfo.location.split(' · ').map(item => <li key={item}>{item}</li>)}

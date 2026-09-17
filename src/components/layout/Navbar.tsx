@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Github, Globe2, Linkedin, Menu, MessageCircle, Moon, SlidersHorizontal, Sun, X } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { BrandMark } from '../ui/BrandMark'
-import { ModeToggle } from '../ui/ModeToggle'
 import { scrollToSection } from '@/lib/utils'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useTheme } from '@/hooks/useTheme'
@@ -234,14 +233,6 @@ export function Navbar() {
                   </div>
                 </div>
 
-                {/* Modo de lectura */}
-                <div>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
-                    {ui.navbar.readingMode}
-                  </p>
-                  <ModeToggle />
-                </div>
-
                 {/* Tema */}
                 <div>
                   <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
@@ -287,7 +278,6 @@ type HeaderControlsProps = {
     openSettings: string
     settingsTitle: string
     language: string
-    readingMode: string
     theme: string
     light: string
     dark: string
@@ -360,12 +350,6 @@ function HeaderControls({
             </div>
           </div>
 
-          <div className="mb-4">
-            <p className="mb-2 text-xs uppercase tracking-[0.14em] text-foreground-tertiary">
-              {ui.readingMode}
-            </p>
-            <ModeToggle />
-          </div>
 
           <div>
             <p className="mb-2 text-xs uppercase tracking-[0.14em] text-foreground-tertiary">

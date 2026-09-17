@@ -6,8 +6,7 @@ export const personalInfo = {
   "role": "Desarrollador full-stack con foco en frontend",
   "tagline": "Desarrollo web desde abril de 2024.",
   "valueLine": "React, Next.js, TypeScript y Node.js.",
-  "recruiterSummary": "Desarrollo productos web con React, Next.js, TypeScript y Node.js. Trabajo profesionalmente desde abril de 2024.",
-  "deepDiveSummary": "Desarrollo productos web con React, Next.js, TypeScript y Node.js. Trabajo profesionalmente desde abril de 2024.",
+  "summary": "Desarrollo productos web con React, Next.js, TypeScript y Node.js. Trabajo profesionalmente desde abril de 2024.",
   "proof": [
     "React · Next.js",
     "TypeScript · Node.js",
@@ -49,10 +48,6 @@ export const sectionLinks = [
     "label": "Contacto"
   }
 ]
-export const modeLabels = {
-  "recruiter": "Perfil rápido",
-  "deep": "Detalle técnico"
-}
 export const projectSortLabels = { featured: 'Destacados', latest: 'Recientes', impact: 'Descripción' }
 export const about = {
   "paragraphs": [
@@ -398,8 +393,7 @@ export const enProfile = {
     "role": "Full-stack developer focused on frontend",
     "tagline": "Building for the web since April 2024.",
     "valueLine": "React, Next.js, TypeScript, and Node.js.",
-    "recruiterSummary": "I build web products with React, Next.js, TypeScript, and Node.js. I’ve been working professionally since April 2024.",
-    "deepDiveSummary": "I build web products with React, Next.js, TypeScript, and Node.js. I’ve been working professionally since April 2024.",
+    "summary": "I build web products with React, Next.js, TypeScript, and Node.js. I’ve been working professionally since April 2024.",
     "proof": [
       "React · Next.js",
       "TypeScript · Node.js",

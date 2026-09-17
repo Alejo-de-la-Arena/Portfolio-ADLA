@@ -8,7 +8,6 @@ import {
   ChevronDown,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { useLocale } from '@/context/LocaleContext'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 import type { SkillItem, SkillCard } from '@/types'
@@ -398,7 +397,6 @@ export function Skills() {
   const inViewRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(inViewRef, { once: true, margin: '-80px' })
   const reduceMotion = Boolean(useReducedMotionPreference())
-  const { isRecruiterMode } = usePortfolioMode()
   const { skills, ui } = useLocalizedContent()
 
   useTorusKnotBg(canvasRef, reduceMotion)
@@ -433,7 +431,7 @@ export function Skills() {
               </h2>
             </div>
             <p className="max-w-2xl text-foreground-secondary">
-              {isRecruiterMode ? ui.skills.recruiterIntro : ui.skills.deepIntro}
+              {ui.skills.intro}
             </p>
           </div>
 

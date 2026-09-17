@@ -13,7 +13,6 @@ import { Projects } from './components/sections/Projects'
 import { Skills } from './components/sections/Skills'
 import { Contact } from './components/sections/Contact'
 import { ExperienceDetailPage } from './components/experience/ExperienceDetailPage'
-import { PortfolioModeProvider } from './context/PortfolioModeProvider'
 import { LocaleProvider } from './context/LocaleProvider'
 
 function Home() {
@@ -38,9 +37,12 @@ function ExperienceRoute() {
 }
 
 function App() {
+  useEffect(() => {
+    // Remove the retired preference; the site now has one reading experience.
+    try { window.localStorage.removeItem('portfolio_mode') } catch { /* Storage may be disabled. */ }
+  }, [])
   return <BrowserRouter>
     <LocaleProvider>
-      <PortfolioModeProvider>
         <div className="relative min-h-screen scroll-smooth">
           <SpotlightCursor />
           <Navbar />
@@ -55,7 +57,6 @@ function App() {
           </Routes>
           <Toast />
         </div>
-      </PortfolioModeProvider>
     </LocaleProvider>
   </BrowserRouter>
 }

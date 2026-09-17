@@ -1,7 +1,6 @@
 import type { Project } from '@/types'
 import {
   about as aboutEs,
-  modeLabels as modeLabelsEs,
   personalInfo as personalInfoEs,
   projectSortLabels as projectSortLabelsEs,
   projects as projectsEs,
@@ -14,7 +13,6 @@ import type { Locale } from '@/context/LocaleContext'
 
 import { ownProjects } from './personalProjects'
 const { personalInfo: personalInfoEn, about: aboutEn, sectionLinks: sectionLinksEn } = enProfile
-const modeLabelsEn = { recruiter: 'Quick profile', deep: 'Technical detail' }
 const projectSortLabelsEn = { featured: 'Featured', latest: 'Latest', impact: 'Description' }
 const projectsEn = ownProjects.en
 
@@ -40,7 +38,6 @@ interface LocalizedContent {
   personalInfo: typeof personalInfoEs
   socialLinks: typeof socialLinks
   sectionLinks: ReadonlyArray<{ id: string; label: string }>
-  modeLabels: typeof modeLabelsEs
   projectSortLabels: typeof projectSortLabelsEs
   about: typeof aboutEs
   projects: Project[]
@@ -52,7 +49,6 @@ interface LocalizedContent {
       openSettings: string
       settingsTitle: string
       language: string
-      readingMode: string
       theme: string
       light: string
       dark: string
@@ -73,8 +69,8 @@ interface LocalizedContent {
       eyebrow: string
       titleStart: string
       titleAccent: string
-      recruiterIntro: string
-      deepIntro: string
+      intro: string
+
       filters: { all: string; employment: string; freelance: string }
       sortBy: string
       sort: { default: string; relevant: string; recent: string; oldest: string; az: string }
@@ -100,8 +96,8 @@ interface LocalizedContent {
       eyebrow: string
       titleStart: string
       titleAccent: string
-      recruiterIntro: string
-      deepIntro: string
+      intro: string
+
       featuredProject: string
       filterTitle: string
       searchPlaceholder: string
@@ -124,8 +120,8 @@ interface LocalizedContent {
       eyebrow: string
       titleStart: string
       titleAccent: string
-      recruiterIntro: string
-      deepIntro: string
+      intro: string
+
       optimizeTitle: string
       showFamiliar: string
       hideFamiliar: string
@@ -171,11 +167,6 @@ interface LocalizedContent {
       subtitle: string
       skip: string
     }
-    modeToggle: {
-      recruiter: string
-      deep: string
-      aria: string
-    }
     modal: {
       close: string
     }
@@ -187,7 +178,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     personalInfo: personalInfoEs,
     socialLinks,
     sectionLinks: sectionLinksEs,
-    modeLabels: modeLabelsEs,
     projectSortLabels: projectSortLabelsEs,
     about: aboutEs,
     projects: projectsEs,
@@ -199,7 +189,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         openSettings: 'Abrir configuraciones',
         settingsTitle: 'Preferencias',
         language: 'Idioma',
-        readingMode: 'Modo de lectura',
         theme: 'Tema',
         light: 'Claro',
         dark: 'Oscuro',
@@ -220,10 +209,9 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Trayectoria',
         titleStart: 'Trayectoria',
         titleAccent: 'profesional',
-        recruiterIntro:
+        intro:
           'Trabajo profesionalmente desde abril de 2024, combinando proyectos independientes y experiencia dentro de una agencia de servicios web: Zetenta.',
-        deepIntro:
-          'Sitios, aplicaciones e integraciones desarrollados de forma independiente y dentro de un equipo.',
+
         filters: { all: 'Todo', employment: 'Empresa', freelance: 'Freelance' },
         sortBy: 'Ordenar por',
         sort: {
@@ -255,8 +243,8 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Proyectos propios',
         titleStart: 'Proyectos',
         titleAccent: 'propios',
-        recruiterIntro: 'Construyo herramientas para necesidades propias y pruebo ideas con briefs ficticios. En JobSearchBot y VYZON podés ver qué está implementado, cómo lo resolví y qué sigue abierto.',
-        deepIntro: 'Construyo herramientas para necesidades propias y pruebo ideas con briefs ficticios. En JobSearchBot y VYZON podés ver qué está implementado, cómo lo resolví y qué sigue abierto.',
+        intro: 'Construyo herramientas para necesidades propias y pruebo ideas con briefs ficticios. En JobSearchBot y VYZON podés ver qué está implementado, cómo lo resolví y qué sigue abierto.',
+
         featuredProject: 'Proyecto destacado',
         filterTitle: 'Filtrar Proyectos',
         searchPlaceholder: 'Buscar por nombre, tag, año o rol...',
@@ -279,8 +267,8 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Mapa de habilidades',
         titleStart: 'Capacidades por',
         titleAccent: 'nivel de profundidad',
-        recruiterIntro: 'Tecnologías que uso y otras que estoy explorando.',
-        deepIntro: 'Vista técnica para entender cómo aplico cada tecnología en producto real.',
+        intro: 'Tecnologías que uso y otras que estoy explorando.',
+
         optimizeTitle: 'Qué optimizo en cada proyecto',
         showFamiliar: 'Ver más',
         hideFamiliar: 'Ver menos',
@@ -326,11 +314,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         subtitle: 'Full Stack con foco en Frontend',
         skip: 'Omitir',
       },
-      modeToggle: {
-        recruiter: 'Reclutador',
-        deep: 'Detalle',
-        aria: 'Selector de modo de lectura del portfolio',
-      },
       modal: {
         close: 'Cerrar modal',
       },
@@ -340,7 +323,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     personalInfo: personalInfoEn,
     socialLinks,
     sectionLinks: sectionLinksEn,
-    modeLabels: modeLabelsEn,
     projectSortLabels: projectSortLabelsEn,
     about: aboutEn,
     projects: projectsEn,
@@ -352,7 +334,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         openSettings: 'Open settings',
         settingsTitle: 'Preferences',
         language: 'Language',
-        readingMode: 'Reading mode',
         theme: 'Theme',
         light: 'Light',
         dark: 'Dark',
@@ -373,10 +354,9 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Experience',
         titleStart: 'Professional',
         titleAccent: 'experience',
-        recruiterIntro:
+        intro:
           'I have worked professionally since April 2024, combining independent projects with experience at a web services agency: Zetenta.',
-        deepIntro:
-          'Websites, applications, and integrations developed independently and within a team.',
+
         filters: { all: 'All', employment: 'Company', freelance: 'Freelance' },
         sortBy: 'Sort by',
         sort: {
@@ -408,8 +388,8 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Personal projects',
         titleStart: 'Personal',
         titleAccent: 'projects',
-        recruiterIntro: 'I build tools for my own needs and test ideas through fictional briefs. In JobSearchBot and VYZON, you can see what is implemented, how I built it, and what remains open.',
-        deepIntro: 'I build tools for my own needs and test ideas through fictional briefs. In JobSearchBot and VYZON, you can see what is implemented, how I built it, and what remains open.',
+        intro: 'I build tools for my own needs and test ideas through fictional briefs. In JobSearchBot and VYZON, you can see what is implemented, how I built it, and what remains open.',
+
         featuredProject: 'Featured project',
         filterTitle: 'Filter Projects',
         searchPlaceholder: 'Search by name, tag, year, or role...',
@@ -432,8 +412,8 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         eyebrow: 'Skills map',
         titleStart: 'Capabilities by',
         titleAccent: 'depth level',
-        recruiterIntro: 'Technologies I use and others I’m exploring.',
-        deepIntro: 'Technical view to understand how I apply each technology in real products.',
+        intro: 'Technologies I use and others I’m exploring.',
+
         optimizeTitle: 'What I optimize in every project',
         showFamiliar: 'See more',
         hideFamiliar: 'See less',
@@ -478,11 +458,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
       loader: {
         subtitle: 'Full Stack focused on Frontend',
         skip: 'Skip',
-      },
-      modeToggle: {
-        recruiter: 'Recruiter',
-        deep: 'Detail',
-        aria: 'Portfolio reading mode selector',
       },
       modal: {
         close: 'Close modal',

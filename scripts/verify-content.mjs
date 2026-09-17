@@ -18,14 +18,12 @@ const vite = await createServer({
 const h = React.createElement
 try {
   const { LocaleContext } = await vite.ssrLoadModule('/src/context/LocaleContext.tsx')
-  const { PortfolioModeContext } = await vite.ssrLoadModule('/src/context/PortfolioModeContext.tsx')
   const { clientExperiences, experiences, selectedCases, getExperienceBySlug, localizeExperience } = await vite.ssrLoadModule('/src/data/experiences.ts')
   const { getLocalizedContent } = await vite.ssrLoadModule('/src/data/localizedContent.ts')
   const { ExperienceDetailPage } = await vite.ssrLoadModule('/src/components/experience/ExperienceDetailPage.tsx')
-  const render = (child, locale, entry = '/', mode = 'recruiter') => renderToString(
+  const render = (child, locale, entry = '/') => renderToString(
     h(MemoryRouter, { initialEntries: [entry] },
-      h(LocaleContext.Provider, { value: { locale, isSpanish: locale === 'es', setLocale() {}, toggleLocale() {} } },
-        h(PortfolioModeContext.Provider, { value: { mode, isRecruiterMode: mode === 'recruiter', isDeepDiveMode: mode === 'deep', setMode() {}, toggleMode() {} } }, child))))
+      h(LocaleContext.Provider, { value: { locale, isSpanish: locale === 'es', setLocale() {}, toggleLocale() {} } }, child)))
 
   assert.equal(experiences.length, 2, 'Home must have two trajectory entries')
   assert.equal(getExperienceBySlug('zetenta').projects.length, 7)
@@ -83,7 +81,14 @@ try {
   }
   console.log('PASS: 15 work entries, case anchors, BOA single view, Zetenta slider, ' + registered.size + ' local screenshot contracts')
 
+  const { Navbar } = await vite.ssrLoadModule('/src/components/layout/Navbar.tsx')
+  const priorStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: { getItem: () => 'dark' } })
   for (const locale of ['es', 'en']) {
+    const header = render(h(Navbar), locale, '/experiencia/format')
+    assert.ok(header.includes('href="/"'))
+    assert.match(header, /ADLA/)
+    assert.doesNotMatch(header, /Hablemos|Let’s talk|Modo de lectura|Reading mode/)
     const content = getLocalizedContent(locale)
     assert.deepEqual(content.projects.map(p => p.title), ['JobSearchBot', 'VYZON'])
     assert.deepEqual(content.projects[1].demos.map(d => d.title), ['TaskFlow', 'AURA AI', 'OBSIDIAN'])
@@ -94,17 +99,16 @@ try {
     assert.match(content.personalInfo.availability, /part-time/)
     assert.doesNotMatch(JSON.stringify(content), /NAVE|Naranja X|validated in production|95%|13 rutas|13 public|4 años|4 years|NECESITO|NEEDED/)
     if (locale === 'en') assert.doesNotMatch(JSON.stringify(content.skills), /básico|Agentes IA|Explorando|Plataformas|Automatización/)
-    for (const mode of ['recruiter', 'deep']) {
       for (const name of ['Hero', 'SelectedCases', 'Experience', 'About', 'Projects', 'Skills', 'Contact']) {
         const mod = await vite.ssrLoadModule('/src/components/sections/' + name + '.tsx')
-        const html = render(h(mod[name]), locale, '/', mode)
+        const html = render(h(mod[name]), locale, '/')
         assert.ok(html.length > 100, name)
         if (name === 'Hero') { assert.match(html, /B2/); assert.match(html, /part-time/); assert.match(html, /UTC−3/) }
+        if (name === 'About') { assert.equal(content.about.paragraphs.length, 3); assert.doesNotMatch(html, /abril de 2024|April 2024|<ul|<li/) }
         if (name === 'Experience') assert.equal((html.match(/<li /g) ?? []).length, 2)
         if (name === 'SelectedCases') for (const study of selectedCases) assert.ok(html.includes(study.href))
         if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.match(html, /VYZON/); assert.ok(html.includes(locale === 'es' ? 'No es una agencia con clientes.' : 'It is not an agency with clients.')) }
       }
-    }
     for (const slug of ['zetenta', 'freelance', 'solution', 'espacio-boa', 'renova-tu-cocina', 'mdvproyectos', 'fefe-bakes', 'kyriazis', 'don-teofilo-amoblamientos', 'format']) {
       const html = render(h(Routes, null, h(Route, { path: '/experiencia/:slug', element: h(ExperienceDetailPage) })), locale, '/experiencia/' + slug)
       const source = getExperienceBySlug(slug)
@@ -121,8 +125,10 @@ try {
       if (slug === 'renova-tu-cocina') { assert.match(html, locale === 'es' ? /1 MES/ : /1 MONTH/); assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), /\b13\b|nunca|never/) }
       if (slug === 'zetenta') { assert.match(html, /<picture>/); assert.match(html, /min-width: 1024px/); assert.match(html, /inert=""/) }
     }
-    console.log('PASS: ' + locale.toUpperCase() + ' home sections in both reading modes, 10 routes, anchors, claims, roadmap, and localized skills')
+    console.log('PASS: ' + locale.toUpperCase() + ' home sections in the single reading experience, 10 routes, anchors, claims, roadmap, and localized skills')
   }
+  if (priorStorage) Object.defineProperty(globalThis, 'localStorage', priorStorage)
+  else delete globalThis.localStorage
   const app = await readFile(path.join(root, 'src/App.tsx'), 'utf8')
   assert.ok(app.indexOf('<SelectedCases />') < app.indexOf('<Experience />'))
   assert.ok(app.indexOf('<SelectedCases />') < app.indexOf('<About />'))
