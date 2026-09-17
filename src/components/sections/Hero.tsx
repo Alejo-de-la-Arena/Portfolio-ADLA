@@ -247,21 +247,18 @@ export function Hero() {
                 {isRecruiterMode ? modeLabels.recruiter : modeLabels.deep}
               </p>
               <StaggeredHeadline name={personalInfo.name} reduceMotion={reduceMotion} />
-              <p className="mx-auto lg:mx-0 max-w-md text-sm sm:text-base text-foreground-secondary">
-                {personalInfo.role}
-              </p>
             </div>
 
-            <motion.p
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.5 }}
-              className="mx-auto lg:mx-0 max-w-xl text-base sm:text-lg leading-relaxed text-foreground-secondary"
-            >
-              {isRecruiterMode ? personalInfo.recruiterSummary : personalInfo.deepDiveSummary}
-            </motion.p>
-            <p className="mx-auto max-w-xl text-sm text-foreground-secondary lg:mx-0">{personalInfo.location}</p>
-            <p className="mx-auto max-w-xl text-sm leading-relaxed text-foreground-secondary lg:mx-0">{personalInfo.availability}</p>
+            <div className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-background-secondary/80 p-5 text-left shadow-lg shadow-black/5 sm:p-6 lg:mx-0">
+              <p className="max-w-lg font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">{personalInfo.role}</p>
+              <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
+                {isRecruiterMode ? personalInfo.recruiterSummary : personalInfo.deepDiveSummary}
+              </p>
+              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-accent">
+                {personalInfo.location.split(' · ').map(item => <li key={item}>{item}</li>)}
+              </ul>
+              <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-foreground-secondary">{personalInfo.availability}</p>
+            </div>
 
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
