@@ -55,42 +55,10 @@ export const modeLabels = {
 }
 export const projectSortLabels = { featured: 'Destacados', latest: 'Recientes', impact: 'Descripción' }
 export const about = {
-  "description": "Empecé con un sitio para una abogada en abril de 2024. Desde entonces, trabajé de forma independiente y dentro del equipo de Zetenta. Me interesa conectar las decisiones de interfaz con la operación que tienen detrás.",
-  "highlights": [
-    {
-      "title": "Estados antes que pantallas",
-      "desc": "En un checkout, distingo iniciar un pago de confirmarlo. Esa decisión define qué información necesita ver quien compra."
-    },
-    {
-      "title": "Reglas por canal",
-      "desc": "En Solution separé los flujos minorista y mayorista para mantener las condiciones de cada canal."
-    },
-    {
-      "title": "Contenido que el equipo puede editar",
-      "desc": "En Manantial usé Gutenberg y ACF para que el equipo publique contenido sin intervenir en el código."
-    },
-    {
-      "title": "Integraciones con un propósito",
-      "desc": "Conecté formularios con Kommo y consultas con WhatsApp para que la interacción web llegue al canal de trabajo del negocio."
-    },
-    {
-      "title": "IA con revisión humana",
-      "desc": "En VYZON documento roles y entregables de agentes. Reviso cada etapa y conservo la decisión final."
-    }
-  ],
-  "mindset": [
-    {
-      "title": "Explicar el porqué",
-      "desc": "Cada decisión técnica tiene que responder a una necesidad del proyecto."
-    },
-    {
-      "title": "Separar entrega y resultado",
-      "desc": "Una funcionalidad implementada y un cambio en el negocio son cosas distintas. Las describo por separado."
-    },
-    {
-      "title": "Hacer visible lo pendiente",
-      "desc": "En mis proyectos propios distingo lo que funciona, las pruebas pendientes y el trabajo del roadmap."
-    }
+  "paragraphs": [
+    "Antes de escribir código, ordeno los requerimientos: qué necesita el cliente, qué herramientas hacen falta y cómo voy a preparar el proyecto. Dejo el entorno listo y desarrollo tomando el pedido y el diseño como referencia; después paso a producción y ajusto sobre el sitio en vivo.",
+    "Modelo el dominio antes de resolver las pantallas. En Solution, iniciar un pago y confirmar una compra son estados distintos; en FORMAT, las Seasons determinan la identidad visual de cada fecha. Las reglas también tienen un lugar: en Don Teófilo, las políticas RLS de la base separan lo público de lo privado.",
+    "Pienso en quién va a operar el sistema después de la entrega. En Manantial elegí Gutenberg y ACF para que el equipo edite contenido dentro de una estructura de diseño definida. En BOA y Don Teófilo, el panel pone la gestión en manos de personas no técnicas."
   ]
 }
 export const projects = ownProjects.es
@@ -443,44 +411,12 @@ export const enProfile = {
     "availability": "My priority is a full-time remote role. I’m also open to part-time opportunities and hybrid or on-site roles in Buenos Aires. I’m available for freelance projects."
   },
   "about": {
-    "description": "I started with a website for an attorney in April 2024. Since then, I’ve worked independently and as part of the Zetenta team. I’m interested in connecting interface decisions with the operations behind them.",
-    "highlights": [
-      {
-        "title": "States before screens",
-        "desc": "In checkout, I distinguish starting a payment from confirming it. That decision defines what information the buyer needs to see."
-      },
-      {
-        "title": "Rules by channel",
-        "desc": "In Solution, I separated retail and wholesale flows to maintain each channel’s terms."
-      },
-      {
-        "title": "Content the team can edit",
-        "desc": "In Manantial, I used Gutenberg and ACF so the team can publish content without changing code."
-      },
-      {
-        "title": "Integrations with a purpose",
-        "desc": "I connected forms to Kommo and inquiries to WhatsApp so website interactions reach the business’s working channels."
-      },
-      {
-        "title": "AI with human review",
-        "desc": "In VYZON, I document agent roles and deliverables. I review each stage and retain the final decision."
-      }
-    ],
-    "mindset": [
-      {
-        "title": "Explain the reasoning",
-        "desc": "Each technical decision should address a project need."
-      },
-      {
-        "title": "Separate delivery from outcome",
-        "desc": "An implemented feature and a business outcome are different things. I describe them separately."
-      },
-      {
-        "title": "Make pending work visible",
-        "desc": "In personal projects, I distinguish working features, pending tests, and roadmap work."
-      }
-    ]
-  },
+  "paragraphs": [
+    "Before writing code, I organize the requirements: what the client needs, which tools it calls for, and how I will set up the project. I prepare the environment and develop against the brief and design, then move to production and refine the live site.",
+    "I model the domain before working out the screens. In Solution, starting a payment and confirming a purchase are different states; in FORMAT, Seasons determine each event’s visual identity. Rules also belong in a specific place: in Don Teófilo, database RLS policies separate public and private content.",
+    "I think about who will operate the system after delivery. In Manantial, I chose Gutenberg and ACF so the team can edit content within a defined design structure. In BOA and Don Teófilo, the panel puts management in the hands of nontechnical users."
+  ]
+},
   "sectionLinks": [
     {
       "id": "cases",

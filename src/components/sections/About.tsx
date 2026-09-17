@@ -1,94 +1,16 @@
-import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { CheckCircle2 } from 'lucide-react'
-import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 export function About() {
-  const reduceMotion = useReducedMotionPreference()
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const { isRecruiterMode } = usePortfolioMode()
   const { about, ui } = useLocalizedContent()
-
-  return (
-    <section id="about" className="section-space">
-      <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={reduceMotion ? false : { opacity: 0, y: 50 }}
-          animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.5 }}
-        >
-          <div className="editorial-grid mb-12">
-            <div className="space-y-4">
-              <p className="eyebrow">{ui.about.eyebrow}</p>
-              <h2 className="text-3xl sm:text-4xl font-display font-bold">
-                {ui.about.titleStart} <span className="text-accent">{ui.about.titleAccent}</span>
-              </h2>
-            </div>
-            <p className="text-foreground-secondary max-w-2xl">{about.description}</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="rounded-2xl border border-border bg-background-secondary/70 p-6">
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-accent" />
-                {ui.about.highlights}
-              </h3>
-              <ul className="space-y-4">
-                {about.highlights.slice(0, isRecruiterMode ? 3 : about.highlights.length).map((item, idx) => (
-                  <motion.li
-                    key={idx}
-                    initial={reduceMotion ? false : { opacity: 0, x: -20 }}
-                    animate={reduceMotion || isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.3, delay: idx * 0.1 }}
-                    className="flex items-start gap-3"
-                  >
-                    <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                    <div className="min-w-0">
-                      <p className="text-foreground font-medium text-sm leading-snug">{item.title}</p>
-                      <p className="text-foreground-secondary text-sm leading-relaxed">{item.desc}</p>
-                    </div>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-background-secondary/70 p-6">
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-accent" />
-                {ui.about.mindset}
-              </h3>
-              <ul className="space-y-4">
-                {about.mindset
-                  .slice(0, isRecruiterMode ? 3 : about.mindset.length)
-                  .map((item, idx) => (
-                    <motion.li
-                      key={idx}
-                      initial={reduceMotion ? false : { opacity: 0, x: -20 }}
-                      animate={reduceMotion || isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                      transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.3, delay: idx * 0.1 + 0.2 }}
-                      className="flex items-start gap-3"
-                    >
-                      <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                      <div className="min-w-0">
-                        <p className="text-foreground font-medium text-sm leading-snug">
-                          {item.title}
-                        </p>
-                        <p className="text-foreground-secondary text-sm leading-relaxed">
-                          {item.desc}
-                        </p>
-                      </div>
-                    </motion.li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-        </motion.div>
+  return <section id="about" className="section-space scroll-mt-20">
+    <div className="editorial-grid mx-auto max-w-editorial gap-8 px-4 sm:px-6 lg:px-8">
+      <header>
+        <p className="eyebrow">{ui.about.eyebrow}</p>
+        <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">{ui.about.titleStart} <span className="text-accent">{ui.about.titleAccent}</span></h2>
+      </header>
+      <div className="max-w-[68ch] space-y-5 text-base leading-8 text-foreground-secondary">
+        {about.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
       </div>
-    </section>
-  )
+    </div>
+  </section>
 }
