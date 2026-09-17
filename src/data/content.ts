@@ -26,7 +26,7 @@ export const socialLinks = {
 export const sectionLinks = [
   {
     "id": "cases",
-    "label": "Casos seleccionados"
+    "label": "Casos"
   },
   {
     "id": "experience",
@@ -38,7 +38,7 @@ export const sectionLinks = [
   },
   {
     "id": "projects",
-    "label": "Proyectos propios"
+    "label": "Proyectos"
   },
   {
     "id": "skills",
@@ -484,7 +484,7 @@ export const enProfile = {
   "sectionLinks": [
     {
       "id": "cases",
-      "label": "Selected work"
+      "label": "Work"
     },
     {
       "id": "experience",
@@ -496,7 +496,7 @@ export const enProfile = {
     },
     {
       "id": "projects",
-      "label": "Personal projects"
+      "label": "Projects"
     },
     {
       "id": "skills",

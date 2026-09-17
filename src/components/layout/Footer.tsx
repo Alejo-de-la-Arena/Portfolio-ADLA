@@ -1,6 +1,7 @@
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { Github, Linkedin, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { BrandMark } from '../ui/BrandMark'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { scrollToSection } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
@@ -22,11 +23,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-display font-bold mb-2">
-              <span className="bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent">
-                {personalInfo.name.split(' ').map(w => w[0]).join('')}
-              </span>
-            </h3>
+            <div className="mb-3" aria-label={personalInfo.name}><BrandMark footer /></div>
             <p className="text-foreground-secondary text-sm">
               {personalInfo.tagline}
             </p>

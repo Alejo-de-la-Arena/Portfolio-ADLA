@@ -4,14 +4,14 @@ import { useState, useEffect, useRef, type RefObject } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Github, Globe2, Linkedin, Menu, MessageCircle, Moon, SlidersHorizontal, Sun, X } from 'lucide-react'
 import { Button } from '../ui/Button'
-import { MagneticButton } from '../effects/MagneticButton'
+import { BrandMark } from '../ui/BrandMark'
 import { ModeToggle } from '../ui/ModeToggle'
 import { scrollToSection } from '@/lib/utils'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useTheme } from '@/hooks/useTheme'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 import { useLocale } from '@/context/LocaleContext'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export function Navbar() {
   const reduceMotion = useReducedMotionPreference()
@@ -83,23 +83,19 @@ export function Navbar() {
         }`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-16 flex-nowrap items-center justify-between gap-4">
             {/* Logo */}
-            <motion.button
-              onClick={() => window.scrollTo({ top: 0, behavior: reduceMotion ? 'instant' : 'smooth' })}
-              className="text-sm font-display font-semibold uppercase tracking-[0.16em] text-foreground"
-              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-            >
-              {personalInfo.name}
-            </motion.button>
+            <Link to="/" aria-label={locale === 'es' ? 'ADLA — Inicio' : 'ADLA — Home'} className="inline-flex shrink-0 items-center py-2 pr-2" onClick={() => { if (pathname === '/') window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }); setMobileMenuOpen(false); setSettingsOpen(false) }}>
+              <BrandMark />
+            </Link>
 
             {/* Desktop nav links */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1">
               {sectionLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
-                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                     activeSection === link.id
                       ? 'bg-accent/10 text-accent'
                       : 'text-foreground-secondary hover:bg-background-tertiary hover:text-foreground'
@@ -111,7 +107,7 @@ export function Navbar() {
             </div>
 
             {/* Desktop CTA + settings */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3">
               <HeaderControls
                 ui={ui.navbar}
                 locale={locale}
@@ -123,15 +119,12 @@ export function Navbar() {
                 settingsRef={settingsRef}
                 settingsButtonRef={settingsButtonRef}
               />
-              <MagneticButton onClick={() => handleNavClick('contact')}>
-                {ui.navbar.talk}
-              </MagneticButton>
             </div>
 
             {/* Hamburger — visible solo en mobile */}
             <button
               type="button"
-              className="flex md:hidden items-center justify-center rounded-lg p-2 text-foreground-secondary transition-colors hover:bg-background-tertiary hover:text-foreground"
+              className="flex lg:hidden items-center justify-center rounded-lg p-2 text-foreground-secondary transition-colors hover:bg-background-tertiary hover:text-foreground"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label={ui.navbar.menuLabel}
               aria-expanded={mobileMenuOpen}
@@ -209,18 +202,6 @@ export function Navbar() {
                   </li>
                 ))}
               </ul>
-
-              {/* CTA */}
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.3 }}
-                className="mt-6"
-              >
-                <Button className="w-full" onClick={() => handleNavClick('contact')}>
-                  {ui.navbar.talk}
-                </Button>
-              </motion.div>
 
               {/* Settings compactos */}
               <motion.div
