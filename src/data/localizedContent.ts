@@ -221,7 +221,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         titleStart: 'Trayectoria',
         titleAccent: 'profesional',
         recruiterIntro:
-          'Trabajo profesionalmente desde abril de 2024, combinando proyectos independientes y experiencia dentro de Zetenta.',
+          'Trabajo profesionalmente desde abril de 2024, combinando proyectos independientes y experiencia dentro de una agencia de servicios web: Zetenta.',
         deepIntro:
           'Sitios, aplicaciones e integraciones desarrollados de forma independiente y dentro de un equipo.',
         filters: { all: 'Todo', employment: 'Empresa', freelance: 'Freelance' },
@@ -374,7 +374,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         titleStart: 'Professional',
         titleAccent: 'experience',
         recruiterIntro:
-          'I’ve worked professionally since April 2024, combining independent projects with experience at Zetenta.',
+          'I have worked professionally since April 2024, combining independent projects with experience at a web services agency: Zetenta.',
         deepIntro:
           'Websites, applications, and integrations developed independently and within a team.',
         filters: { all: 'All', employment: 'Company', freelance: 'Freelance' },
