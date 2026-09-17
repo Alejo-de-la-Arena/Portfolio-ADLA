@@ -84,7 +84,7 @@ export function Navbar() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 flex-nowrap items-center justify-between gap-4">
             {/* Logo */}
-            <Link to="/" aria-label={locale === 'es' ? 'ADLA — Inicio' : 'ADLA — Home'} className="inline-flex shrink-0 items-center py-2 pr-2" onClick={() => { if (pathname === '/') window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }); setMobileMenuOpen(false); setSettingsOpen(false) }}>
+            <Link to="/" aria-label={locale === 'es' ? 'ADLA — Inicio' : 'ADLA — Home'} className="inline-flex shrink-0 items-center py-2 pr-2" onClick={() => { window.scrollTo({ top: 0, behavior: pathname === '/' && !reduceMotion ? 'smooth' : 'auto' }); setMobileMenuOpen(false); setSettingsOpen(false) }}>
               <BrandMark />
             </Link>
 
@@ -105,7 +105,7 @@ export function Navbar() {
               ))}
             </div>
 
-            {/* Desktop CTA + settings */}
+            {/* Desktop settings */}
             <div className="hidden lg:flex items-center gap-3">
               <HeaderControls
                 ui={ui.navbar}
