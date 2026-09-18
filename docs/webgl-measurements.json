@@ -1,0 +1,113 @@
+{
+  "method": "Production builds transformed in memory. Package fragments attributed via sourcemaps; isolated gzip values are non-additive, NOT marginal package savings. No replacement visuals included. HDR network asset excluded.",
+  "results": [
+    {
+      "scenario": "baseline",
+      "bytes": 1497006,
+      "gzipBytes": 433394,
+      "groups": {
+        "other": {
+          "mappedMinifiedBytes": 644681,
+          "isolatedGzipBytes": 200589,
+          "renderedBytes": 1303481
+        },
+        "three": {
+          "mappedMinifiedBytes": 668375,
+          "isolatedGzipBytes": 173759,
+          "renderedBytes": 1273470
+        },
+        "react-reconciler": {
+          "mappedMinifiedBytes": 91810,
+          "isolatedGzipBytes": 28453,
+          "renderedBytes": 94563
+        },
+        "fiber": {
+          "mappedMinifiedBytes": 31485,
+          "isolatedGzipBytes": 12035,
+          "renderedBytes": 73147
+        },
+        "three-stdlib": {
+          "mappedMinifiedBytes": 27110,
+          "isolatedGzipBytes": 9703,
+          "renderedBytes": 64770
+        },
+        "drei-other": {
+          "mappedMinifiedBytes": 3285,
+          "isolatedGzipBytes": 1511,
+          "renderedBytes": 4802
+        },
+        "gainmap": {
+          "mappedMinifiedBytes": 17307,
+          "isolatedGzipBytes": 5616,
+          "renderedBytes": 47598
+        },
+        "environment": {
+          "mappedMinifiedBytes": 5643,
+          "isolatedGzipBytes": 2231,
+          "renderedBytes": 11987
+        }
+      }
+    },
+    {
+      "scenario": "no-environment",
+      "bytes": 1439109,
+      "gzipBytes": 413148,
+      "groups": {
+        "other": {
+          "mappedMinifiedBytes": 639365,
+          "isolatedGzipBytes": 198111,
+          "renderedBytes": 1287970
+        },
+        "three": {
+          "mappedMinifiedBytes": 668246,
+          "isolatedGzipBytes": 173649,
+          "renderedBytes": 1273448
+        },
+        "react-reconciler": {
+          "mappedMinifiedBytes": 91803,
+          "isolatedGzipBytes": 28399,
+          "renderedBytes": 94563
+        },
+        "fiber": {
+          "mappedMinifiedBytes": 29410,
+          "isolatedGzipBytes": 11324,
+          "renderedBytes": 67773
+        },
+        "drei-other": {
+          "mappedMinifiedBytes": 3262,
+          "isolatedGzipBytes": 1494,
+          "renderedBytes": 4689
+        }
+      }
+    },
+    {
+      "scenario": "no-hero-webgl",
+      "bytes": 1088599,
+      "gzipBytes": 311243,
+      "groups": {
+        "other": {
+          "mappedMinifiedBytes": 627890,
+          "isolatedGzipBytes": 193793,
+          "renderedBytes": 1271904
+        },
+        "three": {
+          "mappedMinifiedBytes": 454473,
+          "isolatedGzipBytes": 116012,
+          "renderedBytes": 827473
+        }
+      }
+    },
+    {
+      "scenario": "no-webgl",
+      "bytes": 627606,
+      "gzipBytes": 193392,
+      "groups": {
+        "other": {
+          "mappedMinifiedBytes": 625133,
+          "isolatedGzipBytes": 192764,
+          "renderedBytes": 1267955
+        }
+      }
+    }
+  ]
+}
