@@ -7,11 +7,6 @@ export const personalInfo = {
   "tagline": "Desarrollo web desde abril de 2024.",
   "valueLine": "React, Next.js, TypeScript y Node.js.",
   "summary": "Desarrollo productos web con React, Next.js, TypeScript y Node.js. Trabajo profesionalmente desde abril de 2024.",
-  "proof": [
-    "React · Next.js",
-    "TypeScript · Node.js",
-    "Inglés B2"
-  ],
   "bio": "Desarrollador full-stack con foco en frontend. Trabajo profesionalmente desde abril de 2024.",
   "location": "Buenos Aires, Argentina · UTC−3 · Inglés B2",
   "email": "alejodelaarenaa@gmail.com",
@@ -396,11 +391,6 @@ export const enProfile = {
     "tagline": "Building for the web since April 2024.",
     "valueLine": "React, Next.js, TypeScript, and Node.js.",
     "summary": "I build web products with React, Next.js, TypeScript, and Node.js. I’ve been working professionally since April 2024.",
-    "proof": [
-      "React · Next.js",
-      "TypeScript · Node.js",
-      "B2 English"
-    ],
     "bio": "Full-stack developer focused on frontend. Working professionally since April 2024.",
     "location": "Buenos Aires, Argentina · UTC−3 · B2 English",
     "email": "alejodelaarenaa@gmail.com",

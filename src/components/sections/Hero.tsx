@@ -270,24 +270,13 @@ export function Hero() {
               </button>
             </motion.div>
 
-            {/* Proof + socials — solo desde sm+ */}
+            {/* Social links */}
             <motion.div
               initial={reduceMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.75 }}
-              className="hidden sm:block space-y-6 pt-2"
+              className="hidden sm:block sm:!mt-5"
             >
-              <ul className="flex flex-wrap justify-center lg:justify-start gap-2">
-                {personalInfo.proof.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-full border border-border/70 bg-background-secondary/40 px-3 py-1.5 text-xs text-foreground-secondary backdrop-blur-sm"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
               <div className="flex items-center justify-center lg:justify-start gap-3">
                 {socials.map(({ icon: Icon, href, label }) => (
                   <motion.a
