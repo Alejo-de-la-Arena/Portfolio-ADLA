@@ -1,12 +1,10 @@
 # Fase 2: contenido
 
-15 trabajos documentados: 7 de Zetenta y 8 de trabajo independiente. FORMAT queda provisional hasta confirmar modalidad. Las entradas con fecha se ordenan de más reciente a más antigua; Don Teófilo y FORMAT encabezan provisionalmente la lista con fechas pendientes. Kyriazis queda último. La navegación entre subpáginas usa el mismo orden.
+15 trabajos documentados: 7 de Zetenta y 8 de trabajo independiente. FORMAT fue un trabajo pago para cliente. Las entradas con fecha se ordenan de más reciente a más antigua; FORMAT corresponde a agosto de 2026 y Don Teófilo a julio de 2026. Kyriazis queda último. La navegación entre subpáginas usa el mismo orden.
 
 ## Marcadores abiertos
 
-- Don Teófilo: fechas de inicio y fin.
-- FORMAT: fechas de inicio y fin.
-- FORMAT: confirmar trabajo pago para cliente o proyecto propio.
+- Ninguno.
 
 ## Afirmaciones eliminadas o acotadas
 

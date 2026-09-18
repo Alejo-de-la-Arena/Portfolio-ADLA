@@ -1161,12 +1161,8 @@ export const clientExperiences: Experience[] = [
       "en": "FORMAT needed to bring together its next event, lineup and flyer while preserving an archive of past editions. I organized the content into monthly Seasons that also define the visual identity, with publishing through the admin panel without redeployment."
     },
     "highlights": {
-      "es": [
-        "[NECESITO: definir si FORMAT fue trabajo pago para un cliente o proyecto propio]"
-      ],
-      "en": [
-        "[NEEDED: confirm whether FORMAT was paid client work or a personal project]"
-      ]
+      "es": [],
+      "en": []
     },
     "stack": [
       "Next.js",
@@ -1185,8 +1181,8 @@ export const clientExperiences: Experience[] = [
           "en": "FORMAT"
         },
         "subtitle": {
-          "es": "[NECESITO: definir si FORMAT fue trabajo pago para un cliente o proyecto propio]",
-          "en": "[NEEDED: confirm whether FORMAT was paid client work or a personal project]"
+          "es": "Desarrollo web para cliente",
+          "en": "Web development for a client"
         },
         "role": {
           "es": "Desarrollo web",
@@ -1280,7 +1276,7 @@ for (const [slug, study] of Object.entries(caseStudies)) {
 const freelance: Experience = {
   slug: 'freelance', company: 'Trabajo independiente', displayName: { es: 'Trabajo independiente', en: 'Independent work' }, position: { es: 'Desarrollo web', en: 'Web development' }, type: 'freelance',
   startDate: { month: 4, year: 2024 }, endDate: null, location: { es: 'Buenos Aires · Remoto', en: 'Buenos Aires · Remote' },
-  summary: { es: 'Desde abril de 2024, desarrollo sitios y aplicaciones para clientes. Ocho trabajos documentados, con FORMAT ubicado provisionalmente aquí hasta confirmar su modalidad.', en: 'Since April 2024, I have developed websites and applications for clients. Eight documented projects, with FORMAT placed here provisionally until its engagement type is confirmed.' },
+  summary: { es: 'Desde abril de 2024, desarrollo sitios y aplicaciones para clientes. Ocho trabajos documentados.', en: 'Since April 2024, I have developed websites and applications for clients. Eight documented projects.' },
   highlights: { es: [], en: [] }, stack: ['React', 'Next.js', 'TypeScript', 'Node.js', 'WordPress', 'Supabase'],
   projects: independentWork.map(item => ({ ...item.projects[0], id: item.slug === 'espacio-boa' ? 'boa' : item.slug, name: { es: item.company, en: item.company }, period: { es: formatExperiencePeriod(item, 'es'), en: formatExperiencePeriod(item, 'en') } })),
 }
