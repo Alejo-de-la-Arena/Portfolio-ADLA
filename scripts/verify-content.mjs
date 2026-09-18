@@ -34,10 +34,12 @@ try {
   assert.equal(freelance.endDate, null)
   assert.equal(freelance.projects.at(-1).id, 'kyriazis')
   const dated = clientExperiences.filter(e => e.type === 'freelance' && e.startDate).sort((a,b) => b.startDate.year - a.startDate.year || b.startDate.month - a.startDate.month)
-  assert.deepEqual(freelance.projects.slice(2).map(p => p.id), dated.map(e => e.slug === 'espacio-boa' ? 'boa' : e.slug))
-  for (const slug of ['don-teofilo-amoblamientos', 'format']) {
+  assert.deepEqual(freelance.projects.map(p => p.id), dated.map(e => e.slug === 'espacio-boa' ? 'boa' : e.slug))
+  for (const [slug, month] of [['don-teofilo-amoblamientos', 7], ['format', 8]]) {
     const entry = getExperienceBySlug(slug)
-    assert.equal(entry.startDate, null)
+    assert.deepEqual(entry.startDate, { month, year: 2026 })
+    assert.deepEqual(entry.endDate, { month, year: 2026 })
+    assert.equal(entry.period, undefined)
     assert.equal(entry.projects[0].media.length, 1)
     for (const locale of ['es', 'en']) assert.equal(entry.projects[0].body[locale].length, 4)
   }

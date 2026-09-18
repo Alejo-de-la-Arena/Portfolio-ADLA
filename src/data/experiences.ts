@@ -1050,12 +1050,8 @@ export const clientExperiences: Experience[] = [
       "en": "Web Developer"
     },
     "type": "freelance",
-    "startDate": null,
-    "endDate": null,
-    "period": {
-      "es": "[NECESITO: fechas de inicio y fin] · Ubicación provisional",
-      "en": "[NEEDED: start and end dates] · Provisional placement"
-    },
+    "startDate": { "month": 7, "year": 2026 },
+    "endDate": { "month": 7, "year": 2026 },
     "location": {
       "es": "Buenos Aires, Argentina",
       "en": "Buenos Aires, Argentina"
@@ -1154,12 +1150,8 @@ export const clientExperiences: Experience[] = [
       "en": "Web Developer"
     },
     "type": "freelance",
-    "startDate": null,
-    "endDate": null,
-    "period": {
-      "es": "[NECESITO: fechas de inicio y fin] · Ubicación provisional",
-      "en": "[NEEDED: start and end dates] · Provisional placement"
-    },
+    "startDate": { "month": 8, "year": 2026 },
+    "endDate": { "month": 8, "year": 2026 },
     "location": {
       "es": "Buenos Aires, Argentina",
       "en": "Buenos Aires, Argentina"
