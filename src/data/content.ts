@@ -50,6 +50,9 @@ export const sectionLinks = [
 ]
 export const projectSortLabels = { featured: 'Destacados', latest: 'Recientes', impact: 'Descripción' }
 export const about = {
+  summary: 'Ordeno los requerimientos, modelo las reglas del negocio y desarrollo a partir del pedido y el diseño. Pienso en quién va a gestionar el sistema y ajusto sobre el sitio en producción.',
+  showMore: 'Ver más',
+  showLess: 'Ver menos',
   "paragraphs": [
     "Antes de escribir código, ordeno los requerimientos: qué necesita el cliente, qué herramientas hacen falta y cómo voy a preparar el proyecto. Dejo el entorno listo y desarrollo tomando el pedido y el diseño como referencia; después paso a producción y ajusto sobre el sitio en vivo.",
     "Modelo el dominio antes de resolver las pantallas. En Solution, iniciar un pago y confirmar una compra son estados distintos; en FORMAT, las Seasons determinan la identidad visual de cada fecha. Las reglas también tienen un lugar: en Don Teófilo, las políticas RLS de la base separan lo público de lo privado.",
@@ -405,6 +408,9 @@ export const enProfile = {
     "availability": "My priority is a full-time remote role. I’m also open to part-time opportunities and hybrid or on-site roles in Buenos Aires. I’m available for freelance projects."
   },
   "about": {
+  summary: 'I organize requirements, model business rules, and develop from the brief and design. I consider who will manage the system and refine the site in production.',
+  showMore: 'Show more',
+  showLess: 'Show less',
   "paragraphs": [
     "Before writing code, I organize the requirements: what the client needs, which tools it calls for, and how I will set up the project. I prepare the environment and develop against the brief and design, then move to production and refine the live site.",
     "I model the domain before working out the screens. In Solution, starting a payment and confirming a purchase are different states; in FORMAT, Seasons determine each event’s visual identity. Rules also belong in a specific place: in Don Teófilo, database RLS policies separate public and private content.",
