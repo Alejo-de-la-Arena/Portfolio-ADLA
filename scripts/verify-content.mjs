@@ -105,8 +105,21 @@ try {
         const mod = await vite.ssrLoadModule('/src/components/sections/' + name + '.tsx')
         const html = render(h(mod[name]), locale, '/')
         assert.ok(html.length > 100, name)
-        if (name === 'Hero') { assert.match(html, /B2/); assert.match(html, /part-time/); assert.match(html, /UTC−3/) }
-        if (name === 'About') { assert.equal(content.about.paragraphs.length, 3); assert.doesNotMatch(html, /abril de 2024|April 2024|<ul|<li/); assert.match(html, /aria-expanded="false"/); assert.match(html, /aria-controls=/); for (const paragraph of content.about.paragraphs) assert.ok(html.includes(paragraph)) }
+        if (name === 'Hero') { assert.ok(!('proof' in content.personalInfo)); assert.match(html, /B2/); assert.match(html, /part-time/); assert.match(html, /UTC−3/) }
+        if (name === 'About') {
+          assert.equal(content.about.paragraphs.length, 3)
+          assert.equal(content.about.titles.length, 3)
+          assert.equal((html.match(/<h3 /g) ?? []).length, 3)
+          assert.equal((html.match(/<li /g) ?? []).length, 3)
+          assert.doesNotMatch(html, /aria-expanded|aria-controls|<button|abril de 2024|April 2024/)
+          const visibleText = html.replace(/<[^>]*>/g, '')
+          for (const paragraph of content.about.paragraphs) assert.ok(visibleText.includes(render(h('p', null, paragraph), locale, '/').replace(/<[^>]*>/g, '')))
+          for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+            const [route, anchor] = href.split('#')
+            assert.ok(getExperienceBySlug(route.split('/').pop()).projects.some(project => project.id === anchor), href)
+          }
+          assert.equal((html.match(/href="/g) ?? []).length, 6)
+        }
         if (name === 'Experience') assert.equal((html.match(/<li /g) ?? []).length, 2)
         if (name === 'SelectedCases') for (const study of selectedCases) assert.ok(html.includes(study.href))
         if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.doesNotMatch(html, /<select|aria-pressed=|Pausar|Reanudar/); assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 1); assert.match(html, /job-match-login-mobile.png/); assert.match(html, /job-match-login.png/); assert.match(html, /min-width: 1024px/); assert.equal(content.projects[0].media.desktop.width, 2560) }

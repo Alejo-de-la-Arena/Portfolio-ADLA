@@ -1,27 +1,38 @@
-import { useId, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
+
+const projectLinks: Record<string, string> = {
+  Solution: '/experiencia/freelance#solution',
+  FORMAT: '/experiencia/freelance#format',
+  'Don Teófilo': '/experiencia/freelance#don-teofilo-amoblamientos',
+  Manantial: '/experiencia/zetenta#manantial',
+  BOA: '/experiencia/freelance#boa',
+}
+
+function ProjectEvidence({ text }: { text: string }) {
+  return <>{text.split(/(Solution|FORMAT|Don Teófilo|Manantial|BOA)/g).map((part, index) => {
+    const href = projectLinks[part]
+    return href ? <Link key={index} to={href} className="rounded-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 hover:text-foreground hover:decoration-current focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">{part}</Link> : part
+  })}</>
+}
 
 export function About() {
   const { about, ui } = useLocalizedContent()
-  const [expanded, setExpanded] = useState(false)
-  const detailsId = useId()
   return <section id="about" className="section-space scroll-mt-20">
-    <div className="editorial-grid mx-auto max-w-editorial gap-8 px-4 sm:px-6 lg:px-8">
-      <header>
+    <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
+      <header className="mb-8 sm:mb-10">
         <p className="eyebrow">{ui.about.eyebrow}</p>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">{ui.about.titleStart} <span className="text-accent">{ui.about.titleAccent}</span></h2>
       </header>
-      <div className="min-w-0 max-w-[68ch] text-base leading-8 text-foreground-secondary">
-        <p>{about.summary}</p>
-        <div id={detailsId} aria-hidden={!expanded} className="grid transition-[grid-template-rows,visibility] duration-300 ease-out motion-reduce:transition-none" style={{ gridTemplateRows: expanded ? '1fr' : '0fr', visibility: expanded ? 'visible' : 'hidden' }}>
-          <div className="min-h-0 overflow-hidden">
-            <div className="space-y-5 pt-5">{about.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div>
+      <ol className="divide-y divide-border border-y border-border">
+        {about.paragraphs.map((paragraph, index) => <li key={about.titles[index]} className="grid items-start gap-5 py-7 sm:py-9 lg:grid-cols-[1.1fr_1.9fr] lg:gap-10">
+          <div className="flex min-w-0 items-start gap-4 lg:gap-5">
+            <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 font-display text-sm font-semibold tabular-nums text-accent">{String(index + 1).padStart(2, '0')}</span>
+            <h3 className="min-w-0 pt-1 font-display text-lg font-semibold leading-snug text-foreground sm:text-xl">{about.titles[index]}</h3>
           </div>
-        </div>
-        <button type="button" aria-expanded={expanded} aria-controls={detailsId} onClick={() => setExpanded(value => !value)} className="mt-3 min-h-11 rounded-sm text-sm font-medium text-accent underline underline-offset-4 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
-          {expanded ? about.showLess : about.showMore}
-        </button>
-      </div>
+          <p className="min-w-0 max-w-[68ch] text-base leading-8 text-foreground-secondary"><ProjectEvidence text={paragraph} /></p>
+        </li>)}
+      </ol>
     </div>
   </section>
 }
