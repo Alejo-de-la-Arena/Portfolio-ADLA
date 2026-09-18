@@ -81,7 +81,7 @@ export function Navbar() {
           isScrolled ? 'bg-background/95' : 'bg-background/75'
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 flex-nowrap items-center justify-between gap-4">
             {/* Logo */}
             <Link to="/" aria-label={locale === 'es' ? 'ADLA — Inicio' : 'ADLA — Home'} className="inline-flex shrink-0 items-center py-2 pr-2" onClick={() => { window.scrollTo({ top: 0, behavior: pathname === '/' && !reduceMotion ? 'smooth' : 'auto' }); setMobileMenuOpen(false); setSettingsOpen(false) }}>

@@ -198,12 +198,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/80 to-transparent" />
 
       <div
-        className="relative z-10 mx-auto w-full pt-6 pb-4 sm:py-16"
-        style={{
-          maxWidth: '1480px',
-          paddingLeft: 'clamp(1.25rem, 4vw, 4rem)',
-          paddingRight: 'clamp(1.25rem, 4vw, 4rem)',
-        }}
+        className="relative z-10 mx-auto w-full max-w-editorial px-4 pt-6 pb-4 sm:px-6 sm:py-16 lg:px-8"
       >
         {/* Main content grid */}
         <div className="grid items-center gap-8 sm:gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
