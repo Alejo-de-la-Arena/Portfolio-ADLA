@@ -1,18 +1,14 @@
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
-import { ArrowDownRight, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
+import { ArrowDownRight, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
 import { useLocale } from '@/context/LocaleContext'
-import { Card } from '../ui/Card'
 import { Modal } from '../ui/Modal'
 import type { Project } from '@/types'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
-type SortMode = 'featured' | 'latest' | 'impact'
 
-const PINNED_ID = 4
-
-// ─── Preview image component (used in slider + cards) ────────────────────────
+// ─── Preview image component ────────────────────────
 
 interface PreviewImageProps {
   imageUrl?: string
@@ -78,7 +74,6 @@ interface SliderProps {
 function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderProps) {
   const [current, setCurrent] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
-  const [isPaused, setIsPaused] = useState(false)
   const [hasFocus, setHasFocus] = useState(false)
   const { isSpanish } = useLocale()
   const total = projects.length
@@ -87,25 +82,25 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
   const next = useCallback(() => setCurrent(c => (c + 1) % total), [total])
 
   useEffect(() => {
-    if (isPaused || hasFocus || isHovered || reduceMotion || total <= 1) return
+    if (hasFocus || isHovered || reduceMotion || total <= 1) return
     const id = setInterval(next, 5000)
     return () => clearInterval(id)
-  }, [isPaused, hasFocus, isHovered, reduceMotion, total, next])
+  }, [hasFocus, isHovered, reduceMotion, total, next])
 
   const project = projects[current]
   if (!project) return null
 
   return (
     <div
-      className="mb-8 overflow-hidden rounded-3xl border border-border bg-background-secondary/60 shadow-lg shadow-black/20"
+      className="overflow-hidden rounded-3xl border border-border bg-background-secondary/60 shadow-lg shadow-black/20"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onFocusCapture={() => { setHasFocus(true); setIsPaused(true) }}
+      onFocusCapture={() => setHasFocus(true)}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setHasFocus(false) }}
     >
       <div className="grid md:grid-cols-[1.1fr_1fr]">
-      {/* Image area — aspect-video on mobile, aspect-[2/1] on sm+ */}
-      <div className="relative h-44 overflow-hidden bg-background sm:h-56 md:h-full md:min-h-64">
+      {/* Responsive preview */}
+      <div className="relative h-60 overflow-hidden bg-background sm:h-72 md:h-full md:min-h-[25rem]">
         <AnimatePresence mode="wait">
           <motion.div
             key={project.id}
@@ -151,7 +146,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
           transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.22 }}
-          className="min-w-0 border-t border-border bg-background-secondary/40 p-5 md:border-l md:border-t-0 lg:p-6"
+          className="min-w-0 border-t border-border bg-background-secondary/40 p-6 md:flex md:flex-col md:justify-center md:border-l md:border-t-0 lg:p-8"
         >
           <p className="mb-2 text-xs font-medium text-accent">{current + 1} / {total}</p>
           <h3 className="mb-3 font-display text-2xl font-semibold">{project.title}</h3>
@@ -177,6 +172,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
             <button
               type="button"
               onClick={() => onProjectClick(project)}
+              aria-haspopup="dialog"
               className="inline-flex items-center justify-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-foreground-secondary transition-colors hover:border-accent/40 hover:text-foreground"
             >
               {isSpanish ? 'Ver detalle' : 'View details'}
@@ -193,10 +189,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
       </AnimatePresence>
 
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border px-4 py-2">
-        <button type="button" aria-pressed={isPaused || Boolean(reduceMotion)} disabled={Boolean(reduceMotion)} onClick={() => setIsPaused(value => !value)} className="min-h-11 rounded-full border border-border px-4 text-sm">
-          {isPaused || reduceMotion ? (isSpanish ? 'Reanudar' : 'Resume') : (isSpanish ? 'Pausar' : 'Pause')}
-        </button>
+      <div className="flex flex-wrap items-center justify-center gap-2 border-t border-border px-4 py-2">
       {/* Dot indicators */}
       <div className="flex items-center gap-1">
         {projects.map((_, i) => (
@@ -217,68 +210,14 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
   )
 }
 
-// ─── Card image thumbnail ─────────────────────────────────────────────────────
-
-function ProjectCardImage({ project }: { project: Project }) {
-  return (
-    <div className="mb-5 -mx-6 -mt-6 overflow-hidden rounded-t-2xl">
-      <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
-        <ProjectPreviewImage
-          imageUrl={project.image}
-          title={project.title}
-          objectPosition="top"
-          className="absolute inset-0 h-full w-full transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background-secondary/50 to-transparent" />
-      </div>
-    </div>
-  )
-}
-
-// ─── Main component ───────────────────────────────────────────────────────────
-
 export function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const reduceMotion = useReducedMotionPreference()
-  const { projects, projectSortLabels, ui } = useLocalizedContent()
+  const { projects, ui } = useLocalizedContent()
   const { isSpanish } = useLocale()
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
   const selectedProject = projects.find(project => project.id === selectedProjectId)
-  const [sort, setSort] = useState<SortMode>('featured')
-  const [filter, setFilter] = useState<string>(ui.projects.allTags)
-
-  useEffect(() => {
-    setFilter(ui.projects.allTags)
-  }, [ui.projects.allTags])
-
-  const sliderProjects = useMemo(() => {
-    return [...projects].sort((a, b) => {
-      if (a.id === PINNED_ID) return -1
-      if (b.id === PINNED_ID) return 1
-      return Number(b.featured ?? false) - Number(a.featured ?? false)
-    })
-  }, [projects])
-
-  const allTags = [ui.projects.allTags, ...Array.from(new Set(projects.flatMap(p => p.tags)))]
-
-  const filteredProjects = useMemo(() => {
-    const pinned = projects.find(p => p.id === PINNED_ID)
-    const rest = projects.filter(p => p.id !== PINNED_ID)
-    const byTag =
-      filter === ui.projects.allTags
-        ? rest
-        : rest.filter(p => p.tags.includes(filter))
-
-    const sorted = [...byTag].sort((a, b) => {
-      if (sort === 'latest') return b.year - a.year
-      if (sort === 'impact') return b.impact.localeCompare(a.impact)
-      return Number(Boolean(b.featured)) - Number(Boolean(a.featured))
-    })
-
-    return pinned ? [pinned, ...sorted] : sorted
-  }, [filter, projects, sort, ui.projects.allTags])
-
   return (
     <section id="projects" className="section-space">
       <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
@@ -303,110 +242,12 @@ export function Projects() {
 
           {/* Slider */}
           <ProjectSlider
-            projects={sliderProjects}
+            projects={projects}
             onProjectClick={project => setSelectedProjectId(project.id)}
             reduceMotion={Boolean(reduceMotion)}
             ui={ui}
           />
 
-          {/* Filters */}
-          <div className="mb-8">
-            <p className="eyebrow mb-4">{ui.projects.filterTitle}</p>
-            <div className="mb-3 flex flex-wrap items-center gap-2">
-              {(['featured', 'latest', 'impact'] as SortMode[]).map(sortOption => (
-                <button
-                  key={sortOption}
-                  type="button"
-                  onClick={() => setSort(sortOption)}
-                  className={`rounded-full px-3 py-2 text-xs uppercase tracking-[0.14em] transition-colors ${
-                    sort === sortOption
-                      ? 'bg-accent/20 text-foreground'
-                      : 'text-foreground-secondary hover:text-foreground'
-                  }`}
-                >
-                  {projectSortLabels[sortOption]}
-                </button>
-              ))}
-            </div>
-            <div className="relative w-full sm:w-auto sm:min-w-[200px]">
-              <select
-                value={filter}
-                onChange={e => setFilter(e.target.value)}
-                className="w-full appearance-none rounded-full border border-border bg-background-tertiary py-2 pl-4 pr-10 text-sm text-foreground outline-none transition-colors focus:border-accent sm:w-auto"
-                aria-label={ui.projects.allTags}
-              >
-                {allTags.map(tag => (
-                  <option key={tag} value={tag}>
-                    {tag}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown
-                className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-tertiary"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-
-          {/* Cards grid */}
-          <motion.div layout={!reduceMotion} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, idx) => (
-                <motion.div
-                  key={project.id}
-                  layout={!reduceMotion}
-                  initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                  animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
-                  transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.28, delay: idx * 0.04 }}
-                >
-                  <Card
-                    hover
-                    className="group relative h-full overflow-hidden"
-                  >
-                    <ProjectCardImage project={project} />
-
-                    <div className="mb-4 space-y-1">
-                      <p className="text-xs uppercase tracking-[0.16em] text-foreground-tertiary">
-                        {project.year}
-                      </p>
-                      <h3 className="text-xl font-semibold transition-colors group-hover:text-accent">
-                        <button type="button" onClick={() => setSelectedProjectId(project.id)} className="text-left after:absolute after:inset-0 after:rounded-2xl" aria-haspopup="dialog">{project.title}</button>
-                      </h3>
-                      <p className="text-xs text-foreground-secondary">{project.role}</p>
-                    </div>
-
-                    <p className="mb-4 line-clamp-2 text-sm text-foreground-secondary">
-                      {project.description}
-                    </p>
-
-                    <div className="mb-4 flex flex-wrap gap-2">
-                      {project.tags.slice(0, 2).map(tag => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-border px-2.5 py-1 text-xs text-foreground-secondary"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-auto flex items-center justify-between gap-3">
-                      <span className="text-xs text-accent">{project.impact}</span>
-                      <div className="flex items-center gap-1">
-                        {project.liveUrl && (
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${ui.projects.viewDemo}: ${project.title}`} className="relative z-10 inline-flex rounded-full p-3 hover:bg-background-tertiary"><ExternalLink className="h-4 w-4" /></a>
-                        )}
-                        {project.githubUrl && (
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${ui.projects.viewCode}: ${project.title}`} className="relative z-10 inline-flex rounded-full p-3 hover:bg-background-tertiary"><Github className="h-4 w-4" /></a>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
         </motion.div>
       </div>
 

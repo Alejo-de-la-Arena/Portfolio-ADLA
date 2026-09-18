@@ -48,7 +48,6 @@ export const sectionLinks = [
     "label": "Contacto"
   }
 ]
-export const projectSortLabels = { featured: 'Destacados', latest: 'Recientes', impact: 'Descripción' }
 export const about = {
   summary: 'Ordeno los requerimientos, modelo las reglas del negocio y desarrollo a partir del pedido y el diseño. Pienso en quién va a gestionar el sistema y ajusto sobre el sitio en producción.',
   showMore: 'Ver más',

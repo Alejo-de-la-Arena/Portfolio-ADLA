@@ -107,7 +107,7 @@ try {
         if (name === 'About') { assert.equal(content.about.paragraphs.length, 3); assert.doesNotMatch(html, /abril de 2024|April 2024|<ul|<li/) }
         if (name === 'Experience') assert.equal((html.match(/<li /g) ?? []).length, 2)
         if (name === 'SelectedCases') for (const study of selectedCases) assert.ok(html.includes(study.href))
-        if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.match(html, /VYZON/); assert.ok(html.includes(locale === 'es' ? 'No es una agencia con clientes.' : 'It is not an agency with clients.')) }
+        if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.doesNotMatch(html, /<select|aria-pressed=|Pausar|Reanudar/); assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 1) }
       }
     for (const slug of ['zetenta', 'freelance', 'solution', 'espacio-boa', 'renova-tu-cocina', 'mdvproyectos', 'fefe-bakes', 'kyriazis', 'don-teofilo-amoblamientos', 'format']) {
       const html = render(h(Routes, null, h(Route, { path: '/experiencia/:slug', element: h(ExperienceDetailPage) })), locale, '/experiencia/' + slug)

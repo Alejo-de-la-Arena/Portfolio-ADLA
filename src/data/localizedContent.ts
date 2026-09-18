@@ -2,7 +2,6 @@ import type { Project } from '@/types'
 import {
   about as aboutEs,
   personalInfo as personalInfoEs,
-  projectSortLabels as projectSortLabelsEs,
   projects as projectsEs,
   sectionLinks as sectionLinksEs,
   skills as skillsEs,
@@ -13,7 +12,6 @@ import type { Locale } from '@/context/LocaleContext'
 
 import { ownProjects } from './personalProjects'
 const { personalInfo: personalInfoEn, about: aboutEn, sectionLinks: sectionLinksEn } = enProfile
-const projectSortLabelsEn = { featured: 'Featured', latest: 'Latest', impact: 'Description' }
 const projectsEn = ownProjects.en
 
 const EN_CARD_META: Record<string, { label: string; description: string }> = {
@@ -38,7 +36,6 @@ interface LocalizedContent {
   personalInfo: typeof personalInfoEs
   socialLinks: typeof socialLinks
   sectionLinks: ReadonlyArray<{ id: string; label: string }>
-  projectSortLabels: typeof projectSortLabelsEs
   about: typeof aboutEs
   projects: Project[]
   skills: typeof skillsEs
@@ -97,12 +94,6 @@ interface LocalizedContent {
       titleStart: string
       titleAccent: string
       intro: string
-
-      featuredProject: string
-      filterTitle: string
-      searchPlaceholder: string
-      searchAria: string
-      allTags: string
       problem: string
       solution: string
       highlights: string
@@ -178,7 +169,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     personalInfo: personalInfoEs,
     socialLinks,
     sectionLinks: sectionLinksEs,
-    projectSortLabels: projectSortLabelsEs,
     about: aboutEs,
     projects: projectsEs,
     skills: skillsEs,
@@ -244,12 +234,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         titleStart: 'Proyectos',
         titleAccent: 'propios',
         intro: 'Construyo herramientas para necesidades propias y pruebo ideas con briefs ficticios. En JobSearchBot y VYZON podés ver qué está implementado, cómo lo resolví y qué sigue abierto.',
-
-        featuredProject: 'Proyecto destacado',
-        filterTitle: 'Filtrar Proyectos',
-        searchPlaceholder: 'Buscar por nombre, tag, año o rol...',
-        searchAria: 'Buscar proyecto',
-        allTags: 'Todos',
         problem: 'Problema',
         solution: 'Solución',
         highlights: 'Puntos clave',
@@ -323,7 +307,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
     personalInfo: personalInfoEn,
     socialLinks,
     sectionLinks: sectionLinksEn,
-    projectSortLabels: projectSortLabelsEn,
     about: aboutEn,
     projects: projectsEn,
     skills: skillsEn,
@@ -389,12 +372,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         titleStart: 'Personal',
         titleAccent: 'projects',
         intro: 'I build tools for my own needs and test ideas through fictional briefs. In JobSearchBot and VYZON, you can see what is implemented, how I built it, and what remains open.',
-
-        featuredProject: 'Featured project',
-        filterTitle: 'Filter Projects',
-        searchPlaceholder: 'Search by name, tag, year, or role...',
-        searchAria: 'Search project',
-        allTags: 'All',
         problem: 'Problem',
         solution: 'Solution',
         highlights: 'Key points',
