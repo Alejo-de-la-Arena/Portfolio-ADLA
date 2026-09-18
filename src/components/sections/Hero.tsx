@@ -1,11 +1,10 @@
-import { useRenderActivity } from '@/hooks/useRenderActivity'
+import { motionTokens, motionTransition, createMotionVariants } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { Suspense, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { Suspense } from 'react'
+import { motion } from 'framer-motion'
 import { ArrowUpRight, Github, Linkedin, MessageCircle } from 'lucide-react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, MeshDistortMaterial, Environment } from '@react-three/drei'
-import * as THREE from 'three'
+import { Canvas } from '@react-three/fiber'
+import { MeshDistortMaterial, Environment } from '@react-three/drei'
 import { MagneticButton } from '../effects/MagneticButton'
 import { SpotlightGrid } from '../effects/SpotlightGrid'
 import { scrollToSection } from '@/lib/utils'
@@ -14,79 +13,25 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 /* ========== 3D ORB CLUSTER ========== */
 
-type OrbProps = {
-  position: [number, number, number]
-  scale: number
-  color: string
-  distort?: number
-  speed?: number
-  running: boolean
-}
-
-function Orb({ position, scale, color, distort = 0.3, speed = 1, running }: OrbProps) {
-  const ref = useRef<THREE.Mesh>(null!)
-  useFrame((state) => {
-    if (!running || !ref.current) return
-    ref.current.rotation.x = state.clock.elapsedTime * 0.1 * speed
-    ref.current.rotation.y = state.clock.elapsedTime * 0.15 * speed
-  })
-  return (
-    <Float enabled={running} speed={1.6} rotationIntensity={0.4} floatIntensity={0.7}>
-      <mesh ref={ref} position={position} scale={scale}>
+function Scene() {
+  return <>
+    <ambientLight intensity={0.35} />
+    <directionalLight position={[5, 5, 5]} intensity={1.2} color="#a78bff" />
+    <directionalLight position={[-5, -3, -5]} intensity={0.6} color="#5a3fff" />
+    {([
+      { position: [0, 0, 0], scale: 1.5, color: '#7c5cff', distort: 0.45 },
+      { position: [1.9, 1.2, -1], scale: 0.5, color: '#1a1730', distort: 0.2 },
+      { position: [-2, -1, -0.5], scale: 0.6, color: '#a78bff', distort: 0.3 },
+      { position: [1.6, -1.4, 0.4], scale: 0.4, color: '#3d2a8c', distort: 0.25 },
+      { position: [-1.4, 1.6, -1.1], scale: 0.45, color: '#7c5cff', distort: 0.35 },
+    ] satisfies Array<{ position: [number, number, number]; scale: number; color: string; distort: number }>).map((orb, index) =>
+      <mesh key={index} position={orb.position} scale={orb.scale}>
         <sphereGeometry args={[1, 64, 64]} />
-        <MeshDistortMaterial
-          color={color}
-          distort={distort}
-          speed={running ? speed * 1.4 : 0}
-          roughness={0.15}
-          metalness={0.55}
-        />
+        <MeshDistortMaterial color={orb.color} distort={orb.distort} speed={0} roughness={0.15} metalness={0.55} />
       </mesh>
-    </Float>
-  )
-}
-
-const MAX_ROT = 0.12
-
-function clamp(v: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, v))
-}
-
-function Scene({
-  mx,
-  my,
-  isMobile = false,
-  running,
-}: {
-  mx: ReturnType<typeof useMotionValue<number>>
-  my: ReturnType<typeof useMotionValue<number>>
-  isMobile?: boolean
-  running: boolean
-}) {
-  const groupRef = useRef<THREE.Group>(null!)
-  const mult = isMobile ? 0.45 : 1
-
-  useFrame(() => {
-    if (!running || !groupRef.current || isMobile) return
-    const targetY = clamp(mx.get() * 0.0004, -MAX_ROT, MAX_ROT)
-    const targetX = clamp(my.get() * 0.0004, -MAX_ROT, MAX_ROT)
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetY, 0.06)
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetX, 0.06)
-  })
-
-  return (
-    <group ref={groupRef}>
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[5, 5, 5]} intensity={1.2} color="#a78bff" />
-      <directionalLight position={[-5, -3, -5]} intensity={0.6} color="#5a3fff" />
-      <Orb running={running} position={[0, 0, 0]}          scale={1.5} color="#7c5cff" distort={0.45} speed={0.8  * mult} />
-      <Orb running={running} position={[1.9, 1.2, -1]}     scale={0.5} color="#1a1730" distort={0.2}  speed={1.2  * mult} />
-      <Orb running={running} position={[-2.0, -1.0, -0.5]} scale={0.6} color="#a78bff" distort={0.3}  speed={0.9  * mult} />
-      <Orb running={running} position={[1.6, -1.4, 0.4]}   scale={0.4} color="#3d2a8c" distort={0.25} speed={1.5  * mult} />
-      <Orb running={running} position={[-1.4, 1.6, -1.1]}  scale={0.45} color="#7c5cff" distort={0.35} speed={1.1 * mult} />
-      <Environment preset="city" />
-    </group>
-  )
+    )}
+    <Environment preset="city" />
+  </>
 }
 
 /* ========== PILL CTA ========== */
@@ -105,7 +50,7 @@ function PillCTA({
       <span className="inline-flex items-center gap-3">
         <span>{children}</span>
         <span
-          className={`grid h-7 w-7 place-items-center rounded-full transition-transform duration-300 group-hover:rotate-45 ${primary ? 'bg-background/15' : 'bg-foreground/10'}`}
+          className={`grid h-7 w-7 place-items-center rounded-full transition-transform duration-[var(--motion-fast)] group-hover:rotate-45 ${primary ? 'bg-background/15' : 'bg-foreground/10'}`}
         >
           <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.4} />
         </span>
@@ -120,33 +65,27 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
   const parts = name.split(' ')
   const first = parts[0]
   const rest = parts.slice(1).join(' ')
-  const variants = {
-    hidden: { opacity: 0, y: '110%' },
-    show: (i: number) => ({
-      opacity: 1,
-      y: '0%',
-      transition: reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.15 + i * 0.08, duration: 0.85, ease: [0.19, 1, 0.22, 1] },
-    }),
-  }
+  const variants = createMotionVariants(Boolean(reduceMotion)).smallGroupItem
+
   return (
     <h1 className="hero-name text-foreground">
-      <span className="block overflow-hidden">
+      <span className="block">
         <motion.span
           className="block"
           variants={variants}
-          initial={reduceMotion ? false : 'hidden'}
-          animate="show"
+          initial={reduceMotion ? false : 'initial'}
+          animate="visible"
           custom={0}
         >
           {first}
         </motion.span>
       </span>
-      <span className="block overflow-hidden">
+      <span className="block">
         <motion.span
           className="text-gradient block hero-name-rest"
           variants={variants}
-          initial={reduceMotion ? false : 'hidden'}
-          animate="show"
+          initial={reduceMotion ? false : 'initial'}
+          animate="visible"
           custom={1}
         >
           {rest}
@@ -159,27 +98,15 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
 /* ========== HERO ========== */
 
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const visible = useRenderActivity(sectionRef)
   const reduceMotion = useReducedMotionPreference()
   const { personalInfo, socialLinks, ui } = useLocalizedContent()
-  const running = visible && !reduceMotion
+  const entry = (index: number) => ({
+    initial: reduceMotion ? false as const : 'initial',
+    animate: 'visible',
+    variants: createMotionVariants(reduceMotion).smallGroupItem,
+    custom: index,
+  })
   const isMobile = useMediaQuery('(max-width: 768px)')
-
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const smoothMx = useSpring(mx, { stiffness: 60, damping: 20 })
-  const smoothMy = useSpring(my, { stiffness: 60, damping: 20 })
-
-  useEffect(() => {
-    if (!running) return
-    const handler = (e: MouseEvent) => {
-      mx.set(e.clientX - window.innerWidth / 2)
-      my.set(e.clientY - window.innerHeight / 2)
-    }
-    window.addEventListener('mousemove', handler)
-    return () => window.removeEventListener('mousemove', handler)
-  }, [mx, my, running])
 
   const socials = [
     { icon: Github, href: socialLinks.github, label: 'GitHub' },
@@ -189,7 +116,6 @@ export function Hero() {
 
   return (
     <section
-      ref={sectionRef}
       id="hero"
       className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-x-hidden pt-0"
     >
@@ -206,29 +132,23 @@ export function Hero() {
           {/* CLUSTER 3D — desktop: right column */}
           {!isMobile && (
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 1.1, delay: 0.3, ease: [0.19, 1, 0.22, 1] }}
+              {...entry(4)}
               className="order-first lg:order-last relative mx-auto aspect-square w-full justify-self-center lg:justify-self-end"
               style={{ maxWidth: 'min(82vw, 560px)' }}
             >
               <div className="absolute inset-[10%] rounded-full bg-accent/20 blur-3xl" />
               <div className="relative h-full w-full overflow-hidden rounded-3xl">
                 <Canvas
-                frameloop={running ? 'always' : 'demand'}
+                frameloop="demand"
                   camera={{ position: [0, 0, 8.5], fov: 45 }}
                   dpr={[1, 1.5]}
                   gl={{ antialias: true, alpha: true }}
                 >
                   <Suspense fallback={null}>
-                    <Scene running={running} mx={smoothMx} my={smoothMy} />
+                    <Scene />
                   </Suspense>
                 </Canvas>
 
-                <div className="pointer-events-none absolute bottom-3 right-3 sm:bottom-6 sm:right-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background-secondary/60 px-3 py-1.5 text-xs uppercase tracking-[0.2em] text-foreground-tertiary backdrop-blur">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  {ui.hero.move}
-                </div>
               </div>
             </motion.div>
           )}
@@ -239,7 +159,7 @@ export function Hero() {
               <StaggeredHeadline name={personalInfo.name} reduceMotion={reduceMotion} />
             </div>
 
-            <div className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-background-secondary/80 p-5 text-left shadow-lg shadow-black/5 sm:p-6 lg:mx-0">
+            <motion.div {...entry(2)} className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-background-secondary/80 p-5 text-left shadow-lg shadow-black/5 sm:p-6 lg:mx-0">
               <p className="max-w-lg font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">{personalInfo.role}</p>
               <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
                 {personalInfo.summary}
@@ -248,12 +168,10 @@ export function Hero() {
                 {personalInfo.location.split(' · ').map(item => <li key={item}>{item}</li>)}
               </ul>
               <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-foreground-secondary">{personalInfo.availability}</p>
-            </div>
+            </motion.div>
 
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.6 }}
+              {...entry(3)}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
             >
               <PillCTA primary onClick={() => scrollToSection('cases')}>
@@ -263,18 +181,16 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => scrollToSection('experience')}
-                className="hidden sm:inline-flex group ml-1 items-center gap-2 text-sm text-foreground-tertiary transition-colors hover:text-foreground"
+                className="hidden sm:inline-flex group ml-1 items-center gap-2 text-sm text-foreground-tertiary transition-none hover:text-foreground"
               >
                 {ui.hero.viewExperience}
-                <span className="h-px w-8 bg-border transition-all group-hover:w-12 group-hover:bg-foreground-secondary" />
+                <span className="h-px w-8 bg-border transition-transform origin-left group-hover:scale-x-125 group-hover:bg-foreground-secondary" />
               </button>
             </motion.div>
 
             {/* Social links */}
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.6, delay: 0.75 }}
+              {...entry(4)}
               className="hidden sm:block sm:!mt-5"
             >
               <div className="flex items-center justify-center lg:justify-start gap-3">
@@ -285,8 +201,9 @@ export function Hero() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    whileHover={reduceMotion ? undefined : { y: -2 }}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-border/70 bg-background-secondary/40 text-foreground-secondary transition-colors hover:border-accent/50 hover:text-foreground"
+                    whileHover={reduceMotion ? undefined : { scale: motionTokens.interaction.hoverScale }}
+                    transition={motionTransition(reduceMotion, 'fast', 'standard')}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-border/70 bg-background-secondary/40 text-foreground-secondary transition-none hover:border-accent/50 hover:text-foreground"
                   >
                     <Icon className="h-4 w-4" />
                   </motion.a>
@@ -299,21 +216,19 @@ export function Hero() {
         {/* Canvas 3D mobile — debajo del texto, en el flujo */}
         {isMobile && (
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.9, delay: 0.5, ease: [0.19, 1, 0.22, 1] }}
+            {...entry(4)}
             className="mx-auto mt-8 h-[280px] w-full max-w-sm"
           >
             <div className="relative h-full w-full overflow-hidden rounded-2xl">
               <div className="absolute inset-[10%] rounded-full" />
               <Canvas
-                  frameloop={running ? 'always' : 'demand'}
+                  frameloop="demand"
                 camera={{ position: [0, 0, 8.5], fov: 45 }}
                 dpr={[1, 1]}
                 gl={{ antialias: true, alpha: true }}
               >
                 <Suspense fallback={null}>
-                  <Scene running={running} mx={smoothMx} my={smoothMy} isMobile />
+                  <Scene />
                 </Suspense>
               </Canvas>
             </div>

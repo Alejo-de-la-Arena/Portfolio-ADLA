@@ -1,33 +1,4 @@
-import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { useEffect, useRef } from 'react'
-
+/** Keep the ambient accent without animating layout or a large blurred layer. */
 export function SpotlightCursor() {
-  const reduceMotion = useReducedMotionPreference()
-  const spotlightRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (reduceMotion) return
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (spotlightRef.current) {
-        spotlightRef.current.style.left = `${e.clientX}px`
-        spotlightRef.current.style.top = `${e.clientY}px`
-      }
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [reduceMotion])
-
-  return (
-    <div
-      ref={spotlightRef}
-      className="pointer-events-none fixed z-0 h-[600px] w-[600px] rounded-full bg-accent/10 blur-[100px]"
-      style={{
-        willChange: 'left, top',
-        transform: 'translate(-50%, -50%)',
-        transition: 'left 300ms ease-out, top 300ms ease-out',
-      }}
-    />
-  )
+  return <div aria-hidden className="pointer-events-none fixed left-0 top-0 z-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[100px]" />
 }

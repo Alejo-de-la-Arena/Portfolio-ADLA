@@ -1,3 +1,4 @@
+import { motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useId } from 'react'
 import { ModalSurface } from './ModalSurface'
@@ -26,6 +27,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0 }}
+            transition={motionTransition(reduceMotion)}
             onClick={onClose}
             className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
           />
@@ -33,7 +35,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={reduceMotion ? { duration: 0 } : undefined}
+              transition={motionTransition(reduceMotion)}
               exit={reduceMotion ? undefined : { opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-background-secondary border border-border rounded-2xl shadow-2xl"
             >

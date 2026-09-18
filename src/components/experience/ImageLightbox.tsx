@@ -1,3 +1,4 @@
+import { motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
@@ -26,7 +27,7 @@ export function ImageLightbox({ images, activeIndex, onClose, onNavigate, closeL
       {image && (
         <ModalSurface onClose={onClose} label={image.alt}>
           <motion.div
-            transition={reduceMotion ? { duration: 0 } : undefined}
+            transition={motionTransition(reduceMotion)}
             className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4 sm:p-8"
             initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={reduceMotion ? undefined : { opacity: 0 }}
             onClick={onClose}
@@ -36,7 +37,7 @@ export function ImageLightbox({ images, activeIndex, onClose, onNavigate, closeL
             }}
           >
             <motion.div
-              transition={reduceMotion ? { duration: 0 } : undefined}
+              transition={motionTransition(reduceMotion)}
               initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={reduceMotion ? undefined : { opacity: 0, scale: 0.98 }}
               className="relative max-h-full max-w-6xl" onClick={event => event.stopPropagation()}
             >

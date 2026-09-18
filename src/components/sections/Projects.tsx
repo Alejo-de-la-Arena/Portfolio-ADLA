@@ -1,6 +1,8 @@
+import { useEntrance } from '@/hooks/useEntrance'
+import { motionTokens, motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView } from 'framer-motion'
+import { useCallback, useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowDownRight, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
 import { useLocale } from '@/context/LocaleContext'
 import { Modal } from '../ui/Modal'
@@ -74,7 +76,7 @@ function ProjectPreviewImage({
         height={1260}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
-        className={`h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`h-full w-full object-cover transition-opacity duration-[var(--motion-fast)] motion-reduce:transition-none ${loaded ? 'opacity-100' : 'opacity-0'}`}
         style={{ objectPosition }}
       />
     </div>
@@ -128,10 +130,10 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           <motion.div
             key={project.id}
             className="absolute inset-0"
-            initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: 24 }}
+            initial={reduceMotion ? { opacity: 1 } : { opacity: 0, x: motionTokens.distance }}
             animate={reduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-            exit={reduceMotion ? { opacity: 1 } : { opacity: 0, x: -24 }}
-            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            exit={reduceMotion ? { opacity: 1 } : { opacity: 0, x: -motionTokens.distance }}
+            transition={motionTransition(reduceMotion)}
           >
             <ProjectPreviewImage
               imageUrl={project.image}
@@ -148,7 +150,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           type="button"
           onClick={prev}
           aria-label={isSpanish ? 'Proyecto anterior' : 'Previous project'}
-          className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+          className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-none hover:bg-black/60"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -156,7 +158,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           type="button"
           onClick={next}
           aria-label={isSpanish ? 'Proyecto siguiente' : 'Next project'}
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-black/40 p-2 text-white backdrop-blur-sm transition-none hover:bg-black/60"
         >
           <ChevronRight className="h-4 w-4" />
         </button>
@@ -166,10 +168,10 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
       <AnimatePresence mode="wait">
         <motion.div
           key={`info-${project.id}`}
-          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
+          initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: motionTokens.distance }}
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
-          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.22 }}
+          transition={motionTransition(reduceMotion)}
           className="min-w-0 border-t border-border bg-background-secondary/40 p-6 md:flex md:flex-col md:justify-center md:border-l md:border-t-0 lg:p-8"
         >
           <p className="mb-2 text-xs font-medium text-accent">{current + 1} / {total}</p>
@@ -197,13 +199,13 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
               type="button"
               onClick={() => onProjectClick(project)}
               aria-haspopup="dialog"
-              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-foreground-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium text-foreground-secondary transition-none hover:border-accent/40 hover:text-foreground"
             >
               {isSpanish ? 'Ver detalle' : 'View details'}
               <ArrowDownRight className="h-3.5 w-3.5" />
             </button>
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex items-center justify-center gap-2 rounded-full bg-accent-solid px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-solid-hover sm:text-sm">
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-demo-link inline-flex items-center justify-center gap-2 rounded-full bg-accent-solid px-3 py-1.5 text-xs font-medium text-white transition-none hover:bg-accent-solid-hover sm:text-sm">
                 {ui.projects.viewDemo}
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
@@ -235,8 +237,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
 }
 
 export function Projects() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const heading = useEntrance()
   const reduceMotion = useReducedMotionPreference()
   const { projects, ui } = useLocalizedContent()
   const { isSpanish } = useLocale()
@@ -245,13 +246,8 @@ export function Projects() {
   return (
     <section id="projects" className="section-space">
       <div className="mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={reduceMotion ? false : { opacity: 0, y: 50 }}
-          animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.5 }}
-        >
-          <div className="editorial-grid mb-8">
+        <div>
+          <motion.div {...heading} className="editorial-grid mb-8">
             <div className="space-y-4">
               <p className="eyebrow">{ui.projects.eyebrow}</p>
               <h2 className="text-3xl font-display font-bold sm:text-4xl">
@@ -262,7 +258,7 @@ export function Projects() {
             <p className="max-w-2xl text-foreground-secondary">
               {ui.projects.intro}
             </p>
-          </div>
+          </motion.div>
 
           {/* Slider */}
           <ProjectSlider
@@ -272,7 +268,7 @@ export function Projects() {
             ui={ui}
           />
 
-        </motion.div>
+        </div>
       </div>
 
       {/* Case Study Modal */}

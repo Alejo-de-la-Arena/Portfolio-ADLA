@@ -7,9 +7,10 @@ export const motionTokens = {
     enter: [0.22, 1, 0.36, 1],
     standard: [0.4, 0, 0.2, 1],
   },
-  distance: 8,
-  opacity: { initial: 0.85, visible: 1 },
+  distance: 20,
+  opacity: { initial: 0.45, visible: 1 },
   stagger: { step: 0.05, maxDelay: 0.15 },
+  smallGroup: { step: 0.09, maxItems: 5 },
   interaction: { hoverScale: 1.015, pressScale: 0.985 },
   viewport: { once: true, amount: 0.15 },
 } as const
@@ -31,8 +32,11 @@ export function motionTransition(
 }
 
 /** Use a viewport-local index, never the position in the entire page. */
-export function staggerDelay(index: number, reducedMotion: boolean): number {
+export function staggerDelay(index: number, reducedMotion: boolean, smallGroup = false): number {
   if (reducedMotion || !Number.isFinite(index)) return 0
+  if (smallGroup && index < motionTokens.smallGroup.maxItems) {
+    return Math.max(0, index) * motionTokens.smallGroup.step
+  }
   return Math.min(
     Math.max(0, index) * motionTokens.stagger.step,
     motionTokens.stagger.maxDelay,
@@ -58,24 +62,25 @@ export function createMotionVariants(reducedMotion: boolean) {
     },
   })
 
-  const listItem: Variants = {
+  const staggered = (smallGroup: boolean): Variants => ({
     initial,
     visible: (index: number = 0) => ({
       ...visible,
       transition: {
         ...motionTransition(reducedMotion),
-        delay: staggerDelay(index, reducedMotion),
+        delay: staggerDelay(index, reducedMotion, smallGroup),
       },
     }),
-  }
+  })
 
   return {
     section: entrance('slow'),
-    listItem,
+    listItem: staggered(false),
+    smallGroupItem: staggered(true),
     card: entrance('medium'),
     // Animate a route heading/shell only if its children have no entrance.
     // Do not wait for an exit before mounting the next page.
-    page: entrance('fast'),
+    page: entrance('medium'),
     interaction: {
       rest: {
         scale: 1,

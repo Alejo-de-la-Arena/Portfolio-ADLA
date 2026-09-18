@@ -14,7 +14,7 @@ export function TextLink({
   return (
     <a
       className={cn(
-        'inline-flex items-center gap-1 text-sm font-medium underline-offset-4 transition-colors',
+        'inline-flex items-center gap-1 text-sm font-medium underline-offset-4 transition-none',
         subtle
           ? 'text-foreground-secondary hover:text-foreground hover:underline'
           : 'text-accent hover:text-accent-hover hover:underline',
@@ -26,4 +26,3 @@ export function TextLink({
     </a>
   )
 }
-

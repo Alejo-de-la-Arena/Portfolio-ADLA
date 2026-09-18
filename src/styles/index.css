@@ -55,7 +55,6 @@
       radial-gradient(circle at 15% 0%, var(--surface-glow-a), transparent 30%),
       radial-gradient(circle at 85% 10%, var(--surface-glow-b), transparent 28%);
     min-height: 100vh;
-    transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease;
   }
 
 
@@ -137,18 +136,6 @@
   }
 
   /* Animation delays */
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-
   .section-space {
     padding-top: var(--section-space);
     padding-bottom: var(--section-space);
@@ -164,110 +151,35 @@
 }
 
 
-/* ─── Orb float animations (Experience section) ─── */
-@keyframes orb-float-a {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  30% { transform: translate(28px, -42px) scale(1.04); }
-  65% { transform: translate(-18px, 20px) scale(0.96); }
-}
 
-@keyframes orb-float-b {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  38% { transform: translate(-36px, 26px) scale(1.06); }
-  72% { transform: translate(20px, -30px) scale(0.97); }
+/* All interaction timing comes from motion.ts, installed before React mounts.
+   Colors and focus rings change immediately; only composite properties tween. */
+.transition-transform, .transition-opacity, .motion-card, button, .motion-button {
+  transition-property: transform, opacity, scale;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--motion-standard);
 }
-
-@keyframes orb-float-c {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  22% { transform: translate(24px, 36px) scale(1.05); }
-  78% { transform: translate(-28px, -18px) scale(0.94); }
+.motion-slider {
+  transition: transform var(--motion-medium) var(--motion-enter);
 }
-
-@keyframes orb-float-d {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  45% { transform: translate(18px, -26px) scale(1.03); }
-  80% { transform: translate(-22px, 14px) scale(0.97); }
-}
-
-/* ─── Gradient border for Experience cards (Tarea 4) ─── */
-@property --grad-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes border-spin {
-  to { --grad-angle: 360deg; }
-}
-
-.exp-card-hover-border {
-  position: relative;
-  isolation: isolate;
-}
-
-.exp-card-hover-border::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  padding: 1px;
-  background: conic-gradient(
-    from var(--grad-angle),
-    transparent 15%,
-    rgb(124 92 255 / 0.9) 38%,
-    rgb(219 39 119 / 0.85) 62%,
-    transparent 85%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.exp-card-hover-border:hover::before {
-  opacity: 1;
-  animation: border-spin 3s linear infinite;
-}
-
-/* ─── Skeleton shimmer (Projects, Skills images) ─── */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgb(var(--background-tertiary)) 25%,
-    rgb(var(--border-light)) 50%,
-    rgb(var(--background-tertiary)) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s infinite linear;
-}
-
-/* ─── Reduced motion support ─── */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  button:not(:disabled):hover, .motion-button:hover, .motion-card:hover {
+    scale: var(--motion-hover);
   }
-
-  .exp-card-hover-border:hover::before {
+}
+@media (prefers-reduced-motion: no-preference) {
+  button:not(:disabled):active, .motion-button:active {
+    scale: var(--motion-press);
+  }
+}
+/* A static placeholder avoids a repeating paint-heavy shimmer. */
+.skeleton-shimmer {
+  background: rgb(var(--background-tertiary));
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
     animation: none !important;
-    background: linear-gradient(135deg, rgb(124 92 255 / 0.5), rgb(219 39 119 / 0.4)) !important;
-    opacity: 0.6 !important;
+    transition: none !important;
   }
 }

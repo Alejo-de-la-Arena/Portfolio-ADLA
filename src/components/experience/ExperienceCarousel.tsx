@@ -19,7 +19,7 @@ export function ExperienceCarousel({ media, onOpen, labels }: ExperienceCarousel
       if (event.key === 'ArrowRight') { event.preventDefault(); goTo(active + 1) }
     }}>
       <div className="relative overflow-hidden rounded-[1.35rem] border-4 border-background-tertiary lg:rounded-2xl lg:border lg:border-border">
-        <div className={`flex ${reduceMotion ? '' : 'transition-transform duration-500 ease-out'}`} style={{ transform: `translateX(-${active * 100}%)` }}>
+        <div className={`flex ${reduceMotion ? '' : 'motion-slider'}`} style={{ transform: `translateX(-${active * 100}%)` }}>
           {media.map((item, index) => <div key={item.desktop.src} className="w-full shrink-0" aria-hidden={index !== active} inert={index !== active ? '' : undefined}>
             <DeviceShowcase media={item} onOpen={() => onOpen(index)} openLabel={labels.openImage} className="rounded-none border-0 shadow-none lg:rounded-none lg:border-0 lg:shadow-none" />
           </div>)}
@@ -28,7 +28,7 @@ export function ExperienceCarousel({ media, onOpen, labels }: ExperienceCarousel
         <button type="button" onClick={() => goTo(active - 1)} disabled={active === 0} className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/90 p-2 text-foreground shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40" aria-label={labels.previous}><ChevronLeft className="h-5 w-5" /></button>
         <button type="button" onClick={() => goTo(active + 1)} disabled={active === lastIndex} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/90 p-2 text-foreground shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40" aria-label={labels.next}><ChevronRight className="h-5 w-5" /></button>
       </div>
-      <div className="mt-4 flex items-center justify-center gap-3">{media.map((item, index) => <button key={item.desktop.src} type="button" onClick={() => goTo(index)} className={`h-2.5 w-2.5 rounded-full transition-colors ${index === active ? 'bg-accent' : 'bg-border-light'}`} aria-label={labels.goTo(index + 1)} aria-current={index === active ? 'true' : undefined} />)}</div>
+      <div className="mt-4 flex items-center justify-center gap-3">{media.map((item, index) => <button key={item.desktop.src} type="button" onClick={() => goTo(index)} className={`h-2.5 w-2.5 rounded-full transition-none ${index === active ? 'bg-accent' : 'bg-border-light'}`} aria-label={labels.goTo(index + 1)} aria-current={index === active ? 'true' : undefined} />)}</div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
             ? 'bg-background-secondary/50 backdrop-blur-md' 
             : 'bg-background-secondary/80',
           hover &&
-            'transition-all duration-300 hover:-translate-y-0.5 hover:border-border-light hover:shadow-[0_18px_40px_-28px_rgba(124,92,255,0.55)]',
+            'transition-transform duration-[var(--motion-fast)] hover:scale-[var(--motion-hover)] hover:border-border-light hover:shadow-[0_18px_40px_-28px_rgba(124,92,255,0.55)]',
           className
         )}
         {...props}

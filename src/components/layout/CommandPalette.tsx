@@ -1,3 +1,4 @@
+import { motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { useEffect, useState } from 'react'
 import { ModalSurface } from '../ui/ModalSurface'
@@ -67,7 +68,7 @@ export function CommandPalette() {
               initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, scale: 0.95, y: -20 }}
-              transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.2 }}
+              transition={motionTransition(reduceMotion)}
               className="w-full max-w-2xl"
             >
               <Command 
@@ -96,7 +97,7 @@ export function CommandPalette() {
                       <Command.Item
                         key={cmd.label}
                         onSelect={() => handleSelect(cmd.action)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent transition-colors mb-1"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent transition-none mb-1"
                       >
                         <cmd.icon className="w-4 h-4" />
                         <span>{cmd.label}</span>
@@ -111,7 +112,7 @@ export function CommandPalette() {
                       <Command.Item
                         key={cmd.label}
                         onSelect={() => handleSelect(cmd.action)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent transition-colors mb-1"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent transition-none mb-1"
                       >
                         <cmd.icon className="w-4 h-4" />
                         <span>{cmd.label}</span>

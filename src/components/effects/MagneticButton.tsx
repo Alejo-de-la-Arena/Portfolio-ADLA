@@ -1,55 +1,14 @@
-import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 import { Button } from '../ui/Button'
 
 interface MagneticButtonProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   onClick?: () => void
   variant?: 'primary' | 'secondary' | 'ghost' | 'outline'
 }
 
-export function MagneticButton({ 
-  children, 
-  className, 
-  onClick, 
-  variant = 'primary' 
-}: MagneticButtonProps) {
-  const reduceMotion = useReducedMotionPreference()
-  const ref = useRef<HTMLButtonElement>(null)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-
-  const handleMouse = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
-    const { clientX, clientY } = e
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
-    const x = (clientX - (left + width / 2)) * 0.3
-    const y = (clientY - (top + height / 2)) * 0.3
-    setPosition({ x, y })
-  }
-
-  const reset = () => {
-    setPosition({ x: 0, y: 0 })
-  }
-
-  return (
-    <motion.div
-      animate={reduceMotion ? { x: 0, y: 0 } : position}
-      transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
-    >
-      <Button
-        ref={ref}
-        variant={variant}
-        className={className}
-        onMouseMove={handleMouse}
-        onMouseLeave={reset}
-        onClick={onClick}
-      >
-        {children}
-      </Button>
-    </motion.div>
-  )
+/** Shared button interaction replaces the former pointer-tracking spring. */
+export function MagneticButton(props: MagneticButtonProps) {
+  return <Button {...props} />
 }

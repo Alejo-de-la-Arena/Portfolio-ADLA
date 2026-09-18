@@ -1,3 +1,4 @@
+import { motionTransition, staggerDelay } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { ModalSurface } from '../ui/ModalSurface'
 import { useState, useEffect, useRef, type RefObject } from 'react'
@@ -77,7 +78,7 @@ export function Navbar() {
       <motion.nav
         initial={reduceMotion ? false : { y: -72, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className={`fixed top-0 left-0 right-0 z-40 border-b border-border/60 backdrop-blur-md transition-colors duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-40 border-b border-border/60 backdrop-blur-md transition-none duration-[var(--motion-fast)] ${
           isScrolled ? 'bg-background/95' : 'bg-background/75'
         }`}
       >
@@ -94,7 +95,7 @@ export function Navbar() {
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
-                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-none ${
                     activeSection === link.id
                       ? 'bg-accent/10 text-accent'
                       : 'text-foreground-secondary hover:bg-background-tertiary hover:text-foreground'
@@ -123,7 +124,7 @@ export function Navbar() {
             {/* Hamburger — visible solo en mobile */}
             <button
               type="button"
-              className="flex lg:hidden items-center justify-center rounded-lg p-2 text-foreground-secondary transition-colors hover:bg-background-tertiary hover:text-foreground"
+              className="flex lg:hidden items-center justify-center rounded-lg p-2 text-foreground-secondary transition-none hover:bg-background-tertiary hover:text-foreground"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label={ui.navbar.menuLabel}
               aria-expanded={mobileMenuOpen}
@@ -155,7 +156,7 @@ export function Navbar() {
             initial={reduceMotion ? false : { x: '100%' }}
             animate={{ x: 0 }}
             exit={reduceMotion ? undefined : { x: '100%' }}
-            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+            transition={motionTransition(reduceMotion)}
             className="fixed right-0 top-0 z-[100] flex h-[100dvh] w-[75vw] flex-col border-l border-border bg-background shadow-2xl shadow-black/50"
 
           >
@@ -168,7 +169,7 @@ export function Navbar() {
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label={locale === 'es' ? 'Cerrar menú' : 'Close menu'} data-dialog-initial-focus
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground-secondary transition-colors hover:bg-background-secondary hover:text-foreground"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground-secondary transition-none hover:bg-background-secondary hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -182,16 +183,16 @@ export function Navbar() {
                     <motion.button
                       initial={reduceMotion ? false : { opacity: 0, x: 14 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.05 + idx * 0.05, duration: 0.24 }}
+                      transition={{ ...motionTransition(reduceMotion), delay: staggerDelay(idx, reduceMotion) }}
                       onClick={() => handleNavClick(link.id)}
-                      className={`group flex w-full items-center justify-between rounded-xl px-4 py-4 text-left text-lg font-medium transition-colors ${
+                      className={`group flex w-full items-center justify-between rounded-xl px-4 py-4 text-left text-lg font-medium transition-none ${
                         activeSection === link.id
                           ? 'bg-accent/10 text-accent'
                           : 'text-foreground-secondary hover:bg-background-secondary hover:text-foreground'
                       }`}
                     >
                       {link.label}
-                      <span className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                      <span className={`h-1.5 w-1.5 rounded-full transition-none ${
                         activeSection === link.id ? 'bg-accent' : 'bg-transparent'
                       }`} />
                     </motion.button>
@@ -206,7 +207,7 @@ export function Navbar() {
               <motion.div
                 initial={reduceMotion ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={reduceMotion ? { duration: 0, delay: 0 } : { delay: 0.35 }}
+                transition={motionTransition(reduceMotion)}
                 className="mt-5 space-y-4 rounded-xl border border-border/60 bg-background-secondary/50 p-4"
               >
                 {/* Idioma */}
@@ -220,7 +221,7 @@ export function Navbar() {
                         key={lang}
                         type="button"
                         onClick={() => setLocale(lang)}
-                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-none ${
                           locale === lang
                             ? 'bg-accent/15 text-foreground'
                             : 'text-foreground-secondary hover:text-foreground'
@@ -256,7 +257,7 @@ export function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground-secondary transition-colors hover:border-accent/50 hover:text-foreground"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground-secondary transition-none hover:border-accent/50 hover:text-foreground"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -336,7 +337,7 @@ function HeaderControls({
                   key={lang}
                   type="button"
                   onClick={() => setLocale(lang)}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-colors ${
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-none ${
                     locale === lang
                       ? 'bg-accent/15 text-foreground'
                       : 'text-foreground-secondary hover:text-foreground'

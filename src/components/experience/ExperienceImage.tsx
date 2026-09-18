@@ -6,7 +6,7 @@ type ExperienceImageProps = { desktop: LocalizedScreenshot; mobile?: LocalizedSc
 export function ExperienceImage({ desktop, mobile, onOpen, className = '', openLabel }: ExperienceImageProps) {
   const [failed, setFailed] = useState(false)
   if (failed) return <ExperiencePlaceholder label={desktop.alt} className={className} />
-  return <button type="button" onClick={onOpen} className={`group block w-full overflow-hidden text-left focus-visible:rounded-2xl ${className}`} aria-label={`${openLabel}: ${desktop.alt}`}><picture>{mobile && <source media="(min-width: 1024px)" srcSet={desktop.src} />}<img src={mobile?.src ?? desktop.src} alt={mobile?.alt ?? desktop.alt} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" onError={() => setFailed(true)} className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" /></picture></button>
+  return <button type="button" onClick={onOpen} className={`group block w-full overflow-hidden text-left focus-visible:rounded-2xl ${className}`} aria-label={`${openLabel}: ${desktop.alt}`}><picture>{mobile && <source media="(min-width: 1024px)" srcSet={desktop.src} />}<img src={mobile?.src ?? desktop.src} alt={mobile?.alt ?? desktop.alt} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" onError={() => setFailed(true)} className="h-full w-full object-cover object-top transition-transform duration-[var(--motion-fast)] group-hover:scale-[var(--motion-hover)]" /></picture></button>
 }
 
 export function ExperiencePlaceholder({ label, className = '' }: { label: string; className?: string }) {

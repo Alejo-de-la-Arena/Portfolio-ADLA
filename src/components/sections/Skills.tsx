@@ -1,7 +1,9 @@
+import { useEntrance } from '@/hooks/useEntrance'
+import { motionTokens, motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   Monitor, Server, GitBranch, Globe, Bot, Compass,
   Zap, RefreshCw, MessageSquare, Database, Braces, Triangle, Layers, Link2,
@@ -28,7 +30,7 @@ const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/'
 
 // ─── Three.js TorusKnot background ────────────────────────────────────────────
 
-function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>, reduceMotion: boolean) {
+function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -81,32 +83,12 @@ function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>, re
       meshes.push({ mesh, speed })
     })
 
-    let raf: number | null = null
     let intersecting = false
     const visible = () => intersecting && !document.hidden
 
-    function stop() {
-      if (raf !== null) cancelAnimationFrame(raf)
-      raf = null
-    }
-
-    function animate() {
-      raf = null
-      if (!visible() || reduceMotion) return
-      meshes.forEach(({ mesh, speed: [rx, ry, rz] }) => {
-        mesh.rotation.x += rx
-        mesh.rotation.y += ry
-        mesh.rotation.z += rz
-      })
-      renderer.render(scene, camera)
-      raf = requestAnimationFrame(animate)
-    }
-
     function updateActivity() {
-      stop()
       if (!visible()) return
       renderer.render(scene, camera)
-      if (!reduceMotion) raf = requestAnimationFrame(animate)
     }
 
     const observer = new IntersectionObserver(([entry]) => {
@@ -138,20 +120,16 @@ function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>, re
       })
       renderer.dispose()
     }
-  }, [canvasRef, reduceMotion])
+  }, [canvasRef])
 }
 
 // ─── SkillItemTile ─────────────────────────────────────────────────────────────
 
 function SkillItemTile({
   item,
-  index,
-  isInView,
   reduceMotion,
 }: {
   item: SkillItem
-  index: number
-  isInView: boolean
   reduceMotion: boolean
 }) {
   const [imgError, setImgError] = useState(false)
@@ -164,14 +142,10 @@ function SkillItemTile({
       : (item.fallbackColor ?? 'rgb(var(--accent))')
 
   return (
-    <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-      animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-      transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.2, delay: index * 0.025 }}
+    <div
       className="flex flex-col items-center gap-1 rounded-lg px-1 py-2 cursor-default select-none"
       style={{
         backgroundColor: hovered ? 'rgb(124 92 255 / 0.10)' : 'transparent',
-        transition: 'background-color 0.18s ease',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -180,9 +154,8 @@ function SkillItemTile({
       <div
         className="flex h-8 w-8 items-center justify-center"
         style={{
-          transform: hovered && !reduceMotion ? 'scale(1.1)' : 'scale(1)',
-          filter: hovered && !reduceMotion ? 'drop-shadow(0 0 6px rgb(var(--accent)))' : 'none',
-          transition: 'transform 0.18s ease, filter 0.18s ease',
+          transform: hovered && !reduceMotion ? `scale(${motionTokens.interaction.hoverScale})` : 'scale(1)',
+          transition: 'transform var(--motion-fast) var(--motion-standard)',
         }}
       >
         {item.fallback ? (
@@ -233,12 +206,12 @@ function SkillItemTile({
 
       {/* Name — always visible */}
       <span
-        className="max-w-full break-words text-center text-xs leading-tight transition-colors duration-200"
+        className="max-w-full break-words text-center text-xs leading-tight transition-none duration-[var(--motion-fast)]"
         style={{ color: hovered ? 'rgb(var(--accent))' : 'rgb(var(--foreground-tertiary, 136 136 136))' }}
       >
         {item.name}
       </span>
-    </motion.div>
+    </div>
   )
 }
 
@@ -248,15 +221,11 @@ function LevelSection({
   label,
   badgeClass,
   items,
-  startIndex,
-  isInView,
   reduceMotion,
 }: {
   label: string
   badgeClass: string
   items: SkillItem[]
-  startIndex: number
-  isInView: boolean
   reduceMotion: boolean
 }) {
   if (items.length === 0) return null
@@ -266,12 +235,10 @@ function LevelSection({
         {label}
       </span>
       <div className="grid grid-cols-4 gap-0 sm:grid-cols-5 lg:grid-cols-6">
-        {items.map((item, i) => (
+        {items.map(item => (
           <SkillItemTile
             key={item.name}
             item={item}
-            index={startIndex + i}
-            isInView={isInView}
             reduceMotion={reduceMotion}
           />
         ))}
@@ -285,14 +252,12 @@ function LevelSection({
 function SkillCardPanel({
   card,
   cardIndex,
-  isInView,
   reduceMotion,
   showFamiliarLabel,
   hideFamiliarLabel,
 }: {
   card: SkillCard
   cardIndex: number
-  isInView: boolean
   reduceMotion: boolean
   showFamiliarLabel: string
   hideFamiliarLabel: string
@@ -302,14 +267,11 @@ function SkillCardPanel({
   const CardIcon = CARD_ICONS[card.icon] ?? Monitor
   const hasFamiliar = card.familiar.length > 0
 
-  // stagger offset so tiles animate in sequence across the card
-  const baseIdx = cardIndex * 12
+  const entry = useEntrance('listItem', cardIndex)
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.35, delay: cardIndex * 0.08 }}
+      {...entry}
       className="flex flex-col rounded-2xl border border-border bg-background-secondary/60 p-5"
     >
       {/* Card header */}
@@ -327,13 +289,13 @@ function SkillCardPanel({
         {hasFamiliar && (
           <button
             onClick={() => setShowFamiliar(v => !v)}
-            className="shrink-0 flex items-center gap-1 rounded-md border border-border/50 px-2 py-1 text-xs text-foreground-tertiary transition-colors duration-200 hover:border-accent/40 hover:text-accent"
+            className="shrink-0 flex items-center gap-1 rounded-md border border-border/50 px-2 py-1 text-xs text-foreground-tertiary transition-none duration-[var(--motion-fast)] hover:border-accent/40 hover:text-accent"
             aria-expanded={showFamiliar}
           >
             {showFamiliar ? hideFamiliarLabel : showFamiliarLabel}
             <ChevronDown
               size={11}
-              className="transition-transform duration-200"
+              className="transition-transform duration-[var(--motion-fast)]"
               style={{ transform: showFamiliar ? 'rotate(180deg)' : 'rotate(0deg)' }}
             />
           </button>
@@ -348,16 +310,12 @@ function SkillCardPanel({
           label={isSpanish ? 'PRINCIPALES' : 'CORE'}
           badgeClass="bg-accent-solid text-white"
           items={card.core}
-          startIndex={baseIdx}
-          isInView={isInView}
           reduceMotion={reduceMotion}
         />
         <LevelSection
           label={isSpanish ? 'USO HABITUAL' : 'REGULAR USE'}
           badgeClass="bg-accent/15 text-accent-on-subtle border border-accent/30"
           items={card.strong}
-          startIndex={baseIdx + card.core.length}
-          isInView={isInView}
           reduceMotion={reduceMotion}
         />
       </div>
@@ -367,10 +325,10 @@ function SkillCardPanel({
         {showFamiliar && hasFamiliar && (
           <motion.div
             key="familiar"
-            initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-            transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.25, ease: 'easeInOut' }}
+            initial={reduceMotion ? false : { opacity: motionTokens.opacity.initial }}
+            animate={{ opacity: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0 }}
+            transition={motionTransition(reduceMotion)}
             style={{ overflow: 'hidden' }}
           >
             <div className="mt-3 border-t border-border/30 pt-3">
@@ -378,9 +336,7 @@ function SkillCardPanel({
                 label={isSpanish ? 'FAMILIARIDAD' : 'FAMILIAR'}
                 badgeClass="bg-background text-foreground-secondary border border-border/50"
                 items={card.familiar}
-                startIndex={baseIdx + card.core.length + card.strong.length}
-                isInView={isInView}
-                reduceMotion={reduceMotion}
+                    reduceMotion={reduceMotion}
               />
             </div>
           </motion.div>
@@ -394,12 +350,11 @@ function SkillCardPanel({
 
 export function Skills() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const inViewRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(inViewRef, { once: true, margin: '-80px' })
+  const heading = useEntrance()
   const reduceMotion = Boolean(useReducedMotionPreference())
   const { skills, ui } = useLocalizedContent()
 
-  useTorusKnotBg(canvasRef, reduceMotion)
+  useTorusKnotBg(canvasRef)
 
   return (
     <section
@@ -415,14 +370,9 @@ export function Skills() {
       />
 
       <div className="relative z-10 mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={inViewRef}
-          initial={reduceMotion ? false : { opacity: 0, y: 40 }}
-          animate={reduceMotion || isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={reduceMotion ? { duration: 0, delay: 0 } : { duration: 0.5 }}
-        >
+        <div>
           {/* Section header */}
-          <div className="editorial-grid mb-10">
+          <motion.div {...heading} className="editorial-grid mb-10">
             <div className="space-y-3">
               <p className="eyebrow">{ui.skills.eyebrow}</p>
               <h2 className="font-display text-3xl font-bold sm:text-4xl">
@@ -433,7 +383,7 @@ export function Skills() {
             <p className="max-w-2xl text-foreground-secondary">
               {ui.skills.intro}
             </p>
-          </div>
+          </motion.div>
 
           {/* 6-card grid: 1 col mobile → 2 cols tablet+ */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -442,14 +392,13 @@ export function Skills() {
                 key={card.id}
                 card={card}
                 cardIndex={i}
-                isInView={isInView}
-                reduceMotion={reduceMotion}
+                    reduceMotion={reduceMotion}
                 showFamiliarLabel={ui.skills.showFamiliar}
                 hideFamiliarLabel={ui.skills.hideFamiliar}
               />
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )
