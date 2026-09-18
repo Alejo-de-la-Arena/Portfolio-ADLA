@@ -4,6 +4,9 @@ import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { ArrowDownRight, ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react'
 import { useLocale } from '@/context/LocaleContext'
 import { Modal } from '../ui/Modal'
+import type { ProjectMedia } from '@/data/experiences'
+import { ImageLightbox } from '../experience/ImageLightbox'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import type { Project } from '@/types'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
@@ -12,6 +15,7 @@ import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 interface PreviewImageProps {
   imageUrl?: string
+  media?: ProjectMedia
   title: string
   className?: string
   objectPosition?: string
@@ -19,13 +23,32 @@ interface PreviewImageProps {
 
 function ProjectPreviewImage({
   imageUrl,
+  media,
   title,
   className = '',
   objectPosition = 'top',
 }: PreviewImageProps) {
-  const { isSpanish } = useLocale()
+  const { isSpanish, locale } = useLocale()
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
+  const [activeImage, setActiveImage] = useState<number | null>(null)
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState(false)
+
+  if (media && !error) {
+    const desktop = { ...media.desktop, alt: media.desktop.alt[locale] }
+    const mobile = media.mobile && { ...media.mobile, alt: media.mobile.alt[locale] }
+    const displayed = isDesktop || !mobile ? desktop : mobile
+    const images = mobile ? [desktop, mobile] : [desktop]
+    return <>
+      <button type="button" onClick={() => setActiveImage(isDesktop || !mobile ? 0 : 1)} aria-label={(isSpanish ? 'Ampliar captura: ' : 'Enlarge screenshot: ') + displayed.alt} className={className + ' block w-full overflow-hidden bg-background-tertiary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent'}>
+        <picture>
+          {mobile && <source media="(min-width: 1024px)" srcSet={desktop.src} width={desktop.width} height={desktop.height} />}
+          <img src={mobile?.src ?? desktop.src} alt={displayed.alt} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" onError={() => setError(true)} className="h-full w-full object-contain" />
+        </picture>
+      </button>
+      <ImageLightbox images={images} activeIndex={activeImage} onClose={() => setActiveImage(null)} onNavigate={setActiveImage} closeLabel={isSpanish ? 'Cerrar imagen' : 'Close image'} previousLabel={isSpanish ? 'Imagen anterior' : 'Previous image'} nextLabel={isSpanish ? 'Imagen siguiente' : 'Next image'} />
+    </>
+  }
 
   if (!imageUrl || error) {
     return (
@@ -51,7 +74,7 @@ function ProjectPreviewImage({
         height={1260}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
-        className={`h-full w-full object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none ${loaded ? 'opacity-100' : 'opacity-0'}`}
         style={{ objectPosition }}
       />
     </div>
@@ -112,6 +135,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
           >
             <ProjectPreviewImage
               imageUrl={project.image}
+              media={project.media}
               title={project.title}
               objectPosition="top"
               className="h-full w-full"
@@ -259,6 +283,7 @@ export function Projects() {
           title={selectedProject.title}
         >
           <div className="space-y-6">
+            {selectedProject.media && <ProjectPreviewImage media={selectedProject.media} title={selectedProject.title} className="h-72 rounded-xl sm:h-96" />}
             <p className="text-sm leading-relaxed text-foreground-secondary">{selectedProject.description}</p>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               <CaseChip label={ui.projects.role} value={selectedProject.role} />

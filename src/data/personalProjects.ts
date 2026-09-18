@@ -1,3 +1,4 @@
+import { jobSearchMedia } from './projectMedia'
 import type { Locale } from '@/context/LocaleContext'
 import type { Project } from '@/types'
 
@@ -14,7 +15,8 @@ export const ownProjects: Record<Locale, Project[]> = {
       "description": "Estoy buscando trabajo y construyo una herramienta para organizar esa búsqueda. El MVP ya analiza CVs e ingiere vacantes; todavía no conecta el circuito de alertas.",
       "problem": "Buscar oportunidades implica revisar fuentes y relacionar cada vacante con el propio perfil. Empecé JobSearchBot a partir de mi búsqueda laboral.",
       "solution": "Separé el acceso y la carga de CV del procesamiento en segundo plano. Supabase gestiona sesiones y almacenamiento; un worker con BullMQ ingiere vacantes de Remotive.",
-      "image": "",
+      "image": jobSearchMedia.desktop.src,
+      media: jobSearchMedia,
       "tags": [
         "Full-stack",
         "IA / AI"
@@ -204,7 +206,8 @@ export const ownProjects: Record<Locale, Project[]> = {
       "description": "I’m looking for work and building a tool to organize that search. The MVP already analyzes CVs and ingests jobs; the alert pipeline is not connected yet.",
       "problem": "Finding opportunities involves checking sources and relating each job to your profile. I started JobSearchBot during my own job search.",
       "solution": "I separated sign-in and CV uploads from background processing. Supabase handles sessions and storage; a BullMQ worker ingests jobs from Remotive.",
-      "image": "",
+      "image": jobSearchMedia.desktop.src,
+      media: jobSearchMedia,
       "tags": [
         "Full-stack",
         "IA / AI"

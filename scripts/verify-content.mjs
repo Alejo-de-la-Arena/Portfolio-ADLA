@@ -54,6 +54,8 @@ try {
   for (const experience of clientExperiences) for (const project of experience.projects) for (const media of project.media) {
     for (const shot of [media.desktop, media.mobile].filter(Boolean)) registered.set(shot.src, shot)
   }
+  const { jobSearchMedia } = await vite.ssrLoadModule('/src/data/projectMedia.ts')
+  for (const shot of [jobSearchMedia.desktop, jobSearchMedia.mobile]) registered.set(shot.src, shot)
   for (const [src, shot] of registered) {
     assert.doesNotMatch(src, /admin|giftcard|inscripciones|metricas|fefebakes/i, 'Excluded screenshot registered')
     assert.ok(shot.alt.es && shot.alt.en)
@@ -104,10 +106,10 @@ try {
         const html = render(h(mod[name]), locale, '/')
         assert.ok(html.length > 100, name)
         if (name === 'Hero') { assert.match(html, /B2/); assert.match(html, /part-time/); assert.match(html, /UTC−3/) }
-        if (name === 'About') { assert.equal(content.about.paragraphs.length, 3); assert.doesNotMatch(html, /abril de 2024|April 2024|<ul|<li/) }
+        if (name === 'About') { assert.equal(content.about.paragraphs.length, 3); assert.doesNotMatch(html, /abril de 2024|April 2024|<ul|<li/); assert.match(html, /aria-expanded="false"/); assert.match(html, /aria-controls=/); for (const paragraph of content.about.paragraphs) assert.ok(html.includes(paragraph)) }
         if (name === 'Experience') assert.equal((html.match(/<li /g) ?? []).length, 2)
         if (name === 'SelectedCases') for (const study of selectedCases) assert.ok(html.includes(study.href))
-        if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.doesNotMatch(html, /<select|aria-pressed=|Pausar|Reanudar/); assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 1) }
+        if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.doesNotMatch(html, /<select|aria-pressed=|Pausar|Reanudar/); assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 1); assert.match(html, /job-match-login-mobile.png/); assert.match(html, /job-match-login.png/); assert.match(html, /min-width: 1024px/); assert.equal(content.projects[0].media.desktop.width, 2560) }
       }
     for (const slug of ['zetenta', 'freelance', 'solution', 'espacio-boa', 'renova-tu-cocina', 'mdvproyectos', 'fefe-bakes', 'kyriazis', 'don-teofilo-amoblamientos', 'format']) {
       const html = render(h(Routes, null, h(Route, { path: '/experiencia/:slug', element: h(ExperienceDetailPage) })), locale, '/experiencia/' + slug)

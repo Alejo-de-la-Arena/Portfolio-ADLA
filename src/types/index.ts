@@ -1,3 +1,5 @@
+import type { ProjectMedia } from '@/data/experiences'
+
 export interface Project {
   id: number
   title: string
@@ -10,6 +12,7 @@ export interface Project {
   problem: string
   solution: string
   image: string
+  media?: ProjectMedia
   tags: string[]
   highlights: string[]
   technologies: string[]
