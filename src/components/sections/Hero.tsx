@@ -154,12 +154,12 @@ export function Hero() {
           )}
 
           {/* CONTENIDO */}
-          <div className={`space-y-7 sm:space-y-10 text-center ${isMobile ? 'flex flex-col items-center' : 'lg:text-left lg:order-first'}`}>
+          <div className="min-w-0 space-y-6 text-left lg:order-first">
             <div className="space-y-4 sm:space-y-5">
               <StaggeredHeadline name={personalInfo.name} reduceMotion={reduceMotion} />
             </div>
 
-            <motion.div {...entry(2)} className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-background-secondary/80 p-5 text-left shadow-lg shadow-black/5 sm:p-6 lg:mx-0">
+            <motion.div {...entry(2)} className="!mt-3 w-full max-w-xl">
               <p className="max-w-lg font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">{personalInfo.role}</p>
               <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
                 {personalInfo.summary}
@@ -167,12 +167,12 @@ export function Hero() {
               <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-accent">
                 {personalInfo.location.split(' · ').map(item => <li key={item}>{item}</li>)}
               </ul>
-              <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-foreground-secondary">{personalInfo.availability}</p>
+              <p className="mt-5 text-sm leading-relaxed text-foreground-secondary">{personalInfo.availability}</p>
             </motion.div>
 
             <motion.div
               {...entry(3)}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
+              className="flex flex-wrap items-center justify-start gap-3"
             >
               <PillCTA primary onClick={() => scrollToSection('cases')}>
                 {ui.hero.viewProjects}
@@ -181,7 +181,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => scrollToSection('experience')}
-                className="hidden sm:inline-flex group ml-1 items-center gap-2 text-sm text-foreground-tertiary transition-none hover:text-foreground"
+                className="inline-flex group items-center gap-2 text-sm text-foreground-tertiary transition-none hover:text-foreground"
               >
                 {ui.hero.viewExperience}
                 <span className="h-px w-8 bg-border transition-transform origin-left group-hover:scale-x-125 group-hover:bg-foreground-secondary" />
@@ -191,9 +191,9 @@ export function Hero() {
             {/* Social links */}
             <motion.div
               {...entry(4)}
-              className="hidden sm:block sm:!mt-5"
+              className="!mt-5"
             >
-              <div className="flex items-center justify-center lg:justify-start gap-3">
+              <div className="flex items-center justify-start gap-3">
                 {socials.map(({ icon: Icon, href, label }) => (
                   <motion.a
                     key={label}
