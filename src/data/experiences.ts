@@ -1,4 +1,5 @@
 import { caseStudies } from './caseStudies'
+import { fefeBakesMedia } from './projectMedia'
 import type { Locale } from '@/context/LocaleContext'
 
 export type Localized = { es: string; en: string }
@@ -950,7 +951,7 @@ export const clientExperiences: Experience[] = [
           "PostgreSQL",
           "Sequelize"
         ],
-        "media": []
+        "media": [fefeBakesMedia]
       }
     ]
   },
