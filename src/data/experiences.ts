@@ -36,6 +36,7 @@ export const clientExperiences: Experience[] = [
   {
     "slug": "solution",
     "company": "Solution Perfumes",
+    "companyUrl": "https://www.solutionperfumes.com/",
     "position": {
       "es": "Full-Stack Developer",
       "en": "Full-Stack Developer"
@@ -105,6 +106,7 @@ export const clientExperiences: Experience[] = [
           "Mercado Pago",
           "Correo Argentino"
         ],
+        "liveUrl": "https://www.solutionperfumes.com/",
         "media": [
           {
             "desktop": {
@@ -214,6 +216,7 @@ export const clientExperiences: Experience[] = [
           "JavaScript",
           "Sass"
         ],
+        "liveUrl": "https://www.manantialghumano.com.ar/",
         "media": [
           {
             "desktop": {
@@ -264,6 +267,7 @@ export const clientExperiences: Experience[] = [
           "PHP",
           "JavaScript"
         ],
+        "liveUrl": "https://yacoub.com.ar/bajo-de-precio/",
         "media": [
           {
             "desktop": {
