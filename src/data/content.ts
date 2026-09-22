@@ -44,11 +44,11 @@ export const sectionLinks = [
   }
 ]
 export const about = {
-  titles: ['Cómo arranco un proyecto', 'El dominio antes que las pantallas', 'Quién opera el sistema después'],
+  titles: ['Cómo arranco un proyecto', 'Comunicación y equipo', 'IA con criterio'],
   "paragraphs": [
     "Antes de escribir código, ordeno los requerimientos: qué necesita el cliente, qué herramientas hacen falta y cómo voy a preparar el proyecto. Dejo el entorno listo y desarrollo tomando el pedido y el diseño como referencia; después paso a producción y ajusto sobre el sitio en vivo.",
-    "Modelo el dominio antes de resolver las pantallas. En Solution, iniciar un pago y confirmar una compra son estados distintos; en FORMAT, las Seasons determinan la identidad visual de cada fecha. Las reglas también tienen un lugar: en Don Teófilo, las políticas RLS de la base separan lo público de lo privado.",
-    "Pienso en quién va a operar el sistema después de la entrega. En Manantial elegí Gutenberg y ACF para que el equipo edite contenido dentro de una estructura de diseño definida. En BOA y Don Teófilo, el panel pone la gestión en manos de personas no técnicas."
+    "En Zetenta implementé Figma junto al equipo de diseño, probando en distintos dispositivos y entregando por etapas. Como freelance, traduzco necesidades de los dueños en decisiones técnicas y explico alternativas y costos sin jerga. En BOA y Don Teófilo, esa colaboración terminó en paneles que usan personas no técnicas a diario.",
+    "Uso agentes de IA para acelerar el desarrollo: reviso cada resultado, tomo las decisiones técnicas y verifico antes de entregar. En VYZON probé cómo coordinar agentes especializados con decisión humana final. En JobMatch Bot, la IA también es parte del producto: Gemini analiza CVs y genera embeddings para comparar perfiles y vacantes."
   ]
 }
 export const projects = ownProjects.es
@@ -395,11 +395,11 @@ export const enProfile = {
     "availability": "My priority is a full-time remote role. I’m also open to part-time opportunities and hybrid or on-site roles in Buenos Aires. I’m available for freelance projects."
   },
   "about": {
-  titles: ['How I start a project', 'The domain before the screens', 'Who operates the system afterward'],
+  titles: ['How I start a project', 'Communication and teamwork', 'AI with judgment'],
   "paragraphs": [
     "Before writing code, I organize the requirements: what the client needs, which tools it calls for, and how I will set up the project. I prepare the environment and develop against the brief and design, then move to production and refine the live site.",
-    "I model the domain before working out the screens. In Solution, starting a payment and confirming a purchase are different states; in FORMAT, Seasons determine each event’s visual identity. Rules also belong in a specific place: in Don Teófilo, database RLS policies separate public and private content.",
-    "I think about who will operate the system after delivery. In Manantial, I chose Gutenberg and ACF so the team can edit content within a defined design structure. In BOA and Don Teófilo, the panel puts management in the hands of nontechnical users."
+    "At Zetenta, I implemented Figma designs alongside the design team, testing across devices and delivering in stages. As a freelancer, I turn business owners’ needs into technical decisions and explain options and costs without jargon. At BOA and Don Teófilo, that collaboration led to admin panels used daily by nontechnical people.",
+    "I use AI agents to speed up development: I review every result, make the technical decisions, and verify before delivery. In VYZON, I explored coordinating specialized agents with a human making the final call. In JobMatch Bot, AI is also part of the product: Gemini analyzes CVs and generates embeddings for comparing profiles and jobs."
   ]
 },
   "sectionLinks": [
