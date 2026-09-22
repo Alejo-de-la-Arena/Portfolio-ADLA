@@ -12,6 +12,7 @@ export const motionTokens = {
   stagger: { step: 0.05, maxDelay: 0.15 },
   smallGroup: { step: 0.09, maxItems: 5 },
   interaction: { hoverScale: 1.015, pressScale: 0.985 },
+  availability: { duration: 2.4, opacity: [1, 0.55, 1] },
   viewport: { once: true, amount: 0.15 },
 } as const
 

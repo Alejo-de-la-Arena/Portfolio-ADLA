@@ -136,6 +136,10 @@ interface LocalizedContent {
       copied: string
     }
     footer: {
+      availability: string
+      copyEmail: string
+      copyError: string
+      backToTop: string
       navigation: string
       social: string
       rights: string
@@ -276,6 +280,10 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         copied: 'Email copiado al portapapeles',
       },
       footer: {
+        availability: 'Disponible para nuevas oportunidades',
+        copyEmail: 'Copiar email',
+        copyError: 'No se pudo copiar. Podés seleccionar el email y copiarlo manualmente.',
+        backToTop: 'Volver arriba',
         navigation: 'Navegación',
         social: 'Redes',
         rights: 'Todos los derechos reservados.',
@@ -414,6 +422,10 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         copied: 'Email copied to clipboard',
       },
       footer: {
+        availability: 'Open to new opportunities',
+        copyEmail: 'Copy email',
+        copyError: 'Could not copy. You can select the email and copy it manually.',
+        backToTop: 'Back to top',
         navigation: 'Navigation',
         social: 'Social',
         rights: 'All rights reserved.',
