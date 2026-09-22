@@ -9,13 +9,13 @@ const screenshots = {
     src: '/images/experiencia/fefe-bakes/fefe-bakes-home-mobile.webp', width: 850, height: 1100,
     alt: { es: 'Fefe Bakes: inicio de la tienda de pastelería en móvil.', en: 'Fefe Bakes: bakery store homepage on mobile.' },
   },
-  'job-match-login': {
-    src: '/projects/job-match-login.png', width: 2560, height: 1278,
-    alt: { es: 'JobSearchBot (JobMatch): acceso por enlace mágico con el campo de email vacío, en escritorio.', en: 'JobSearchBot (JobMatch): magic-link sign-in with an empty email field, on desktop.' },
+  'vyzon-hero': {
+    src: '/projects/vyzon/vyzon-hero.webp', width: 2560, height: 1266,
+    alt: { es: 'VYZON: portada oscura con el mensaje «Tu visión. Nuestra ingeniería.» y acceso al briefing, en escritorio.', en: 'VYZON: dark homepage with the message “Tu visión. Nuestra ingeniería.” and a briefing call to action, on desktop.' },
   },
-  'job-match-login-mobile': {
-    src: '/projects/job-match-login-mobile.png', width: 850, height: 1100,
-    alt: { es: 'JobSearchBot (JobMatch): acceso por enlace mágico con el campo de email vacío, en móvil.', en: 'JobSearchBot (JobMatch): magic-link sign-in with an empty email field, on mobile.' },
+  'vyzon-hero-mobile': {
+    src: '/projects/vyzon/vyzon-hero-mobile.webp', width: 850, height: 1100,
+    alt: { es: 'VYZON: portada oscura con tipografía turquesa y acceso al briefing, en móvil.', en: 'VYZON: dark homepage with turquoise typography and a briefing call to action, on mobile.' },
   },
 } satisfies Record<string, Screenshot>
 
@@ -24,7 +24,7 @@ export const fefeBakesMedia: ProjectMedia = {
   desktop: screenshot('fefe-bakes-home'),
   mobile: screenshot('fefe-bakes-home-mobile'),
 }
-export const jobSearchMedia: ProjectMedia = {
-  desktop: screenshot('job-match-login'),
-  mobile: screenshot('job-match-login-mobile'),
+export const vyzonMedia: ProjectMedia = {
+  desktop: screenshot('vyzon-hero'),
+  mobile: screenshot('vyzon-hero-mobile'),
 }

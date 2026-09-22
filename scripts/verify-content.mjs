@@ -23,7 +23,7 @@ try {
   const { ExperienceDetailPage } = await vite.ssrLoadModule('/src/components/experience/ExperienceDetailPage.tsx')
   const render = (child, locale, entry = '/') => renderToString(
     h(MemoryRouter, { initialEntries: [entry] },
-      h(LocaleContext.Provider, { value: { locale, isSpanish: locale === 'es', setLocale() {}, toggleLocale() {} } }, child)))
+      h(LocaleContext.Provider, { value: { locale, isSpanish: locale === 'es', setLocale() { }, toggleLocale() { } } }, child)))
 
   assert.equal(experiences.length, 2, 'Home must have two trajectory entries')
   assert.equal(getExperienceBySlug('zetenta').projects.length, 7)
@@ -33,7 +33,7 @@ try {
   assert.equal(freelance.startDate.month, 4)
   assert.equal(freelance.endDate, null)
   assert.equal(freelance.projects.at(-1).id, 'kyriazis')
-  const dated = clientExperiences.filter(e => e.type === 'freelance' && e.startDate).sort((a,b) => b.startDate.year - a.startDate.year || b.startDate.month - a.startDate.month)
+  const dated = clientExperiences.filter(e => e.type === 'freelance' && e.startDate).sort((a, b) => b.startDate.year - a.startDate.year || b.startDate.month - a.startDate.month)
   assert.deepEqual(freelance.projects.map(p => p.id), dated.map(e => e.slug === 'espacio-boa' ? 'boa' : e.slug))
   for (const [slug, month] of [['don-teofilo-amoblamientos', 7], ['format', 8]]) {
     const entry = getExperienceBySlug(slug)
@@ -56,8 +56,8 @@ try {
   for (const experience of clientExperiences) for (const project of experience.projects) for (const media of project.media) {
     for (const shot of [media.desktop, media.mobile].filter(Boolean)) registered.set(shot.src, shot)
   }
-  const { jobSearchMedia } = await vite.ssrLoadModule('/src/data/projectMedia.ts')
-  for (const shot of [jobSearchMedia.desktop, jobSearchMedia.mobile]) registered.set(shot.src, shot)
+  const { vyzonMedia } = await vite.ssrLoadModule('/src/data/projectMedia.ts')
+  for (const shot of [vyzonMedia.desktop, vyzonMedia.mobile]) registered.set(shot.src, shot)
   for (const [src, shot] of registered) {
     assert.doesNotMatch(src, /admin|giftcard|inscripciones|metricas|fefebakes/i, 'Excluded screenshot registered')
     assert.ok(shot.alt.es && shot.alt.en)
@@ -94,7 +94,7 @@ try {
     assert.match(header, /ADLA/)
     assert.doesNotMatch(header, /Hablemos|Let’s talk|Modo de lectura|Reading mode/)
     const content = getLocalizedContent(locale)
-    assert.deepEqual(content.projects.map(p => p.title), ['JobSearchBot', 'VYZON'])
+    assert.deepEqual(content.projects.map(p => p.title), ['Job Match Bot', 'VYZON'])
     assert.deepEqual(content.projects[1].demos.map(d => d.title), ['TaskFlow', 'AURA AI', 'OBSIDIAN'])
     for (const demo of content.projects[1].demos) assert.match(demo.label, locale === 'es' ? /ficticio/ : /fictional/)
     assert.match(content.projects[0].results.join(' '), /stubs/)
@@ -103,29 +103,30 @@ try {
     assert.match(content.personalInfo.availability, /part-time/)
     assert.doesNotMatch(JSON.stringify(content), /NAVE|Naranja X|validated in production|95%|13 rutas|13 public|4 años|4 years|NECESITO|NEEDED/)
     if (locale === 'en') assert.doesNotMatch(JSON.stringify(content.skills), /básico|Agentes IA|Explorando|Plataformas|Automatización/)
-      for (const name of ['Hero', 'SelectedCases', 'Experience', 'About', 'Projects', 'Skills', 'Contact']) {
-        const mod = await vite.ssrLoadModule('/src/components/sections/' + name + '.tsx')
-        const html = render(h(mod[name]), locale, '/')
-        assert.ok(html.length > 100, name)
-        if (name === 'Hero') { assert.ok(!('proof' in content.personalInfo)); assert.match(html, /B2/); assert.match(html, /part-time/); assert.match(html, /UTC−3/) }
-        if (name === 'About') {
-          assert.equal(content.about.paragraphs.length, 3)
-          assert.equal(content.about.titles.length, 3)
-          assert.equal((html.match(/<h3 /g) ?? []).length, 3)
-          assert.equal((html.match(/<li /g) ?? []).length, 3)
-          assert.doesNotMatch(html, /aria-expanded|aria-controls|<button|abril de 2024|April 2024/)
-          const visibleText = html.replace(/<[^>]*>/g, '')
-          for (const paragraph of content.about.paragraphs) assert.ok(visibleText.includes(render(h('p', null, paragraph), locale, '/').replace(/<[^>]*>/g, '')))
-          for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
-            const [route, anchor] = href.split('#')
-            assert.ok(getExperienceBySlug(route.split('/').pop()).projects.some(project => project.id === anchor), href)
-          }
-          assert.equal((html.match(/href="/g) ?? []).length, 6)
+    for (const name of ['Hero', 'SelectedCases', 'Experience', 'About', 'Projects', 'Skills', 'Contact']) {
+      const mod = await vite.ssrLoadModule('/src/components/sections/' + name + '.tsx')
+      const html = render(h(mod[name]), locale, '/')
+      assert.ok(html.length > 100, name)
+      if (name === 'Hero') { assert.ok(!('proof' in content.personalInfo)); assert.match(html, /B2/); assert.match(html, /part-time/); assert.match(html, /UTC−3/) }
+      if (name === 'About') {
+        assert.equal(content.about.paragraphs.length, 3)
+        assert.equal(content.about.titles.length, 3)
+        assert.equal((html.match(/<h3 /g) ?? []).length, 3)
+        assert.equal((html.match(/<li /g) ?? []).length, 3)
+        assert.doesNotMatch(html, /aria-expanded|aria-controls|<button|abril de 2024|April 2024/)
+        const visibleText = html.replace(/<[^>]*>/g, '')
+        for (const paragraph of content.about.paragraphs) assert.ok(visibleText.includes(render(h('p', null, paragraph), locale, '/').replace(/<[^>]*>/g, '')))
+        for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+          const [route, anchor] = href.split('#')
+          if (route === '/') assert.equal(anchor, 'projects')
+          else { const experience = getExperienceBySlug(route.split('/').pop()); assert.ok(experience, href); if (anchor) assert.ok(experience.projects.some(project => project.id === anchor), href) }
         }
-        if (name === 'Experience') assert.equal((html.match(/<li /g) ?? []).length, 2)
-        if (name === 'SelectedCases') for (const study of selectedCases) assert.ok(html.includes(study.href))
-        if (name === 'Projects') { assert.match(html, /JobSearchBot/); assert.doesNotMatch(html, /<select|aria-pressed=|Pausar|Reanudar/); assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 1); assert.match(html, /job-match-login-mobile.png/); assert.match(html, /job-match-login.png/); assert.match(html, /min-width: 1024px/); assert.equal(content.projects[0].media.desktop.width, 2560) }
+        assert.equal((html.match(/href="/g) ?? []).length, 5)
       }
+      if (name === 'Experience') assert.equal((html.match(/<li /g) ?? []).length, 2)
+      if (name === 'SelectedCases') for (const study of selectedCases) assert.ok(html.includes(study.href))
+      if (name === 'Projects') { assert.match(html, /Job Match Bot/); assert.doesNotMatch(html, /<select|aria-pressed=|Pausar|Reanudar/); assert.equal((html.match(/aria-haspopup="dialog"/g) ?? []).length, 1); assert.equal(content.projects[0].id, 'job-match-bot'); assert.equal(content.projects[1].media.desktop.width, 2560); assert.doesNotMatch(html, /job-match-login/) }
+    }
     for (const slug of ['zetenta', 'freelance', 'solution', 'espacio-boa', 'renova-tu-cocina', 'mdvproyectos', 'fefe-bakes', 'kyriazis', 'don-teofilo-amoblamientos', 'format']) {
       const html = render(h(Routes, null, h(Route, { path: '/experiencia/:slug', element: h(ExperienceDetailPage) })), locale, '/experiencia/' + slug)
       const source = getExperienceBySlug(slug)

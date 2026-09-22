@@ -11,11 +11,11 @@ const projectLinks: Record<string, string> = {
   BOA: '/experiencia/freelance#boa',
   Zetenta: '/experiencia/zetenta',
   VYZON: '/#projects',
-  'JobMatch Bot': '/#projects',
+  'Job Match Bot': '/#projects',
 }
 
 function ProjectEvidence({ text }: { text: string }) {
-  return <>{text.split(/(Solution|FORMAT|Don Teófilo|Manantial|BOA|Zetenta|VYZON|JobMatch Bot)/g).map((part, index) => {
+  return <>{text.split(/(Solution|FORMAT|Don Teófilo|Manantial|BOA|Zetenta|VYZON|Job Match Bot)/g).map((part, index) => {
     const href = projectLinks[part]
     return href ? <Link key={index} to={href} className="rounded-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 hover:text-foreground hover:decoration-current focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">{part}</Link> : part
   })}</>

@@ -1,22 +1,20 @@
-import { jobSearchMedia } from './projectMedia'
+import { vyzonMedia } from './projectMedia'
 import type { Locale } from '@/context/LocaleContext'
 import type { Project } from '@/types'
 
 export const ownProjects: Record<Locale, Project[]> = {
   "es": [
     {
-      "id": 4,
-      "title": "JobSearchBot",
+      "id": "job-match-bot",
+      "title": "Job Match Bot",
       "year": 2026,
       "role": "Desarrollo full-stack",
       "scope": "MVP de alertas laborales para LATAM",
       "timeline": "MVP en desarrollo",
       "impact": "Carga y análisis de CV, embeddings e ingesta de vacantes implementados. Matching y envío por WhatsApp pendientes.",
       "description": "Estoy buscando trabajo y construyo una herramienta para organizar esa búsqueda. El MVP ya analiza CVs e ingiere vacantes; todavía no conecta el circuito de alertas.",
-      "problem": "Buscar oportunidades implica revisar fuentes y relacionar cada vacante con el propio perfil. Empecé JobSearchBot a partir de mi búsqueda laboral.",
+      "problem": "Buscar oportunidades implica revisar fuentes y relacionar cada vacante con el propio perfil. Empecé Job Match Bot a partir de mi búsqueda laboral.",
       "solution": "Separé el acceso y la carga de CV del procesamiento en segundo plano. Supabase gestiona sesiones y almacenamiento; un worker con BullMQ ingiere vacantes de Remotive.",
-      "image": jobSearchMedia.desktop.src,
-      media: jobSearchMedia,
       "tags": [
         "Full-stack",
         "IA / AI"
@@ -67,7 +65,7 @@ export const ownProjects: Record<Locale, Project[]> = {
       ]
     },
     {
-      "id": 0,
+      "id": "vyzon",
       "title": "VYZON",
       "year": 2026,
       "role": "Orquestación y desarrollo",
@@ -77,7 +75,8 @@ export const ownProjects: Record<Locale, Project[]> = {
       "description": "Laboratorio personal de desarrollo web con IA agéntica. No es una agencia con clientes. Incluye Briefing IA y las demos TaskFlow, AURA AI y OBSIDIAN, creadas con briefs ficticios.",
       "problem": "Quería organizar el trabajo con agentes en un proceso que pudiera revisar por etapas. VYZON es el laboratorio donde documento y pruebo ese proceso.",
       "solution": "Definí roles y una cadena de entrega: discovery, diseño, desarrollo, QA, entrega y soporte. Cada etapa deja un artefacto revisable; yo decido cómo continuar.",
-      "image": "https://res.cloudinary.com/dasch1s5i/image/upload/v1782240696/vyzon-screen-desktop_xxihbv.png",
+      "image": vyzonMedia.desktop.src,
+      media: vyzonMedia,
       "liveUrl": "https://vyzon-agency.vercel.app/",
       "tags": [
         "IA / AI",
@@ -196,18 +195,16 @@ export const ownProjects: Record<Locale, Project[]> = {
   ],
   "en": [
     {
-      "id": 4,
-      "title": "JobSearchBot",
+      "id": "job-match-bot",
+      "title": "Job Match Bot",
       "year": 2026,
       "role": "Full-stack development",
       "scope": "Job alert MVP for LATAM",
       "timeline": "MVP in development",
       "impact": "CV upload and analysis, embeddings, and job ingestion implemented. Matching and WhatsApp delivery remain on the roadmap.",
       "description": "I’m looking for work and building a tool to organize that search. The MVP already analyzes CVs and ingests jobs; the alert pipeline is not connected yet.",
-      "problem": "Finding opportunities involves checking sources and relating each job to your profile. I started JobSearchBot during my own job search.",
+      "problem": "Finding opportunities involves checking sources and relating each job to your profile. I started Job Match Bot during my own job search.",
       "solution": "I separated sign-in and CV uploads from background processing. Supabase handles sessions and storage; a BullMQ worker ingests jobs from Remotive.",
-      "image": jobSearchMedia.desktop.src,
-      media: jobSearchMedia,
       "tags": [
         "Full-stack",
         "IA / AI"
@@ -258,7 +255,7 @@ export const ownProjects: Record<Locale, Project[]> = {
       ]
     },
     {
-      "id": 0,
+      "id": "vyzon",
       "title": "VYZON",
       "year": 2026,
       "role": "Orchestration and development",
@@ -268,7 +265,8 @@ export const ownProjects: Record<Locale, Project[]> = {
       "description": "A personal web development lab using agentic AI. It is not an agency with clients. It includes AI Briefing and the TaskFlow, AURA AI, and OBSIDIAN demos, built from fictional briefs.",
       "problem": "I wanted to organize agent work into a process I could review in stages. VYZON is the lab where I document and test that process.",
       "solution": "I defined roles and a delivery sequence: discovery, design, development, QA, delivery, and support. Each stage produces a reviewable artifact; I decide how to proceed.",
-      "image": "https://res.cloudinary.com/dasch1s5i/image/upload/v1782240696/vyzon-screen-desktop_xxihbv.png",
+      "image": vyzonMedia.desktop.src,
+      media: vyzonMedia,
       "liveUrl": "https://vyzon-agency.vercel.app/",
       "tags": [
         "IA / AI",

@@ -1,7 +1,7 @@
 import type { ProjectMedia } from '@/data/experiences'
 
 export interface Project {
-  id: number
+  id: string
   title: string
   year: number
   role: string
@@ -11,7 +11,7 @@ export interface Project {
   description: string
   problem: string
   solution: string
-  image: string
+  image?: string
   media?: ProjectMedia
   tags: string[]
   highlights: string[]

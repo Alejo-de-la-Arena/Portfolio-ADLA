@@ -218,8 +218,8 @@ export const clientExperiences: Experience[] = [
           {
             "desktop": {
               "src": "/images/experiencia/zetenta/manantial-home.webp",
-              "width": 2526,
-              "height": 1274,
+              "width": 2530,
+              "height": 1268,
               "alt": {
                 "es": "Portada de Manantial en escritorio: presentación del servicio gerontológico sobre una imagen de una persona mayor y cinco accesos circulares a sus áreas.",
                 "en": "Manantial desktop homepage: gerontology service introduction over an image of an older person and five circular links to its departments."

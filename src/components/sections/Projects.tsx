@@ -241,7 +241,7 @@ export function Projects() {
   const reduceMotion = useReducedMotionPreference()
   const { projects, ui } = useLocalizedContent()
   const { isSpanish } = useLocale()
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null)
+  const [selectedProjectId, setSelectedProjectId] = useState<Project['id'] | null>(null)
   const selectedProject = projects.find(project => project.id === selectedProjectId)
   return (
     <section id="projects" className="section-space">
