@@ -132,8 +132,8 @@ export const clientExperiences: Experience[] = [
       }
     ],
     "period": {
-      "es": "En producción desde el 6 de agosto de 2026",
-      "en": "Live since August 6, 2026"
+      "es": "FEB. 2026 — ABR. 2026 (3 MESES)",
+      "en": "FEB. 2026 — APR. 2026 (3 MONTHS)"
     }
   },
   {
@@ -158,7 +158,7 @@ export const clientExperiences: Experience[] = [
       "en": "Buenos Aires Province, Argentina · Hybrid"
     },
     "summary": {
-      "es": "Trabajé en relación de dependencia entre abril y octubre de 2025. Participé en siete proyectos, desde sitios WordPress editables hasta integraciones con APIs y CRM.",
+      "es": "Trabajé en relación de dependencia entre abril y octubre de 2025. Participé en más de 7 proyectos, desde sitios WordPress editables hasta integraciones con APIs y CRM.",
       "en": "I worked as an employee from April to October 2025. I contributed to seven projects, from editable WordPress sites to API and CRM integrations."
     },
     "highlights": {

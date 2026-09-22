@@ -15,12 +15,12 @@ const { personalInfo: personalInfoEn, about: aboutEn, sectionLinks: sectionLinks
 const projectsEn = ownProjects.en
 
 const EN_CARD_META: Record<string, { label: string; description: string }> = {
-  frontend:  { label: 'Frontend',           description: 'Interfaces, animation and user experience' },
-  backend:   { label: 'Backend & APIs',     description: 'Servers, REST APIs and integrations' },
-  devops:    { label: 'DevOps & Tooling',   description: 'Version control, deployment and workflow' },
-  cms:       { label: 'CMS & Platforms',    description: 'Content managers and e-commerce platforms' },
-  ai:        { label: 'AI & Automation',    description: 'AI tools applied to professional development' },
-  exploring: { label: 'Exploring',          description: 'Technologies I\'m actively investing time in' },
+  frontend: { label: 'Frontend', description: 'Interfaces, animation and user experience' },
+  backend: { label: 'Backend & APIs', description: 'Servers, REST APIs and integrations' },
+  devops: { label: 'DevOps & Tooling', description: 'Version control, deployment and workflow' },
+  cms: { label: 'CMS & Platforms', description: 'Content managers and e-commerce platforms' },
+  ai: { label: 'AI & Automation', description: 'AI tools applied to professional development' },
+  exploring: { label: 'Exploring', description: 'Technologies I\'m actively investing time in' },
 }
 
 const skillNamesEn: Record<string, string> = { 'CI/CD básico': 'Basic CI/CD', 'Docker (básico)': 'Docker (basic)', 'Agentes IA': 'AI agents', 'RAG básico': 'Basic RAG', 'LangChain (básico)': 'LangChain (basic)' }
