@@ -90,7 +90,7 @@ export const ownProjects: Record<Locale, Project[]> = {
         "Gemini 2.5 Flash",
         "React",
         "GSAP",
-        "Three.js"
+        "WebGL"
       ],
       "highlights": [
         "Siete roles documentados: Project Manager, Director Creativo, Estratega de Contenido, Arquitecto Frontend, Ingeniero Backend, Especialista en Automatización y QA/Revisor.",
@@ -166,7 +166,7 @@ export const ownProjects: Record<Locale, Project[]> = {
         {
           "id": 3,
           "title": "OBSIDIAN",
-          "description": "Demo de una landing de relojes con brief ficticio. Integré una escena Three.js y separé las variantes desktop y mobile para adaptar el recorrido del producto.",
+          "description": "Demo de una landing de relojes con brief ficticio. Integré una escena WebGL y separé las variantes desktop y mobile para adaptar el recorrido del producto.",
           "decisions": [
             "Lenis integrado al ticker de GSAP para compartir el ciclo de animación.",
             "Modelos GLTF cargados una vez y clonados por consumidor para aislar sus modificaciones.",
@@ -181,7 +181,7 @@ export const ownProjects: Record<Locale, Project[]> = {
             "TypeScript 5.6.3 (strict mode)",
             "GSAP 3.12.7",
             "@gsap/react 2.1.1",
-            "Three.js 0.170.0",
+            "WebGL",
             "@studio-freight/lenis 1.0.42",
             "Framer Motion 11.11.0",
             "TailwindCSS 3.4.14",
@@ -281,7 +281,7 @@ export const ownProjects: Record<Locale, Project[]> = {
         "Gemini 2.5 Flash",
         "React",
         "GSAP",
-        "Three.js"
+        "WebGL"
       ],
       "highlights": [
         "Seven documented roles: Project Manager, Creative Director, Content Strategist, Frontend Architect, Backend Engineer, Automation Specialist, and QA/Reviewer.",
@@ -357,7 +357,7 @@ export const ownProjects: Record<Locale, Project[]> = {
         {
           "id": 3,
           "title": "OBSIDIAN",
-          "description": "Watch landing demo based on a fictional brief. I integrated a Three.js scene and separated desktop and mobile variants to adapt the product presentation.",
+          "description": "Watch landing demo based on a fictional brief. I integrated a WebGL scene and separated desktop and mobile variants to adapt the product presentation.",
           "decisions": [
             "Lenis integrated into the GSAP ticker to share the animation cycle.",
             "GLTF models loaded once and cloned per consumer to isolate modifications.",
@@ -372,7 +372,7 @@ export const ownProjects: Record<Locale, Project[]> = {
             "TypeScript 5.6.3 (strict mode)",
             "GSAP 3.12.7",
             "@gsap/react 2.1.1",
-            "Three.js 0.170.0",
+            "WebGL",
             "@studio-freight/lenis 1.0.42",
             "Framer Motion 11.11.0",
             "TailwindCSS 3.4.14",

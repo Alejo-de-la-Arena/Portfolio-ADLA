@@ -51,7 +51,6 @@ interface LocalizedContent {
       dark: string
     }
     hero: {
-      move: string
       viewProjects: string
       viewExperience: string
     }
@@ -188,7 +187,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         dark: 'Oscuro',
       },
       hero: {
-        move: 'Mové el cursor',
         viewProjects: 'Ver casos',
         viewExperience: 'Ver experiencia',
       },
@@ -287,7 +285,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         navigation: 'Navegación',
         social: 'Redes',
         rights: 'Todos los derechos reservados.',
-        madeWith: 'Hecho con React, TypeScript, Tailwind y Three.js',
+        madeWith: 'Hecho con React, TypeScript, Tailwind y OGL',
       },
       command: {
         title: 'Menú de comandos',
@@ -330,7 +328,6 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         dark: 'Dark',
       },
       hero: {
-        move: 'Move your cursor',
         viewProjects: 'View selected work',
         viewExperience: 'View experience',
       },
@@ -429,7 +426,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
         navigation: 'Navigation',
         social: 'Social',
         rights: 'All rights reserved.',
-        madeWith: 'Built with React, TypeScript, Tailwind, and Three.js',
+        madeWith: 'Built with React, TypeScript, Tailwind, and OGL',
       },
       command: {
         title: 'Command menu',

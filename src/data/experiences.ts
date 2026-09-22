@@ -1181,7 +1181,7 @@ export const clientExperiences: Experience[] = [
       "TypeScript",
       "Supabase",
       "Server Actions",
-      "Three.js",
+      "WebGL",
       "GLSL"
     ],
     "projects": [
@@ -1211,13 +1211,13 @@ export const clientExperiences: Experience[] = [
           "es": [
             "FORMAT es un ciclo de música electrónica en Buenos Aires. El sitio debía permitir encontrar la próxima fecha, su lineup y flyer, y recorrer las ediciones anteriores desde una misma identidad de marca. Esa necesidad guio la relación entre agenda, calendario y archivo.",
             "Modelé el contenido en Seasons mensuales que agrupan varios viernes. Cada Season define colores, formas, stickers y fondos que se trasladan a sus páginas y componentes. Así, una nueva edición puede tener identidad propia sin construir otra interfaz desde cero: el contenido determina su presentación.",
-            "El hero usa Three.js y un shader GLSL propio para dibujar una trama halftone animada que responde a la Season activa. Elegí vincular ese recurso al mismo modelo de contenido para que la portada forme parte de la identidad de cada edición.",
+            "El hero usa WebGL y un shader GLSL propio para dibujar una trama halftone animada que responde a la Season activa. Elegí vincular ese recurso al mismo modelo de contenido para que la portada forme parte de la identidad de cada edición.",
             "La gestión se resuelve con Server Actions y revalidación de rutas: al publicar desde el panel, las páginas afectadas incorporan los cambios sin redeploy. Quedó un canal que reúne lo que viene y conserva lo que ya pasó, con una estructura que permite al administrador actualizar cada edición."
           ],
           "en": [
             "FORMAT is an electronic music event series in Buenos Aires. The website needed to make the next event, lineup and flyer easy to find while presenting past editions within the same brand identity. That need guided the relationship between the event listings, calendar and archive.",
             "I modeled the content as monthly Seasons grouping several Fridays. Each Season defines colors, shapes, stickers and backgrounds used across its pages and components. A new edition can therefore have its own identity without building another interface from scratch: the content determines its presentation.",
-            "The hero uses Three.js and a custom GLSL shader to draw an animated halftone pattern that responds to the active Season. I connected that visual element to the same content model so the homepage belongs to each edition’s identity.",
+            "The hero uses WebGL and a custom GLSL shader to draw an animated halftone pattern that responds to the active Season. I connected that visual element to the same content model so the homepage belongs to each edition’s identity.",
             "Content management uses Server Actions and route revalidation: publishing through the panel updates the affected pages without redeployment. The result is a channel that brings together upcoming events and preserves past editions, with a structure the administrator can update for each edition."
           ]
         },
@@ -1227,7 +1227,7 @@ export const clientExperiences: Experience[] = [
           "TypeScript",
           "Supabase",
           "Server Actions",
-          "Three.js",
+          "WebGL",
           "GLSL"
         ],
         "liveUrl": "https://productions-format.com/",

@@ -1,8 +1,7 @@
 import { useEntrance } from '@/hooks/useEntrance'
 import { motionTokens, motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import * as THREE from 'three'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Monitor, Server, GitBranch, Globe, Bot, Compass,
@@ -27,103 +26,6 @@ const SKILL_ICONS: Record<string, LucideIcon> = {
 }
 
 const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/'
-
-// ─── Three.js TorusKnot background ────────────────────────────────────────────
-
-function useTorusKnotBg(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const isMobile = window.innerWidth < 768
-
-    const parent = canvas.parentElement
-    const w = parent?.clientWidth ?? window.innerWidth
-    const h = parent?.clientHeight ?? 500
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMobile })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5))
-    renderer.setSize(w, h)
-    renderer.setClearColor(0x000000, 0)
-
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100)
-    camera.position.z = 7
-
-    // Mobile: 1 knot at half speed · Desktop: 3 knots full speed
-    const speedMult = isMobile ? 0.5 : 1
-    const configs: Array<{
-      p: number; q: number; tube: number; size: number
-      offset: [number, number, number]
-      speed: [number, number, number]
-    }> = isMobile
-      ? [
-          { p: 2, q: 3, tube: 0.28, size: 1.5, offset: [0, 0, 0], speed: [0.003 * speedMult, 0.005 * speedMult, 0.002 * speedMult] },
-          { p: 3, q: 2, tube: 0.18, size: 0.75, offset: [-2.5, 1.2, -2], speed: [0.005 * speedMult, 0.003 * speedMult, 0.007 * speedMult] },
-        ]
-      : [
-          { p: 2, q: 3, tube: 0.28, size: 1.5,  offset: [0, 0, 0],       speed: [0.003, 0.005, 0.002] },
-          { p: 3, q: 2, tube: 0.18, size: 0.85, offset: [-3.2, 1.4, -2],  speed: [0.005, 0.003, 0.007] },
-          { p: 4, q: 3, tube: 0.14, size: 0.65, offset: [3.0, -1.4, -3],  speed: [0.002, 0.007, 0.004] },
-        ]
-
-    const meshes: { mesh: THREE.LineSegments<THREE.WireframeGeometry, THREE.LineBasicMaterial>; speed: [number, number, number] }[] = []
-
-    configs.forEach(({ p, q, tube, size, offset, speed }) => {
-      const geo = new THREE.TorusKnotGeometry(1, tube, 100, 16, p, q)
-      const wireGeo = new THREE.WireframeGeometry(geo)
-      geo.dispose()
-      const mat = new THREE.LineBasicMaterial({ color: 0x7c3aed, transparent: true, opacity: 0.32 })
-      const mesh = new THREE.LineSegments(wireGeo, mat)
-      mesh.scale.setScalar(size)
-      mesh.position.set(...offset)
-      scene.add(mesh)
-      meshes.push({ mesh, speed })
-    })
-
-    let intersecting = false
-    const visible = () => intersecting && !document.hidden
-
-    function updateActivity() {
-      if (!visible()) return
-      renderer.render(scene, camera)
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      intersecting = entry.isIntersecting
-      updateActivity()
-    })
-    observer.observe(parent ?? canvas)
-    document.addEventListener('visibilitychange', updateActivity)
-
-    function onResize() {
-      if (!canvas || !canvas.parentElement) return
-      const nw = canvas.parentElement.clientWidth
-      const nh = canvas.parentElement.clientHeight
-      renderer.setSize(nw, nh)
-      camera.aspect = nw / nh
-      camera.updateProjectionMatrix()
-      if (visible()) renderer.render(scene, camera)
-    }
-    window.addEventListener('resize', onResize)
-
-    return () => {
-      stop()
-      observer.disconnect()
-      document.removeEventListener('visibilitychange', updateActivity)
-      window.removeEventListener('resize', onResize)
-      meshes.forEach(({ mesh }) => {
-        mesh.geometry.dispose()
-        mesh.material.dispose()
-      })
-      renderer.dispose()
-    }
-  }, [canvasRef])
-}
-
-// ─── SkillItemTile ─────────────────────────────────────────────────────────────
 
 function SkillItemTile({
   item,
@@ -349,25 +251,24 @@ function SkillCardPanel({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export function Skills() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const heading = useEntrance()
   const reduceMotion = Boolean(useReducedMotionPreference())
   const { skills, ui } = useLocalizedContent()
 
-  useTorusKnotBg(canvasRef)
 
   return (
     <section
       id="skills"
       className="relative overflow-hidden section-space bg-background-secondary/40"
     >
-      {/* Three.js canvas */}
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        style={{ opacity: 0.20, zIndex: 0 }}
-      />
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"
+        className="pointer-events-none absolute inset-0 h-full w-full text-accent opacity-[0.045]">
+        <g fill="none" stroke="currentColor" strokeWidth="1.2">
+          {[0, 1, 2, 3, 4, 5].map(index => <g key={index} transform={`translate(600 400) rotate(${index * 12})`}>
+            <path d="M-430 0 C-430-260 200-290 260 0 S-250 280-260 0 S430-260 430 0 S-200 290-260 0 S250-280 260 0 S-430 260-430 0Z" />
+          </g>)}
+        </g>
+      </svg>
 
       <div className="relative z-10 mx-auto max-w-editorial px-4 sm:px-6 lg:px-8">
         <div>

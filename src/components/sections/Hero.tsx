@@ -1,38 +1,11 @@
 import { motionTokens, motionTransition, createMotionVariants } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
-import { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Github, Linkedin, MessageCircle } from 'lucide-react'
-import { Canvas } from '@react-three/fiber'
-import { MeshDistortMaterial, Environment } from '@react-three/drei'
 import { MagneticButton } from '../effects/MagneticButton'
-import { SpotlightGrid } from '../effects/SpotlightGrid'
+import { HeroAurora } from '../effects/HeroAurora'
 import { scrollToSection } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
-
-/* ========== 3D ORB CLUSTER ========== */
-
-function Scene() {
-  return <>
-    <ambientLight intensity={0.35} />
-    <directionalLight position={[5, 5, 5]} intensity={1.2} color="#a78bff" />
-    <directionalLight position={[-5, -3, -5]} intensity={0.6} color="#5a3fff" />
-    {([
-      { position: [0, 0, 0], scale: 1.5, color: '#7c5cff', distort: 0.45 },
-      { position: [1.9, 1.2, -1], scale: 0.5, color: '#1a1730', distort: 0.2 },
-      { position: [-2, -1, -0.5], scale: 0.6, color: '#a78bff', distort: 0.3 },
-      { position: [1.6, -1.4, 0.4], scale: 0.4, color: '#3d2a8c', distort: 0.25 },
-      { position: [-1.4, 1.6, -1.1], scale: 0.45, color: '#7c5cff', distort: 0.35 },
-    ] satisfies Array<{ position: [number, number, number]; scale: number; color: string; distort: number }>).map((orb, index) =>
-      <mesh key={index} position={orb.position} scale={orb.scale}>
-        <sphereGeometry args={[1, 64, 64]} />
-        <MeshDistortMaterial color={orb.color} distort={orb.distort} speed={0} roughness={0.15} metalness={0.55} />
-      </mesh>
-    )}
-    <Environment preset="city" />
-  </>
-}
 
 /* ========== PILL CTA ========== */
 
@@ -61,7 +34,7 @@ function PillCTA({
 
 /* ========== HEADLINE STAGGERED ========== */
 
-function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion: boolean | null }) {
+function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion: boolean }) {
   const parts = name.split(' ')
   const first = parts[0]
   const rest = parts.slice(1).join(' ')
@@ -73,7 +46,7 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
         <motion.span
           className="block"
           variants={variants}
-          initial={reduceMotion ? false : 'initial'}
+          initial={false}
           animate="visible"
           custom={0}
         >
@@ -82,9 +55,9 @@ function StaggeredHeadline({ name, reduceMotion }: { name: string; reduceMotion:
       </span>
       <span className="block">
         <motion.span
-          className="text-gradient block hero-name-rest"
+          className="hero-name-gradient block hero-name-rest"
           variants={variants}
-          initial={reduceMotion ? false : 'initial'}
+          initial={false}
           animate="visible"
           custom={1}
         >
@@ -101,12 +74,11 @@ export function Hero() {
   const reduceMotion = useReducedMotionPreference()
   const { personalInfo, socialLinks, ui } = useLocalizedContent()
   const entry = (index: number) => ({
-    initial: reduceMotion ? false as const : 'initial',
+    initial: false as const,
     animate: 'visible',
     variants: createMotionVariants(reduceMotion).smallGroupItem,
     custom: index,
   })
-  const isMobile = useMediaQuery('(max-width: 768px)')
 
   const socials = [
     { icon: Github, href: socialLinks.github, label: 'GitHub' },
@@ -117,9 +89,9 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-x-hidden pt-0"
+      className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-hidden bg-background pt-0"
     >
-      <SpotlightGrid />
+      <HeroAurora />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/80 to-transparent" />
 
@@ -128,30 +100,6 @@ export function Hero() {
       >
         {/* Main content grid */}
         <div className="grid items-center gap-8 sm:gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
-
-          {/* CLUSTER 3D — desktop: right column */}
-          {!isMobile && (
-            <motion.div
-              {...entry(4)}
-              className="order-first lg:order-last relative mx-auto aspect-square w-full justify-self-center lg:justify-self-end"
-              style={{ maxWidth: 'min(82vw, 560px)' }}
-            >
-              <div className="absolute inset-[10%] rounded-full bg-accent/20 blur-3xl" />
-              <div className="relative h-full w-full overflow-hidden rounded-3xl">
-                <Canvas
-                frameloop="demand"
-                  camera={{ position: [0, 0, 8.5], fov: 45 }}
-                  dpr={[1, 1.5]}
-                  gl={{ antialias: true, alpha: true }}
-                >
-                  <Suspense fallback={null}>
-                    <Scene />
-                  </Suspense>
-                </Canvas>
-
-              </div>
-            </motion.div>
-          )}
 
           {/* CONTENIDO */}
           <div className="min-w-0 space-y-6 text-left lg:order-first">
@@ -164,7 +112,7 @@ export function Hero() {
               <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
                 {personalInfo.summary}
               </p>
-              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-accent">
+              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-accent-on-subtle">
                 {personalInfo.location.split(' · ').map(item => <li key={item}>{item}</li>)}
               </ul>
               <p className="mt-5 text-sm leading-relaxed text-foreground-secondary">{personalInfo.availability}</p>
@@ -181,7 +129,7 @@ export function Hero() {
               <button
                 type="button"
                 onClick={() => scrollToSection('experience')}
-                className="inline-flex group items-center gap-2 text-sm text-foreground-tertiary transition-none hover:text-foreground"
+                className="inline-flex group items-center gap-2 text-sm text-foreground-secondary transition-none hover:text-foreground"
               >
                 {ui.hero.viewExperience}
                 <span className="h-px w-8 bg-border transition-transform origin-left group-hover:scale-x-125 group-hover:bg-foreground-secondary" />
@@ -213,27 +161,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Canvas 3D mobile — debajo del texto, en el flujo */}
-        {isMobile && (
-          <motion.div
-            {...entry(4)}
-            className="mx-auto mt-8 h-[280px] w-full max-w-sm"
-          >
-            <div className="relative h-full w-full overflow-hidden rounded-2xl">
-              <div className="absolute inset-[10%] rounded-full" />
-              <Canvas
-                  frameloop="demand"
-                camera={{ position: [0, 0, 8.5], fov: 45 }}
-                dpr={[1, 1]}
-                gl={{ antialias: true, alpha: true }}
-              >
-                <Suspense fallback={null}>
-                  <Scene />
-                </Suspense>
-              </Canvas>
-            </div>
-          </motion.div>
-        )}
+
       </div>
     </section>
   )

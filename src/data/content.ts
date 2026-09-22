@@ -98,9 +98,8 @@ export const skills: SkillsData = {
           "devicon": "sass/sass-original"
         },
         {
-          "name": "Three.js",
-          "devicon": "threejs/threejs-original",
-          "darkBg": true
+          "name": "WebGL",
+          "lucide": "Triangle"
         }
       ],
       "familiar": [
@@ -345,9 +344,8 @@ export const skills: SkillsData = {
           "devicon": "react/react-original"
         },
         {
-          "name": "Three.js / WebGL",
-          "devicon": "threejs/threejs-original",
-          "darkBg": true
+          "name": "WebGL",
+          "lucide": "Triangle"
         },
         {
           "name": "GLSL Shaders",
