@@ -138,7 +138,7 @@ try {
         for (const adjacent of [order[index - 1], order[index + 1]].filter(Boolean)) assert.ok(html.includes('href="/experiencia/' + adjacent + '"'), slug + ' navigation to ' + adjacent)
         if (slug === 'kyriazis') assert.ok(!html.includes('Next experience</span>') && !html.includes('Experiencia siguiente</span>'))
       }
-      assert.doesNotMatch(html, /admin-actividades|admin-giftcards|boa-inscripciones|solution-metricas|fefebakes/)
+      assert.doesNotMatch(html, /admin-actividades|admin-giftcards|boa-inscripciones|solution-metricas|fefebakes(?:-mobile)?\.webp/)
       if (slug === 'solution' || slug === 'freelance') { assert.match(html, locale === 'es' ? /1\.086/ : /1,086/); assert.match(html, locale === 'es' ? /14 de septiembre de 2026/ : /September 14, 2026/) }
       if (slug === 'renova-tu-cocina') { assert.match(html, locale === 'es' ? /1 MES/ : /1 MONTH/); assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), /\b13\b|nunca|never/) }
       if (slug === 'zetenta') { assert.match(html, /<picture>/); assert.match(html, /min-width: 1024px/); assert.match(html, /inert=""/) }

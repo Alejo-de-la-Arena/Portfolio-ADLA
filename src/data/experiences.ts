@@ -783,6 +783,7 @@ export const clientExperiences: Experience[] = [
   },
   {
     "slug": "mdvproyectos",
+    "companyUrl": "https://mdvproyectos.com.ar/",
     "company": "MDVproyectos",
     "position": {
       "es": "Desarrollador WordPress",
@@ -824,6 +825,7 @@ export const clientExperiences: Experience[] = [
     ],
     "projects": [
       {
+        "liveUrl": "https://mdvproyectos.com.ar/",
         "id": "website",
         "name": {
           "es": "Sitio y landings de campaña",
@@ -877,6 +879,7 @@ export const clientExperiences: Experience[] = [
   },
   {
     "slug": "fefe-bakes",
+    "companyUrl": "https://fefebakes.com/",
     "company": "Fefe Bakes",
     "position": {
       "es": "Full-Stack Developer",
@@ -922,6 +925,7 @@ export const clientExperiences: Experience[] = [
     ],
     "projects": [
       {
+        "liveUrl": "https://fefebakes.com/",
         "id": "ecommerce",
         "name": {
           "es": "E-commerce Fefe Bakes",
@@ -957,6 +961,7 @@ export const clientExperiences: Experience[] = [
   },
   {
     "slug": "kyriazis",
+    "companyUrl": "https://kyriazislawyer.com/",
     "company": "Laura Kyriazis Law Group",
     "position": {
       "es": "Desarrollador web",
@@ -995,6 +1000,7 @@ export const clientExperiences: Experience[] = [
     "stack": [],
     "projects": [
       {
+        "liveUrl": "https://kyriazislawyer.com/",
         "id": "website",
         "name": {
           "es": "Laura Kyriazis Law Group",
