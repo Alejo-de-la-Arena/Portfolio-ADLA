@@ -14,6 +14,9 @@ const fragment = `
 precision highp float;
 varying vec2 vUv;
 uniform float uTime;
+uniform float uIntensity;
+uniform float uAmplitude;
+uniform float uScale;
 vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
 float snoise(vec2 v) {
   const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
@@ -36,20 +39,27 @@ float snoise(vec2 v) {
   return 130.0 * dot(m, g);
 }
 void main() {
-  vec2 p = (vUv - vec2(0.62, 0.50)) * vec2(1.7, 1.4);
+  vec2 p = (vUv - vec2(0.62, 0.50)) * vec2(1.7, 1.4) * uScale;
   float n = snoise(p * 1.55 + vec2(sin(uTime * 0.31), cos(uTime * 0.23)) * 0.18);
   float detail = snoise(p * 2.4 + vec2(n * 0.35, uTime * 0.10));
-  float energy = clamp(0.42 + n * 0.24 + detail * 0.12, 0.0, 1.0);
+  float energy = clamp(0.44 + n * uAmplitude + detail * (uAmplitude * 0.36), 0.0, 1.0);
   float envelope = exp(-dot(p, p) * 3.1);
   envelope *= smoothstep(0.0, 0.22, vUv.y) * smoothstep(0.0, 0.22, 1.0-vUv.y);
   vec3 violet = mix(vec3(0.12, 0.055, 0.27), vec3(124.0, 92.0, 255.0)/255.0, energy);
   // Premultiplied alpha; the wrapper also bounds brightness for contrast.
-  float alpha = envelope * (0.30 + energy * 0.50);
+  float alpha = envelope * (0.26 + energy * 0.56) * uIntensity;
   gl_FragColor = vec4(violet * alpha, alpha);
 }
 `
 
-export function mountAurora(host: HTMLDivElement, onReady: (ready: boolean) => void): () => void {
+interface AuroraOptions {
+  intensity: number
+  amplitude: number
+  speed: number
+  scale: number
+}
+
+export function mountAurora(host: HTMLDivElement, onReady: (ready: boolean) => void, options: AuroraOptions): () => void {
   onReady(false)
   const canvas = document.createElement('canvas')
   let renderer: Renderer | undefined
@@ -82,7 +92,10 @@ export function mountAurora(host: HTMLDivElement, onReady: (ready: boolean) => v
   function draw(now: number) {
     frame = 0
     if (!active() || !renderer || !program || !mesh) return
-    if (previous) time += Math.min(now - previous, 100) * 0.000025
+    // requestAnimationFrame timestamps are milliseconds; the shader clock uses seconds.
+    // The previous 0.000025 factor advanced only 0.018 units/s at speed 0.72,
+    // which made a healthy continuous loop look frozen.
+    if (previous) time += Math.min(now - previous, 100) * 0.001 * options.speed
     previous = now
     program.uniforms.uTime.value = time
     try {
@@ -119,7 +132,12 @@ export function mountAurora(host: HTMLDivElement, onReady: (ready: boolean) => v
     if (!canvas.getContext('webgl', { alpha: true, antialias: false, premultipliedAlpha: true })) return cleanup
     renderer = new Renderer({ canvas, webgl: 1, alpha: true, antialias: false, premultipliedAlpha: true })
     geometry = new Triangle(renderer.gl)
-    program = new Program(renderer.gl, { vertex, fragment, transparent: true, depthTest: false, depthWrite: false, uniforms: { uTime: { value: 0 } } })
+    program = new Program(renderer.gl, { vertex, fragment, transparent: true, depthTest: false, depthWrite: false, uniforms: {
+      uTime: { value: 0 },
+      uIntensity: { value: options.intensity },
+      uAmplitude: { value: options.amplitude },
+      uScale: { value: options.scale },
+    } })
     if (!renderer.gl.getProgramParameter(program.program, renderer.gl.LINK_STATUS)) { cleanup(); return () => {} }
     mesh = new Mesh(renderer.gl, { geometry, program })
     canvas.className = 'block h-full w-full'

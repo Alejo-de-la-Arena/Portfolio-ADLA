@@ -7,13 +7,20 @@
 /* Bounded opacity also guarantees a worst-case contrast independent of time.
    Both fallback and canvas share this group opacity, so they cannot add past it. */
 .hero-aurora {
-  opacity: 0.08;
+  opacity: min(var(--hero-aurora-opacity, 0.28), .16);
   mask-image: linear-gradient(to right, transparent 32%, #000 76%);
 }
-.dark .hero-aurora { opacity: 0.16; }
+.dark .hero-aurora { opacity: var(--hero-aurora-opacity, 0.28); }
 .hero-aurora-fallback {
-  background: radial-gradient(ellipse 34% 42% at 78% 49%, #7c5cff 0%, #24113f 48%, transparent 100%);
+  background: radial-gradient(ellipse 40% 50% at 78% 49%, #7c5cff 0%, #34186a 42%, transparent 100%);
 }
+.hero-aurora--debug {
+  width: 100% !important;
+  opacity: 1 !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+.hero-aurora--debug .hero-aurora-fallback { opacity: 0; }
 #hero .hero-name-gradient {
   background: linear-gradient(90deg, #5430bc, #6c4ef0, #5430bc);
   background-clip: text;
@@ -23,10 +30,32 @@
 .dark #hero .hero-name-gradient {
   background-image: linear-gradient(90deg, #7c5cff, #c8bcff, #7c5cff);
 }
+.hero-portrait {
+  isolation: isolate;
+  mask-image: radial-gradient(ellipse 70% 66% at 52% 44%, #000 26%, rgba(0, 0, 0, .9) 48%, transparent 84%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 66% at 52% 44%, #000 26%, rgba(0, 0, 0, .9) 48%, transparent 84%);
+  filter: none;
+}
+.hero-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+}
+.dark .hero-portrait {
+  mask-image: radial-gradient(ellipse 72% 68% at 52% 44%, #000 38%, rgba(0, 0, 0, .82) 58%, transparent 86%);
+  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 52% 44%, #000 38%, rgba(0, 0, 0, .82) 58%, transparent 86%);
+  filter: saturate(.9) contrast(1.02);
+}
+.dark .hero-portrait::after {
+  background: linear-gradient(135deg, rgba(28, 13, 61, .2), transparent 48%, rgba(7, 7, 11, .32));
+}
 @media (min-width: 1024px) { .hero-aurora { width: 62%; } }
 @media (max-width: 767px) {
-  .hero-aurora { opacity: 0.04; }
-  .dark .hero-aurora { opacity: 0.08; }
+  .hero-aurora { opacity: min(calc(var(--hero-aurora-opacity, 0.28) * 0.6), .16); }
+  .dark .hero-aurora { opacity: calc(var(--hero-aurora-opacity, 0.28) * 0.6); }
 }
 
 @layer base {

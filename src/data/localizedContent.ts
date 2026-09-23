@@ -53,6 +53,7 @@ interface LocalizedContent {
     hero: {
       viewProjects: string
       viewExperience: string
+      portraitAlt: string
     }
     about: {
       eyebrow: string
@@ -189,6 +190,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
       hero: {
         viewProjects: 'Ver casos',
         viewExperience: 'Ver experiencia',
+        portraitAlt: 'Retrato de Alejo de la Arena',
       },
       about: {
         eyebrow: 'Sobre mí',
@@ -330,6 +332,7 @@ const localizedContent: Record<Locale, LocalizedContent> = {
       hero: {
         viewProjects: 'View selected work',
         viewExperience: 'View experience',
+        portraitAlt: 'Portrait of Alejo de la Arena',
       },
       about: {
         eyebrow: 'About',
