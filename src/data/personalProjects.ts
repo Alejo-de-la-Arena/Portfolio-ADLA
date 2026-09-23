@@ -1,4 +1,4 @@
-import { vyzonMedia } from './projectMedia'
+import { jobMatchMedia, vyzonMedia } from './projectMedia'
 import type { Locale } from '@/context/LocaleContext'
 import type { Project } from '@/types'
 
@@ -11,6 +11,8 @@ export const ownProjects: Record<Locale, Project[]> = {
       "role": "Desarrollo full-stack",
       "scope": "MVP de alertas laborales para LATAM",
       "timeline": "MVP en desarrollo",
+      "image": jobMatchMedia.desktop.src,
+      "media": jobMatchMedia,
       "liveUrl": "https://job-search-bot-web.vercel.app/",
       "impact": "Carga y análisis de CV, embeddings e ingesta de vacantes implementados. Matching y envío por WhatsApp pendientes.",
       "description": "Estoy buscando trabajo y construyo una herramienta para organizar esa búsqueda. El MVP ya analiza CVs e ingiere vacantes; todavía no conecta el circuito de alertas.",
@@ -202,6 +204,8 @@ export const ownProjects: Record<Locale, Project[]> = {
       "role": "Full-stack development",
       "scope": "Job alert MVP for LATAM",
       "timeline": "MVP in development",
+      "image": jobMatchMedia.desktop.src,
+      "media": jobMatchMedia,
       "liveUrl": "https://job-search-bot-web.vercel.app/",
       "impact": "CV upload and analysis, embeddings, and job ingestion implemented. Matching and WhatsApp delivery remain on the roadmap.",
       "description": "I’m looking for work and building a tool to organize that search. The MVP already analyzes CVs and ingests jobs; the alert pipeline is not connected yet.",

@@ -13,6 +13,14 @@ const screenshots = {
     src: '/projects/vyzon/vyzon-hero.webp', width: 2560, height: 1266,
     alt: { es: 'VYZON: portada oscura con el mensaje «Tu visión. Nuestra ingeniería.» y acceso al briefing, en escritorio.', en: 'VYZON: dark homepage with the message “Tu visión. Nuestra ingeniería.” and a briefing call to action, on desktop.' },
   },
+  'job-match-dashboard': {
+    src: '/projects/job-match-bot/job-match-dashboard.webp', width: 2526, height: 1274,
+    alt: { es: 'Job Match Bot: panel con vacantes, coincidencias y estado del perfil, en escritorio.', en: 'Job Match Bot: dashboard with jobs, matches and profile status, on desktop.' },
+  },
+  'job-match-dashboard-mobile': {
+    src: '/projects/job-match-bot/job-match-dashboard-mobile.webp', width: 850, height: 1100,
+    alt: { es: 'Job Match Bot: panel de vacantes y perfil en móvil.', en: 'Job Match Bot: jobs and profile dashboard on mobile.' },
+  },
   'vyzon-hero-mobile': {
     src: '/projects/vyzon/vyzon-hero-mobile.webp', width: 850, height: 1100,
     alt: { es: 'VYZON: portada oscura con tipografía turquesa y acceso al briefing, en móvil.', en: 'VYZON: dark homepage with turquoise typography and a briefing call to action, on mobile.' },
@@ -27,4 +35,8 @@ export const fefeBakesMedia: ProjectMedia = {
 export const vyzonMedia: ProjectMedia = {
   desktop: screenshot('vyzon-hero'),
   mobile: screenshot('vyzon-hero-mobile'),
+}
+export const jobMatchMedia: ProjectMedia = {
+  desktop: screenshot('job-match-dashboard'),
+  mobile: screenshot('job-match-dashboard-mobile'),
 }
