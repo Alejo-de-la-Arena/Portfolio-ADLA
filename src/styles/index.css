@@ -76,14 +76,38 @@
   .dark .hero-halftone { opacity: calc(var(--halftone-opacity-dark, .34) * .7); }
   .hero-halftone-fallback { mask-image: radial-gradient(ellipse 68% 55% at 50% 28%, #000 10%, transparent 100%); }
   .dark .hero-halftone-fallback { mask-image: radial-gradient(ellipse var(--halftone-text-size-x) var(--halftone-text-size-y) at var(--halftone-text-x-mobile) var(--halftone-text-y-mobile), rgba(0, 0, 0, var(--halftone-text-opacity-floor)) 0%, rgba(0, 0, 0, var(--halftone-text-opacity-floor)) 66%, #000 118%); }
-  .hero-portrait {
-    mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
+}
+
+/* One image, two compositions. Desktop keeps its original two-column layout. */
+@media (max-width: 1023px) {
+  #hero .hero-layout {
+    grid-template-columns: minmax(0, 1fr) 120px;
+    gap: 0;
   }
-  .dark .hero-portrait {
-    mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
+  #hero .hero-copy { display: contents; }
+  #hero .hero-copy > * { grid-column: 1 / -1; }
+  #hero .hero-name {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: 12px;
+    font-size: clamp(2.25rem, 10vw, 2.625rem);
   }
+  #hero .hero-name-rest { white-space: nowrap; }
+  #hero .hero-portrait {
+    grid-column: 2;
+    grid-row: 1;
+    order: 0;
+    width: 120px;
+    height: 120px;
+    margin: 0;
+    border-radius: 50%;
+    border: 1px solid rgb(var(--border));
+    background: rgb(var(--background-secondary));
+    mask-image: none;
+    -webkit-mask-image: none;
+    filter: none;
+  }
+  #hero .hero-portrait::after { display: none; }
 }
 
 @layer base {

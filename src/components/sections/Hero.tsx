@@ -40,9 +40,9 @@ export function Hero() {
   return <section id="hero" className="relative flex min-h-[calc(100dvh-4rem)] w-full flex-col justify-start overflow-hidden bg-background lg:min-h-[100dvh] lg:justify-center">
     <HeroHalftone />
     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/80 to-transparent" />
-    <div className="relative z-10 mx-auto w-full max-w-editorial px-4 pb-4 pt-2 sm:px-6 sm:py-16 lg:px-8">
-      <div className="grid items-center gap-4 sm:gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
-        <div className="min-w-0 space-y-6 text-left lg:order-first">
+    <div className="relative z-10 mx-auto w-full max-w-editorial px-4 pb-4 pt-6 sm:px-6 sm:py-16 lg:px-8">
+      <div className="hero-layout grid items-center gap-4 sm:gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
+        <div className="hero-copy min-w-0 space-y-6 text-left lg:order-first">
           <StaggeredHeadline name={personalInfo.name} reduceMotion={reduceMotion} />
           <motion.p {...heroEntry(reduceMotion, 1)} className="!mt-3 max-w-lg font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">{personalInfo.role}</motion.p>
           <motion.p {...heroEntry(reduceMotion, 2)} className="!mt-4 max-w-lg text-sm leading-relaxed text-foreground-secondary sm:text-base">{personalInfo.summary}</motion.p>
@@ -53,7 +53,7 @@ export function Hero() {
           <motion.div {...heroEntry(reduceMotion, 5)} className="flex flex-wrap items-center justify-start gap-3">
             <PillCTA primary onClick={() => scrollToSection('cases')}>{ui.hero.viewProjects}</PillCTA>
             <PillCTA onClick={() => scrollToSection('contact')}>{ui.navbar.talk}</PillCTA>
-            <button type="button" onClick={() => scrollToSection('experience')} className="inline-flex group items-center gap-2 text-sm text-foreground-secondary transition-none hover:text-foreground">
+            <button type="button" onClick={() => scrollToSection('experience')} className="hidden lg:inline-flex group items-center gap-2 text-sm text-foreground-secondary transition-none hover:text-foreground">
               {ui.hero.viewExperience}<span className="h-px w-8 origin-left bg-border transition-transform group-hover:scale-x-125 group-hover:bg-foreground-secondary" />
             </button>
           </motion.div>
@@ -62,7 +62,10 @@ export function Hero() {
           </motion.div>
         </div>
         <motion.figure {...heroEntry(reduceMotion, 0)} className="hero-portrait relative order-first mx-auto h-[min(83vw,330px)] w-[min(88vw,340px)] overflow-hidden sm:h-[360px] sm:w-[360px] lg:order-none lg:mx-0 lg:aspect-[407/612] lg:h-auto lg:w-full lg:max-w-[407px] lg:justify-self-end">
-          <img src="/images/experiencia/portfolio-profile-photo.webp" alt={ui.hero.portraitAlt} width={407} height={612} fetchPriority="high" decoding="async" className="h-full w-full object-cover object-top lg:object-center" />
+          <picture>
+            <source media="(max-width: 1023px)" srcSet="/images/experiencia/portfolio-profile-avatar.webp" width={240} height={240} type="image/webp" />
+            <img src="/images/experiencia/portfolio-profile-photo.webp" alt={ui.hero.portraitAlt} width={407} height={612} fetchPriority="auto" decoding="async" className="h-full w-full object-cover object-center" />
+          </picture>
         </motion.figure>
       </div>
     </div>
