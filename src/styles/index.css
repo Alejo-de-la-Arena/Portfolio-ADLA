@@ -4,13 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
+.content-media { aspect-ratio: var(--mobile-media-aspect); }
+@media (min-width: 1024px) { .content-media { aspect-ratio: 16 / 10; } }
+.project-slider-media { aspect-ratio: var(--mobile-media-aspect); }
+@media (min-width: 1024px) { .project-slider-media { aspect-ratio: auto; } }
+
 /* One bounded group contains canvas and fallback, including their overlap. */
 .hero-halftone {
   opacity: var(--halftone-opacity-light, .14);
 }
 .dark .hero-halftone { opacity: var(--halftone-opacity-dark, .34); }
 .dark .hero-halftone-fallback {
-  mask-image: radial-gradient(ellipse 42% 50% at 26% 51%, rgba(0, 0, 0, .22) 0%, rgba(0, 0, 0, .22) 66%, #000 118%);
+  mask-image: radial-gradient(ellipse var(--halftone-text-size-x) var(--halftone-text-size-y) at var(--halftone-text-x-desktop) var(--halftone-text-y-desktop), rgba(0, 0, 0, var(--halftone-text-opacity-floor)) 0%, rgba(0, 0, 0, var(--halftone-text-opacity-floor)) 66%, #000 118%);
 }
 .hero-halftone-fallback {
   background-image: radial-gradient(circle, #7c5cff 1px, transparent 1.6px);
@@ -70,7 +75,7 @@
   .hero-halftone { opacity: calc(var(--halftone-opacity-light, .14) * .7); }
   .dark .hero-halftone { opacity: calc(var(--halftone-opacity-dark, .34) * .7); }
   .hero-halftone-fallback { mask-image: radial-gradient(ellipse 68% 55% at 50% 28%, #000 10%, transparent 100%); }
-  .dark .hero-halftone-fallback { mask-image: radial-gradient(ellipse 34% 43% at 50% 78%, rgba(0, 0, 0, .22) 0%, rgba(0, 0, 0, .22) 66%, #000 118%); }
+  .dark .hero-halftone-fallback { mask-image: radial-gradient(ellipse var(--halftone-text-size-x) var(--halftone-text-size-y) at var(--halftone-text-x-mobile) var(--halftone-text-y-mobile), rgba(0, 0, 0, var(--halftone-text-opacity-floor)) 0%, rgba(0, 0, 0, var(--halftone-text-opacity-floor)) 66%, #000 118%); }
   .hero-portrait {
     mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
     -webkit-mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);

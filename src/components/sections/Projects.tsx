@@ -42,7 +42,7 @@ function ProjectPreviewImage({
     const displayed = isDesktop || !mobile ? desktop : mobile
     const images = mobile ? [desktop, mobile] : [desktop]
     return <>
-      <button type="button" onClick={() => setActiveImage(isDesktop || !mobile ? 0 : 1)} aria-label={(isSpanish ? 'Ampliar captura: ' : 'Enlarge screenshot: ') + displayed.alt} className={className + ' block w-full overflow-hidden bg-background-tertiary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent'}>
+      <button type="button" onClick={() => setActiveImage(isDesktop || !mobile ? 0 : 1)} aria-label={(isSpanish ? 'Ampliar captura: ' : 'Enlarge screenshot: ') + displayed.alt} style={{ '--mobile-media-aspect': displayed.width / displayed.height } as React.CSSProperties} className={className + ' content-media block w-full overflow-hidden bg-background-tertiary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent'}>
         <picture>
           {mobile && <source media="(min-width: 1024px)" srcSet={desktop.src} width={desktop.width} height={desktop.height} />}
           <img src={mobile?.src ?? desktop.src} alt={displayed.alt} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" onError={() => setError(true)} className="h-full w-full object-contain" />
@@ -76,7 +76,7 @@ function ProjectPreviewImage({
         height={1260}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
-        className={`h-full w-full object-cover transition-opacity duration-[var(--motion-fast)] motion-reduce:transition-none ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`h-full w-full object-contain transition-opacity duration-[var(--motion-fast)] motion-reduce:transition-none lg:object-cover ${loaded ? 'opacity-100' : 'opacity-0'}`}
         style={{ objectPosition }}
       />
     </div>
@@ -102,6 +102,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
   const [hasFocus, setHasFocus] = useState(false)
   const { isSpanish } = useLocale()
   const total = projects.length
+  const mobileAspectRatio = Math.min(...projects.map(item => item.media ? (item.media.mobile ?? item.media.desktop).width / (item.media.mobile ?? item.media.desktop).height : 2530 / 1260))
 
   const prev = useCallback(() => setCurrent(c => (c - 1 + total) % total), [total])
   const next = useCallback(() => setCurrent(c => (c + 1) % total), [total])
@@ -125,7 +126,7 @@ function ProjectSlider({ projects, onProjectClick, reduceMotion, ui }: SliderPro
     >
       <div className="grid md:grid-cols-[1.1fr_1fr]">
       {/* Responsive preview */}
-      <div className="relative h-60 overflow-hidden bg-background sm:h-72 md:h-full md:min-h-[25rem]">
+      <div className="project-slider-media relative overflow-hidden bg-background lg:h-full lg:min-h-[25rem]" style={{ '--mobile-media-aspect': mobileAspectRatio } as React.CSSProperties}>
         <AnimatePresence mode="wait">
           <motion.div
             key={project.id}
@@ -279,7 +280,7 @@ export function Projects() {
           title={selectedProject.title}
         >
           <div className="space-y-6">
-            {selectedProject.media && <ProjectPreviewImage media={selectedProject.media} title={selectedProject.title} className="h-72 rounded-xl sm:h-96" />}
+            {selectedProject.media && <ProjectPreviewImage media={selectedProject.media} title={selectedProject.title} className="rounded-xl lg:h-96" />}
             <p className="text-sm leading-relaxed text-foreground-secondary">{selectedProject.description}</p>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               <CaseChip label={ui.projects.role} value={selectedProject.role} />
@@ -345,7 +346,7 @@ export function Projects() {
                 <p className="eyebrow">{demo.label}</p>
                 <h4 className="font-display text-xl font-semibold">{demo.title}</h4>
                 <p className="text-sm text-foreground-secondary">{demo.description}</p>
-                <ProjectPreviewImage imageUrl={demo.image} title={demo.title + ' · ' + demo.label} className="aspect-video overflow-hidden rounded-xl" />
+                <ProjectPreviewImage imageUrl={demo.image} title={demo.title + ' · ' + demo.label} className="aspect-[2530/1260] overflow-hidden rounded-xl lg:aspect-video" />
                 <ul className="space-y-2 text-sm text-foreground-secondary">{demo.decisions.map(decision => <li key={decision}>{decision}</li>)}</ul>
                 <p className="text-sm text-foreground-secondary">{demo.status}</p>
                 {demo.liveUrl && <a href={demo.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex text-sm text-accent">{isSpanish ? 'Abrir demo ficticia' : 'Open fictional demo'}: {demo.title}</a>}

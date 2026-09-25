@@ -97,7 +97,18 @@ export function HeroHalftone() {
   }, [reducedMotion])
 
   return <div aria-hidden="true" className={`hero-halftone pointer-events-none absolute inset-0 overflow-hidden${DEBUG_HALFTONE ? ' hero-halftone--debug' : ''}`}
-    style={{ '--halftone-opacity-dark': HALFTONE_OPACITY_DARK, '--halftone-opacity-light': HALFTONE_OPACITY_LIGHT, '--halftone-spacing': `${HALFTONE_SPACING}px` } as React.CSSProperties}>
+    style={{
+      '--halftone-opacity-dark': HALFTONE_OPACITY_DARK,
+      '--halftone-opacity-light': HALFTONE_OPACITY_LIGHT,
+      '--halftone-spacing': `${HALFTONE_SPACING}px`,
+      '--halftone-text-x-desktop': `${HALFTONE_TEXT_DESKTOP[0] * 100}%`,
+      '--halftone-text-y-desktop': `${(1 - HALFTONE_TEXT_DESKTOP[1]) * 100}%`,
+      '--halftone-text-x-mobile': `${HALFTONE_TEXT_MOBILE[0] * 100}%`,
+      '--halftone-text-y-mobile': `${(1 - HALFTONE_TEXT_MOBILE[1]) * 100}%`,
+      '--halftone-text-size-x': `${HALFTONE_TEXT_QUIET_SIZE[0] * 100}%`,
+      '--halftone-text-size-y': `${HALFTONE_TEXT_QUIET_SIZE[1] * 100}%`,
+      '--halftone-text-opacity-floor': (1 - HALFTONE_TEXT_QUIET_STRENGTH).toFixed(2),
+    } as React.CSSProperties}>
     <div className="hero-halftone-fallback absolute inset-0" />
     <motion.div ref={host} className="absolute inset-0 h-full w-full overflow-hidden"
       initial={false} animate={{ opacity: ready ? 1 : 0 }}

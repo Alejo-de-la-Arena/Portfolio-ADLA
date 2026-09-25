@@ -27,7 +27,7 @@ export function SelectedCases() {
           const signal = signals[study.id]
           return <motion.article {...item} custom={index} key={study.id} className="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-background-secondary shadow-lg shadow-black/10 motion-card hover:border-accent/50 focus-within:border-accent">
             <div className="relative overflow-hidden border-b border-border bg-background-tertiary">
-              <picture><source media="(min-width: 1024px)" srcSet={desktop.src} /><img src={mobile?.src ?? desktop.src} alt={(mobile ?? desktop).alt[locale]} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover object-top " /></picture>
+              <picture><source media="(min-width: 1024px)" srcSet={desktop.src} /><img src={mobile?.src ?? desktop.src} alt={(mobile ?? desktop).alt[locale]} width={(mobile ?? desktop).width} height={(mobile ?? desktop).height} loading="lazy" decoding="async" style={{ '--mobile-media-aspect': (mobile ?? desktop).width / (mobile ?? desktop).height } as React.CSSProperties} className="content-media block w-full object-contain object-top lg:object-cover" /></picture>
             </div>
             <div className="flex flex-1 flex-col p-5 sm:p-6">
               <h3 className="font-display text-xl font-semibold leading-snug"><Link to={study.href} className="after:absolute after:inset-0 after:rounded-2xl">{study.title}</Link></h3>
