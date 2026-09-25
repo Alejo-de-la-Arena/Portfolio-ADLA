@@ -1,7 +1,7 @@
 import { motionTokens, motionTransition } from '@/lib/motion'
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Github, Linkedin, MessageCircle } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, Github, Linkedin, MessageCircle } from 'lucide-react'
 import { MagneticButton } from '../effects/MagneticButton'
 import { HeroHalftone } from '../effects/HeroHalftone'
 import { scrollToSection } from '@/lib/utils'
@@ -9,7 +9,7 @@ import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
 function PillCTA({ children, onClick, primary = false }: { children: React.ReactNode; onClick: () => void; primary?: boolean }) {
   return <MagneticButton onClick={onClick} variant={primary ? 'primary' : 'outline'}>
-    <span className="inline-flex items-center gap-3"><span>{children}</span><span className={`grid h-7 w-7 place-items-center rounded-full transition-transform duration-[var(--motion-fast)] group-hover:rotate-45 ${primary ? 'bg-background/15' : 'bg-foreground/10'}`}><ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.4} /></span></span>
+    <span className="inline-flex items-center gap-3"><span>{children}</span><span className={`grid h-7 w-7 place-items-center rounded-full transition-transform duration-[var(--motion-fast)] ${primary ? 'bg-background/15 group-hover:translate-y-0.5' : 'bg-foreground/10 group-hover:rotate-45'}`}>{primary ? <ArrowDown className="h-3.5 w-3.5" strokeWidth={2.4} /> : <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.4} />}</span></span>
   </MagneticButton>
 }
 
