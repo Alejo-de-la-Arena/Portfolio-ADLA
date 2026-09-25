@@ -3,7 +3,7 @@ import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { ModalSurface } from '../ui/ModalSurface'
 import { useState, useEffect, useRef, type RefObject } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, Github, Globe2, Linkedin, Menu, MessageCircle, Moon, SlidersHorizontal, Sun, X } from 'lucide-react'
+import { ChevronDown, Globe2, Menu, Moon, SlidersHorizontal, Sun, X } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { BrandMark } from '../ui/BrandMark'
 import { scrollToSection } from '@/lib/utils'
@@ -20,7 +20,7 @@ export function Navbar() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const settingsRef = useRef<HTMLDivElement | null>(null)
   const settingsButtonRef = useRef<HTMLButtonElement | null>(null)
-  const { personalInfo, sectionLinks, socialLinks, ui } = useLocalizedContent()
+  const { personalInfo, sectionLinks, ui } = useLocalizedContent()
   const activeSection = useScrollSpy(sectionLinks.map(link => link.id))
   const { theme, toggleTheme } = useTheme()
   const { locale, setLocale } = useLocale()
@@ -47,8 +47,9 @@ export function Navbar() {
       }
     }
     const onEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && settingsOpen) {
         setSettingsOpen(false)
+        settingsButtonRef.current?.focus()
       }
     }
     window.addEventListener('pointerdown', onPointerDown)
@@ -57,7 +58,11 @@ export function Navbar() {
       window.removeEventListener('pointerdown', onPointerDown)
       window.removeEventListener('keydown', onEscape)
     }
-  }, [])
+  }, [settingsOpen])
+
+  useEffect(() => {
+    if (settingsOpen) settingsRef.current?.querySelector<HTMLButtonElement>('button')?.focus()
+  }, [settingsOpen])
 
   const handleNavClick = (sectionId: string) => {
     if (pathname !== '/') navigate(`/#${sectionId}`)
@@ -65,12 +70,6 @@ export function Navbar() {
     setMobileMenuOpen(false)
     setSettingsOpen(false)
   }
-
-  const socials = [
-    { icon: Github, href: socialLinks.github, label: 'GitHub' },
-    { icon: Linkedin, href: socialLinks.linkedin, label: 'LinkedIn' },
-    { icon: MessageCircle, href: socialLinks.whatsapp, label: 'WhatsApp' },
-  ]
 
   return (
     <>
@@ -107,7 +106,7 @@ export function Navbar() {
             </div>
 
             {/* Desktop settings */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
               <HeaderControls
                 ui={ui.navbar}
                 locale={locale}
@@ -115,17 +114,14 @@ export function Navbar() {
                 theme={theme}
                 toggleTheme={toggleTheme}
                 settingsOpen={settingsOpen}
-                setSettingsOpen={setSettingsOpen}
+                setSettingsOpen={(open) => { setSettingsOpen(open); if (open) setMobileMenuOpen(false) }}
                 settingsRef={settingsRef}
                 settingsButtonRef={settingsButtonRef}
               />
-            </div>
-
-            {/* Hamburger — visible solo en mobile */}
-            <button
+              <button
               type="button"
-              className="flex lg:hidden items-center justify-center rounded-lg p-2 text-foreground-secondary transition-none hover:bg-background-tertiary hover:text-foreground"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="flex h-11 w-11 items-center justify-center rounded-lg text-foreground-secondary transition-none hover:bg-background-tertiary hover:text-foreground lg:hidden"
+              onClick={() => { setSettingsOpen(false); setMobileMenuOpen((prev) => !prev) }}
               aria-label={ui.navbar.menuLabel}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-drawer"
@@ -135,7 +131,8 @@ export function Navbar() {
               ) : (
                 <Menu className="h-5 w-5" />
               )}
-            </button>
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -203,67 +200,8 @@ export function Navbar() {
                 ))}
               </ul>
 
-              {/* Settings compactos */}
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={motionTransition(reduceMotion)}
-                className="mt-5 space-y-4 rounded-xl border border-border/60 bg-background-secondary/50 p-4"
-              >
-                {/* Idioma */}
-                <div>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
-                    {ui.navbar.language}
-                  </p>
-                  <div className="inline-flex rounded-full border border-border bg-background p-1">
-                    {(['es', 'en'] as const).map((lang) => (
-                      <button
-                        key={lang}
-                        type="button"
-                        onClick={() => setLocale(lang)}
-                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-none ${
-                          locale === lang
-                            ? 'bg-accent/15 text-foreground'
-                            : 'text-foreground-secondary hover:text-foreground'
-                        }`}
-                      >
-                        <Globe2 className="h-3 w-3" />
-                        {lang.toUpperCase()}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tema */}
-                <div>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-foreground-tertiary">
-                    {ui.navbar.theme}
-                  </p>
-                  <Button variant="outline" size="sm" onClick={toggleTheme}>
-                    {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-                    {theme === 'dark' ? ui.navbar.light : ui.navbar.dark}
-                  </Button>
-                </div>
-              </motion.div>
             </nav>
 
-            {/* Social footer */}
-            <div className="border-t border-border/60 px-5 py-4">
-              <div className="flex items-center gap-3">
-                {socials.map(({ icon: Icon, href, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground-secondary transition-none hover:border-accent/50 hover:text-foreground"
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                ))}
-              </div>
-            </div>
           </motion.div>
           </ModalSurface>
         )}
@@ -310,22 +248,22 @@ function HeaderControls({
         ref={settingsButtonRef}
         variant="ghost"
         size="sm"
-        aria-label={ui.openSettings}
+        aria-label={ui.settingsTitle}
         aria-expanded={settingsOpen}
         onClick={() => setSettingsOpen(!settingsOpen)}
-        className="gap-1.5"
+        className="h-11 w-11 gap-1.5 p-0 lg:w-auto lg:px-3"
       >
-        <span className="text-xs uppercase tracking-[0.12em]">{ui.settingsTitle}</span>
+        <span className="hidden text-xs uppercase tracking-[0.12em] lg:inline">{ui.settingsTitle}</span>
         <SlidersHorizontal className="h-4 w-4" />
         <ChevronDown
-          className={`h-3.5 w-3.5 transition-transform ${settingsOpen ? 'rotate-180' : ''}`}
+          className={`hidden h-3.5 w-3.5 transition-transform lg:block ${settingsOpen ? 'rotate-180' : ''}`}
         />
       </Button>
 
       {settingsOpen && (
         <div
           ref={settingsRef}
-          className="absolute right-0 top-12 z-50 w-80 rounded-2xl border border-border bg-background-secondary/95 p-4 shadow-2xl shadow-black/25 backdrop-blur-md"
+          className="absolute -right-[3.25rem] top-12 z-50 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-border bg-background-secondary/95 p-4 shadow-2xl shadow-black/25 backdrop-blur-md lg:right-0"
         >
           <div className="mb-4">
             <p className="mb-2 text-xs uppercase tracking-[0.14em] text-foreground-tertiary">
@@ -337,7 +275,7 @@ function HeaderControls({
                   key={lang}
                   type="button"
                   onClick={() => setLocale(lang)}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-none ${
+                  className={`inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full px-3 text-xs transition-none ${
                     locale === lang
                       ? 'bg-accent/15 text-foreground'
                       : 'text-foreground-secondary hover:text-foreground'
@@ -356,7 +294,7 @@ function HeaderControls({
             <p className="mb-2 text-xs uppercase tracking-[0.14em] text-foreground-tertiary">
               {ui.theme}
             </p>
-            <Button variant="outline" size="sm" onClick={toggleTheme}>
+            <Button variant="outline" size="sm" className="min-h-11" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               {theme === 'dark' ? ui.light : ui.dark}
             </Button>
