@@ -4,23 +4,36 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Bounded opacity also guarantees a worst-case contrast independent of time.
-   Both fallback and canvas share this group opacity, so they cannot add past it. */
-.hero-aurora {
-  opacity: min(var(--hero-aurora-opacity, 0.28), .16);
-  mask-image: linear-gradient(to right, transparent 32%, #000 76%);
+/* One bounded group contains canvas and fallback, including their overlap. */
+.hero-halftone {
+  opacity: var(--halftone-opacity-light, .14);
 }
-.dark .hero-aurora { opacity: var(--hero-aurora-opacity, 0.28); }
-.hero-aurora-fallback {
-  background: radial-gradient(ellipse 40% 50% at 78% 49%, #7c5cff 0%, #34186a 42%, transparent 100%);
+.dark .hero-halftone { opacity: var(--halftone-opacity-dark, .34); }
+.dark .hero-halftone-fallback {
+  mask-image: radial-gradient(ellipse 42% 50% at 26% 51%, rgba(0, 0, 0, .22) 0%, rgba(0, 0, 0, .22) 66%, #000 118%);
 }
-.hero-aurora--debug {
+.hero-halftone-fallback {
+  background-image: radial-gradient(circle, #7c5cff 1px, transparent 1.6px);
+  background-size: var(--halftone-spacing, 15px) var(--halftone-spacing, 15px);
+  mask-image: radial-gradient(ellipse 50% 58% at 62% 54%, #000 8%, transparent 100%);
+}
+.hero-halftone--debug {
   width: 100% !important;
   opacity: 1 !important;
   mask-image: none !important;
   -webkit-mask-image: none !important;
 }
-.hero-aurora--debug .hero-aurora-fallback { opacity: 0; }
+.hero-halftone--debug .hero-halftone-fallback { opacity: 0; }
+.brand-mark {
+  color: #32196f;
+  -webkit-text-stroke: 2px #8b70d8;
+  paint-order: stroke fill;
+  transition: color var(--motion-fast) ease, -webkit-text-stroke-color var(--motion-fast) ease;
+}
+.brand-mark:hover { color: #4b2da3; -webkit-text-stroke-color: #a18be4; }
+.dark .brand-mark { color: #49309e; -webkit-text-stroke-color: #b7a4ff; }
+.dark .brand-mark:hover { color: #6044bc; -webkit-text-stroke-color: #cabdff; }
+.brand-mark--footer { -webkit-text-stroke-width: 2.6px; }
 #hero .hero-name-gradient {
   background: linear-gradient(90deg, #5430bc, #6c4ef0, #5430bc);
   background-clip: text;
@@ -32,8 +45,8 @@
 }
 .hero-portrait {
   isolation: isolate;
-  mask-image: radial-gradient(ellipse 70% 66% at 52% 44%, #000 26%, rgba(0, 0, 0, .9) 48%, transparent 84%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 66% at 52% 44%, #000 26%, rgba(0, 0, 0, .9) 48%, transparent 84%);
+  mask-image: radial-gradient(ellipse 60% 68% at 52% 41%, #000 25%, rgba(0, 0, 0, .82) 49%, transparent 84%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 68% at 52% 41%, #000 25%, rgba(0, 0, 0, .82) 49%, transparent 84%);
   filter: none;
 }
 .hero-portrait::after {
@@ -45,17 +58,27 @@
   background: transparent;
 }
 .dark .hero-portrait {
-  mask-image: radial-gradient(ellipse 72% 68% at 52% 44%, #000 38%, rgba(0, 0, 0, .82) 58%, transparent 86%);
-  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 52% 44%, #000 38%, rgba(0, 0, 0, .82) 58%, transparent 86%);
+  mask-image: radial-gradient(ellipse 61% 69% at 52% 41%, #000 29%, rgba(0, 0, 0, .82) 50%, transparent 84%);
+  -webkit-mask-image: radial-gradient(ellipse 61% 69% at 52% 41%, #000 29%, rgba(0, 0, 0, .82) 50%, transparent 84%);
   filter: saturate(.9) contrast(1.02);
 }
 .dark .hero-portrait::after {
   background: linear-gradient(135deg, rgba(28, 13, 61, .2), transparent 48%, rgba(7, 7, 11, .32));
 }
-@media (min-width: 1024px) { .hero-aurora { width: 62%; } }
+@media (prefers-reduced-motion: reduce) { .brand-mark { transition: none; } }
 @media (max-width: 767px) {
-  .hero-aurora { opacity: min(calc(var(--hero-aurora-opacity, 0.28) * 0.6), .16); }
-  .dark .hero-aurora { opacity: calc(var(--hero-aurora-opacity, 0.28) * 0.6); }
+  .hero-halftone { opacity: calc(var(--halftone-opacity-light, .14) * .7); }
+  .dark .hero-halftone { opacity: calc(var(--halftone-opacity-dark, .34) * .7); }
+  .hero-halftone-fallback { mask-image: radial-gradient(ellipse 68% 55% at 50% 28%, #000 10%, transparent 100%); }
+  .dark .hero-halftone-fallback { mask-image: radial-gradient(ellipse 34% 43% at 50% 78%, rgba(0, 0, 0, .22) 0%, rgba(0, 0, 0, .22) 66%, #000 118%); }
+  .hero-portrait {
+    mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
+  }
+  .dark .hero-portrait {
+    mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 65% 80% at 50% 30%, #000 28%, rgba(0, 0, 0, .95) 46%, transparent 78%);
+  }
 }
 
 @layer base {

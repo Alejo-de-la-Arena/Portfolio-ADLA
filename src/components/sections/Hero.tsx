@@ -3,7 +3,7 @@ import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Github, Linkedin, MessageCircle } from 'lucide-react'
 import { MagneticButton } from '../effects/MagneticButton'
-import { HeroAurora } from '../effects/HeroAurora'
+import { HeroHalftone } from '../effects/HeroHalftone'
 import { scrollToSection } from '@/lib/utils'
 import { useLocalizedContent } from '@/hooks/useLocalizedContent'
 
@@ -37,11 +37,11 @@ export function Hero() {
     { icon: MessageCircle, href: socialLinks.whatsapp, label: 'WhatsApp' },
   ]
 
-  return <section id="hero" className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-hidden bg-background pt-0">
-    <HeroAurora />
+  return <section id="hero" className="relative flex min-h-[100dvh] w-full flex-col justify-center overflow-hidden bg-background pt-20 lg:pt-0">
+    <HeroHalftone />
     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background via-background/80 to-transparent" />
     <div className="relative z-10 mx-auto w-full max-w-editorial px-4 pb-4 pt-6 sm:px-6 sm:py-16 lg:px-8">
-      <div className="grid items-center gap-8 sm:gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
+      <div className="grid items-center gap-4 sm:gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
         <div className="min-w-0 space-y-6 text-left lg:order-first">
           <StaggeredHeadline name={personalInfo.name} reduceMotion={reduceMotion} />
           <motion.p {...heroEntry(reduceMotion, 1)} className="!mt-3 max-w-lg font-display text-xl font-semibold leading-snug text-foreground sm:text-2xl">{personalInfo.role}</motion.p>
@@ -61,8 +61,8 @@ export function Hero() {
             <div className="flex items-center justify-start gap-3">{socials.map(({ icon: Icon, href, label }) => <motion.a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} whileHover={reduceMotion ? undefined : { scale: motionTokens.interaction.hoverScale }} transition={motionTransition(reduceMotion, 'fast', 'standard')} className="grid h-10 w-10 place-items-center rounded-full border border-border/70 bg-background-secondary/40 text-foreground-secondary transition-none hover:border-accent/50 hover:text-foreground"><Icon className="h-4 w-4" /></motion.a>)}</div>
           </motion.div>
         </div>
-        <motion.figure {...heroEntry(reduceMotion, 5)} className="hero-portrait relative hidden aspect-[407/612] w-full max-w-[407px] justify-self-end overflow-hidden lg:block">
-          <img src="/images/experiencia/portfolio-profile-photo.webp" alt={ui.hero.portraitAlt} width={407} height={612} fetchPriority="high" decoding="async" className="h-full w-full object-cover object-center" />
+        <motion.figure {...heroEntry(reduceMotion, 0)} className="hero-portrait relative order-first mx-auto h-[240px] w-[220px] overflow-hidden sm:h-[300px] sm:w-[275px] lg:order-none lg:mx-0 lg:aspect-[407/612] lg:h-auto lg:w-full lg:max-w-[407px] lg:justify-self-end">
+          <img src="/images/experiencia/portfolio-profile-photo.webp" alt={ui.hero.portraitAlt} width={407} height={612} fetchPriority="high" decoding="async" className="h-full w-full object-cover object-top lg:object-center" />
         </motion.figure>
       </div>
     </div>
