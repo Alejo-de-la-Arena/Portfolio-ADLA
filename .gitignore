@@ -1,3 +1,25 @@
-node_modules
-.claude
-claude
+# Dependencies and generated files
+node_modules/
+dist/
+.motion-baseline/
+*.log
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local editor and agent state
+.claude/
+claude/
+
+# CV screenshots and visual verification artifacts
+cv-*.png
+cv-*.jpg
+cv-*.jpeg
+cv-*.webp
+hero-verification/
