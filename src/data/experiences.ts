@@ -36,24 +36,27 @@ export const clientExperiences: Experience[] = [
   {
     "slug": "solution",
     "company": "Solution Perfumes",
-    "companyUrl": "https://www.solutionperfumes.com/",
+    "companyUrl": "https://solution-topaz.vercel.app/",
     "position": {
       "es": "Full-Stack Developer",
       "en": "Full-Stack Developer"
     },
     "type": "freelance",
     "startDate": {
-      "month": 8,
+      "month": 2,
       "year": 2026
     },
-    "endDate": null,
+    "endDate": {
+      "month": 4,
+      "year": 2026
+    },
     "location": {
       "es": "Argentina · Remoto",
       "en": "Argentina · Remote"
     },
     "summary": {
-      "es": "Solution pasó de unos 80 pedidos mensuales en Tienda Nube a unos 300 con su plataforma propia, que desarrollé. Acumula 1.086 pedidos de 1.006 compradores únicos al 14 de septiembre de 2026.",
-      "en": "Solution went from around 80 monthly orders on Tienda Nube to around 300 on the custom platform I built. It processed 1,086 orders from 1,006 unique buyers as of September 14, 2026."
+      "es": "Solution pasó de unos 80 pedidos mensuales en Tienda Nube a unos 300 con su plataforma propia, que desarrollé. Mientras estuvo en producción, procesó 1.086 pedidos de 1.006 compradores únicos (al 14 de septiembre de 2026). Como la marca cambiaba con frecuencia de proveedor logístico, el cliente migró a Shopify para resolver cada integración con apps existentes en lugar de desarrollo a medida. La versión que desarrollé sigue disponible en solution-topaz.vercel.app.",
+      "en": "Solution went from around 80 monthly orders on Tienda Nube to around 300 on the custom platform I built. While in production, it processed 1,086 orders from 1,006 unique buyers (as of September 14, 2026). Since the brand frequently switched logistics providers, the client moved to Shopify to handle each integration with existing apps instead of custom development. The version I built is still available at solution-topaz.vercel.app."
     },
     "highlights": {
       "es": [
@@ -106,7 +109,7 @@ export const clientExperiences: Experience[] = [
           "Mercado Pago",
           "Correo Argentino"
         ],
-        "liveUrl": "https://www.solutionperfumes.com/",
+        "liveUrl": "https://solution-topaz.vercel.app/",
         "media": [
           {
             "desktop": {
@@ -130,11 +133,7 @@ export const clientExperiences: Experience[] = [
           }
         ]
       }
-    ],
-    "period": {
-      "es": "FEB. 2026 — ABR. 2026 (3 MESES)",
-      "en": "FEB. 2026 — APR. 2026 (3 MONTHS)"
-    }
+    ]
   },
   {
     "slug": "zetenta",

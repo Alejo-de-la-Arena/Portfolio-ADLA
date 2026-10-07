@@ -3,21 +3,21 @@ import type { Localized, LocalizedList } from './experiences'
 export const caseStudies: Record<'solution' | 'espacio-boa' | 'manantial', { summary: Localized; body: LocalizedList }> = {
   "solution": {
     "summary": {
-      "es": "Solution pasó de unos 80 pedidos mensuales en Tienda Nube a unos 300 con su plataforma propia, que desarrollé. Acumula 1.086 pedidos de 1.006 compradores únicos al 14 de septiembre de 2026.",
-      "en": "Solution went from around 80 monthly orders on Tienda Nube to around 300 on the custom platform I built. It processed 1,086 orders from 1,006 unique buyers as of September 14, 2026."
+      "es": "Solution pasó de unos 80 pedidos mensuales en Tienda Nube a unos 300 con su plataforma propia, que desarrollé. Mientras estuvo en producción, procesó 1.086 pedidos de 1.006 compradores únicos (al 14 de septiembre de 2026). Como la marca cambiaba con frecuencia de proveedor logístico, el cliente migró a Shopify para resolver cada integración con apps existentes en lugar de desarrollo a medida. La versión que desarrollé sigue disponible en solution-topaz.vercel.app.",
+      "en": "Solution went from around 80 monthly orders on Tienda Nube to around 300 on the custom platform I built. While in production, it processed 1,086 orders from 1,006 unique buyers (as of September 14, 2026). Since the brand frequently switched logistics providers, the client moved to Shopify to handle each integration with existing apps instead of custom development. The version I built is still available at solution-topaz.vercel.app."
     },
     "body": {
       "es": [
         "Solution vendía en Tienda Nube y procesaba unos 80 pedidos mensuales. Desarrollé una plataforma propia para definir el checkout y las reglas comerciales según su operación. La decisión permitió tratar la venta minorista y la mayorista como flujos distintos dentro del mismo producto.",
-        "Modelé el checkout con estados explícitos de pago: pendiente, aprobado y rechazado. Así, iniciar un pago no equivale a confirmar una compra, y cada estado tiene una respuesta visible para quien compra. Integré Mercado Pago como única pasarela y Correo Argentino para los envíos a todo el país.",
-        "Separé las reglas minoristas de las mayoristas para que las condiciones de un canal no se apliquen al otro. El portal mayorista incluye solicitud de cuenta, aprobación y acceso según el plan asignado. Esa separación permite modificar condiciones mayoristas sin mezclar esa lógica con el checkout minorista.",
-        "La plataforma está en producción desde el 6 de agosto de 2026. Al 14 de septiembre de 2026, acumula 1.086 pedidos de 1.006 compradores únicos. La marca promedia unos 300 pedidos mensuales: casi cuatro veces el volumen anterior. La plataforma acompañó el crecimiento junto con cambios en la operación de la marca."
+        "Modelé el checkout con estados explícitos de pago: pendiente, aprobado y rechazado. Así, iniciar un pago no equivalía a confirmar una compra, y cada estado tenía una respuesta visible para quien compra. Integré Mercado Pago como única pasarela y Correo Argentino para los envíos a todo el país.",
+        "Separé las reglas minoristas de las mayoristas para que las condiciones de un canal no se apliquen al otro. El portal mayorista incluía solicitud de cuenta, aprobación y acceso según el plan asignado. Esa separación permitía modificar condiciones mayoristas sin mezclar esa lógica con el checkout minorista.",
+        "La plataforma entró en producción el 6 de agosto de 2026. Al 14 de septiembre de 2026, había procesado 1.086 pedidos de 1.006 compradores únicos. La marca promediaba unos 300 pedidos mensuales: casi cuatro veces el volumen anterior. La plataforma acompañó el crecimiento junto con cambios en la operación de la marca."
       ],
       "en": [
         "Solution sold through Tienda Nube and processed around 80 orders per month. I built a custom platform to shape the checkout and business rules around its operations. This made it possible to handle retail and wholesale as distinct flows within the same product.",
-        "I modeled checkout around explicit payment states: pending, approved, and rejected. Starting a payment doesn’t mean a purchase is confirmed, and each state provides visible feedback to the buyer. I integrated Mercado Pago as the sole payment provider and Correo Argentino for nationwide shipping.",
-        "I separated retail and wholesale rules so that one channel’s conditions wouldn’t apply to the other. The wholesale portal includes account requests, approval, and access based on the assigned plan. This separation allows wholesale terms to change without mixing that logic into retail checkout.",
-        "The platform has been live since August 6, 2026. As of September 14, 2026, it has processed 1,086 orders from 1,006 unique buyers. The brand averages around 300 monthly orders: nearly four times its previous volume. The platform supported that growth alongside changes in the brand’s operations."
+        "I modeled checkout around explicit payment states: pending, approved, and rejected. Starting a payment didn’t mean a purchase was confirmed, and each state provided visible feedback to the buyer. I integrated Mercado Pago as the sole payment provider and Correo Argentino for nationwide shipping.",
+        "I separated retail and wholesale rules so that one channel’s conditions wouldn’t apply to the other. The wholesale portal included account requests, approval, and access based on the assigned plan. This separation allowed wholesale terms to change without mixing that logic into retail checkout.",
+        "The platform went live on August 6, 2026. As of September 14, 2026, it had processed 1,086 orders from 1,006 unique buyers. The brand averaged around 300 monthly orders: nearly four times its previous volume. The platform supported that growth alongside changes in the brand’s operations."
       ]
     }
   },
