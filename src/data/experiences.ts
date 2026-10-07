@@ -55,8 +55,8 @@ export const clientExperiences: Experience[] = [
       "en": "Argentina · Remote"
     },
     "summary": {
-      "es": "Solution pasó de unos 80 pedidos mensuales en Tienda Nube a unos 300 con su plataforma propia, que desarrollé. Mientras estuvo en producción, procesó 1.086 pedidos de 1.006 compradores únicos (al 14 de septiembre de 2026). Como la marca cambiaba con frecuencia de proveedor logístico, el cliente migró a Shopify para resolver cada integración con apps existentes en lugar de desarrollo a medida. La versión que desarrollé sigue disponible en solution-topaz.vercel.app.",
-      "en": "Solution went from around 80 monthly orders on Tienda Nube to around 300 on the custom platform I built. While in production, it processed 1,086 orders from 1,006 unique buyers (as of September 14, 2026). Since the brand frequently switched logistics providers, the client moved to Shopify to handle each integration with existing apps instead of custom development. The version I built is still available at solution-topaz.vercel.app."
+      "es": "Desarrollé la plataforma de e-commerce propia de Solution, que entró en producción a principios de abril de 2026. La marca pasó de unos 80 pedidos mensuales en Tienda Nube a unos 300, y al 14 de septiembre de 2026 la plataforma había procesado 1.086 pedidos de 1.006 compradores únicos. Estuvo en producción hasta el 5 de octubre de 2026, cuando el cliente migró a Shopify para simplificar las integraciones con sus proveedores logísticos.",
+      "en": "I built Solution’s custom e-commerce platform, which went live in early April 2026. The brand went from around 80 monthly orders on Tienda Nube to around 300, and as of September 14, 2026, the platform had processed 1,086 orders from 1,006 unique buyers. It ran in production until October 5, 2026, when the client moved to Shopify to simplify integrations with its logistics providers."
     },
     "highlights": {
       "es": [
@@ -88,8 +88,8 @@ export const clientExperiences: Experience[] = [
           "en": "E-commerce and wholesale portal"
         },
         "subtitle": {
-          "es": "Migración de Tienda Nube a plataforma propia",
-          "en": "Migration from Tienda Nube to a custom platform"
+          "es": "Desarrollo propio de e-commerce completo",
+          "en": "Custom end-to-end e-commerce platform"
         },
         "role": {
           "es": "Full-Stack Developer",
@@ -100,8 +100,8 @@ export const clientExperiences: Experience[] = [
           "en": "I developed the store with Mercado Pago and Correo Argentino. I modeled explicit payment states and separated retail from wholesale rules to maintain distinct terms for each channel."
         },
         "impact": {
-          "es": "De unos 80 a unos 300 pedidos mensuales. Al 14 de septiembre de 2026: 1.086 pedidos y 1.006 compradores únicos.",
-          "en": "From around 80 to around 300 monthly orders. As of September 14, 2026: 1,086 orders and 1,006 unique buyers."
+          "es": "En producción de abril a octubre de 2026. La marca pasó de unos 80 a unos 300 pedidos mensuales; al 14 de septiembre de 2026, la plataforma había procesado 1.086 pedidos de 1.006 compradores únicos.",
+          "en": "In production from April to October 2026. The brand went from around 80 to around 300 monthly orders; as of September 14, 2026, the platform had processed 1,086 orders from 1,006 unique buyers."
         },
         "stack": [
           "React",
