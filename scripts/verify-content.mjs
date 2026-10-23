@@ -35,10 +35,11 @@ try {
   assert.equal(freelance.projects.at(-1).id, 'kyriazis')
   const dated = clientExperiences.filter(e => e.type === 'freelance' && e.startDate).sort((a, b) => b.startDate.year - a.startDate.year || b.startDate.month - a.startDate.month)
   assert.deepEqual(freelance.projects.map(p => p.id), dated.map(e => e.slug === 'espacio-boa' ? 'boa' : e.slug))
-  for (const [slug, month] of [['don-teofilo-amoblamientos', 7], ['format', 8]]) {
+  assert.equal(freelance.projects[0].id, 'don-teofilo-amoblamientos')
+  for (const [slug, startMonth, endMonth] of [['don-teofilo-amoblamientos', 9, 10], ['format', 8, 8]]) {
     const entry = getExperienceBySlug(slug)
-    assert.deepEqual(entry.startDate, { month, year: 2026 })
-    assert.deepEqual(entry.endDate, { month, year: 2026 })
+    assert.deepEqual(entry.startDate, { month: startMonth, year: 2026 })
+    assert.deepEqual(entry.endDate, { month: endMonth, year: 2026 })
     assert.equal(entry.period, undefined)
     assert.equal(entry.projects[0].media.length, 1)
     for (const locale of ['es', 'en']) assert.equal(entry.projects[0].body[locale].length, 4)
@@ -136,6 +137,7 @@ try {
         const order = freelance.projects.map(p => p.id === 'boa' ? 'espacio-boa' : p.id)
         const index = order.indexOf(slug)
         for (const adjacent of [order[index - 1], order[index + 1]].filter(Boolean)) assert.ok(html.includes('href="/experiencia/' + adjacent + '"'), slug + ' navigation to ' + adjacent)
+        if (slug === 'don-teofilo-amoblamientos') assert.ok(!html.includes('Previous experience</span>') && !html.includes('Experiencia anterior</span>'))
         if (slug === 'kyriazis') assert.ok(!html.includes('Next experience</span>') && !html.includes('Experiencia siguiente</span>'))
       }
       assert.doesNotMatch(html, /admin-actividades|admin-giftcards|boa-inscripciones|solution-metricas|fefebakes(?:-mobile)?\.webp/)

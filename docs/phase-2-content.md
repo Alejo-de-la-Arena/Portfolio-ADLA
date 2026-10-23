@@ -1,6 +1,6 @@
 # Fase 2: contenido
 
-15 trabajos documentados: 7 de Zetenta y 8 de trabajo independiente. FORMAT fue un trabajo pago para cliente. Las entradas con fecha se ordenan de más reciente a más antigua; FORMAT corresponde a agosto de 2026 y Don Teófilo a julio de 2026. Kyriazis queda último. La navegación entre subpáginas usa el mismo orden.
+15 trabajos documentados: 7 de Zetenta y 8 de trabajo independiente. FORMAT fue un trabajo pago para cliente. Las entradas con fecha se ordenan de más reciente a más antigua; Don Teófilo va primero, de septiembre a octubre de 2026, seguido de FORMAT, de agosto de 2026. Kyriazis queda último. La navegación entre subpáginas usa el mismo orden.
 
 ## Marcadores abiertos
 
@@ -25,7 +25,7 @@ Se revisaron visualmente las capturas registradas. Se excluyen los tres paneles 
 
 Se incorporan seis PNG, en tres objetos ProjectMedia desktop/mobile, con dimensiones leídas del encabezado del archivo y alt ES/EN. El contrato usa dimensiones explícitas por Screenshot; ya no existe el helper screenshot() ni su mapa dimensions. Se mantiene picture y el breakpoint de 1024px.
 
-- Don Teófilo: 1902×916 y 850×1660.
+- Don Teófilo: 2516×1257 y 850×1100.
 - FORMAT: 1904×912 y 850×1660.
 - Kyriazis: 1906×918 y 850×1660.
 
@@ -37,31 +37,31 @@ Las capturas registradas no muestran registros privados de personas ni finanzas 
 
 #### ES — tarjeta
 
-Don Teófilo trabajaba solo por WhatsApp, sin un lugar donde mostrar su catálogo y trabajos terminados. Desarrollé un sitio que el cliente puede actualizar desde un panel, con permisos de publicación en la base de datos y consultas contextualizadas por WhatsApp.
+Don Teófilo mostraba su trabajo solo por WhatsApp. Diseñé la identidad visual y desarrollé el sitio y su panel de administración: un lenguaje tomado de los planos de carpintería, reglas de publicación aplicadas en la base de datos y consultas por WhatsApp según la sección.
 
 #### ES — detalle
 
-Don Teófilo realiza carpintería a medida en Buenos Aires y Tandil. El contacto ocurría por WhatsApp, pero faltaba un lugar donde consultar productos y ver trabajos terminados antes de preguntar. El sitio reúne ese material y mantiene WhatsApp como canal de consulta, con mensajes preparados según la sección.
+Don Teófilo hace carpintería a medida en Buenos Aires y Tandil. Las consultas llegaban por WhatsApp, pero no había dónde ver el catálogo ni los trabajos terminados antes de escribir. Además de desarrollar el sitio, diseñé su identidad visual, «Al milímetro», que lleva a la interfaz el lenguaje de los planos de taller: cotas, medidas y dibujos técnicos.
 
-Separé contenido público y privado mediante políticas RLS de Supabase. El visitante solo puede leer registros publicados, incluidas sus imágenes y detalles relacionados. Elegí aplicar esa regla en la base de datos para que ocultar un borrador no dependa de lo que muestre el frontend.
+Los dibujos no son ilustraciones exportadas. Cada categoría está descrita como datos en milímetros reales, módulo por módulo: puertas, cajones, estantes. Un componente calcula la escala para el espacio disponible y dibuja el SVG en píxeles del contenedor, así los trazos y las cotas no se deforman en ninguna pantalla. Lo que queda oculto va punteado, como en un plano real, y sumar una categoría es escribir su especificación, no dibujarla a mano.
 
-Para comparar el antes y el después de una obra, implementé un control que actualiza el DOM durante el arrastre sin pasar por el estado de React. Así evité un render de React por cada movimiento. El comparador también expone un slider operable por teclado, para que la interacción no dependa del mouse.
+El antes y después tiene dos versiones porque resuelven problemas distintos. En la portada, el cambio avanza con el scroll dentro de una sección fijada y sin arrastre, para no competir con el desplazamiento en el celular. En el detalle de cada obra hay un comparador arrastrable que espera unos píxeles de movimiento para decidir si el gesto es horizontal o vertical: solo toma el horizontal, así el dedo no queda atrapado al scrollear. Durante el arrastre actualiza el DOM sin pasar por el estado de React y también se puede usar con teclado.
 
-El cliente puede cargar y publicar el catálogo y los proyectos desde el panel, sin tocar código ni pedir un nuevo despliegue. Pasó de compartir todo por chat a tener una referencia pública para sus consultas. El sitio está entregado y desplegado; queda a la espera del dominio del cliente.
+La regla de qué es público vive en la base de datos. Las políticas RLS de Supabase solo dejan que los visitantes lean productos y proyectos publicados, y la galería y la ficha de cada obra heredan esa condición desde su proyecto. Un trigger garantiza un único proyecto destacado en la portada, sin depender de que el panel lo valide. El cliente carga, ordena y publica catálogo, obras y la sección «Del taller» sin tocar código ni pedir un nuevo despliegue, y pasó de mandar fotos por chat a tener un sitio propio que respalda cada consulta.
 
 #### EN — tarjeta
 
-Don Teófilo worked entirely through WhatsApp, with nowhere to display its catalog and completed work. I built a website the client can update through an admin panel, with publication permissions enforced in the database and contextual WhatsApp inquiries.
+Don Teófilo only showed its work through WhatsApp. I designed the visual identity and built the website and its admin panel: a visual language drawn from carpentry plans, publishing rules enforced in the database, and WhatsApp inquiries tailored to each section.
 
 #### EN — detalle
 
-Don Teófilo builds custom furniture in Buenos Aires and Tandil. Customers contacted the business through WhatsApp, but had nowhere to browse products and completed work before asking. The website brings that material together and keeps WhatsApp as the inquiry channel, with messages prepared for each section.
+Don Teófilo builds custom furniture in Buenos Aires and Tandil. Inquiries came in through WhatsApp, but there was nowhere to browse the catalog or finished work before reaching out. Beyond building the site, I designed its visual identity, "Al milímetro" (down to the millimeter), which brings the language of workshop plans into the interface: dimension lines, measurements and technical drawings.
 
-I separated public and private content through Supabase RLS policies. Visitors can only read published records, including their related images and details. I enforced this rule in the database so keeping a draft private does not depend on what the frontend displays.
+The drawings aren't exported illustrations. Each category is described as data in real millimeters, module by module: doors, drawers, shelves. A component computes the scale for the available space and draws the SVG in the container's own pixels, so strokes and dimension labels never distort on any screen. Hidden parts are dashed, as on a real plan, and adding a category means writing its spec, not drawing it by hand.
 
-For before-and-after project comparisons, I built a control that updates the DOM during dragging without going through React state. This avoids a React render for each movement. The comparator also exposes a keyboard-operated slider, so the interaction does not depend on a mouse.
+The before-and-after has two versions because they solve different problems. On the homepage, the change advances with scrolling inside a pinned section, with no dragging, so it never competes with scrolling on a phone. On each project page there is a draggable comparator that waits a few pixels of movement to decide whether a gesture is horizontal or vertical: it only takes horizontal ones, so the finger doesn't get trapped while scrolling. While dragging it updates the DOM without going through React state, and it also works with a keyboard.
 
-The client can upload and publish catalog items and projects through the panel without editing code or requesting another deployment. The business moved from sharing everything in chats to having a public reference for inquiries. The site is delivered and deployed, awaiting the client’s domain.
+The rule for what is public lives in the database. Supabase RLS policies only let visitors read published products and projects, and each project's gallery and details inherit that condition from their project. A trigger guarantees a single featured project on the homepage, without relying on the panel to validate it. The client uploads, orders and publishes catalog items, projects and the "Del taller" section without touching code or requesting a new deployment, and went from sending photos over chat to having their own site to back every inquiry.
 
 ### FORMAT
 
