@@ -1282,12 +1282,12 @@ export const clientExperiences: Experience[] = [
     "company": "FORMAT",
     "companyUrl": "https://productions-format.com/",
     "position": {
-      "es": "Desarrollador web",
-      "en": "Web Developer"
+      "es": "Diseñador y desarrollador full-stack",
+      "en": "Designer & full-stack developer"
     },
     "type": "freelance",
     "startDate": { "month": 8, "year": 2026 },
-    "endDate": { "month": 8, "year": 2026 },
+    "endDate": null,
     "location": {
       "es": "Buenos Aires, Argentina",
       "en": "Buenos Aires, Argentina"
@@ -1297,17 +1297,25 @@ export const clientExperiences: Experience[] = [
       "en": "FORMAT needed to bring together its next event, lineup and flyer while preserving an archive of past editions. I organized the content into monthly Seasons that also define the visual identity, with publishing through the admin panel without redeployment."
     },
     "highlights": {
-      "es": [],
-      "en": []
+      "es": [
+        "Identidad visual por Season, derivada de los datos de forma y paleta.",
+        "Shader GLSL halftone con Three.js que responde a la Season activa.",
+        "Panel autogestionado con Server Actions que publica sin redeploy."
+      ],
+      "en": [
+        "Per-season visual identity derived from shape and palette data.",
+        "Halftone GLSL shader built with Three.js, driven by the active season.",
+        "Self-managed admin panel with Server Actions, publishing without a redeploy."
+      ]
     },
     "stack": [
-      "Next.js",
-      "React",
+      "Next.js 15",
+      "React 19",
       "TypeScript",
       "Supabase",
-      "Server Actions",
-      "WebGL",
-      "GLSL"
+      "Three.js",
+      "GLSL",
+      "Playwright"
     ],
     "projects": [
       {
@@ -1321,39 +1329,130 @@ export const clientExperiences: Experience[] = [
           "en": "Web development for a client"
         },
         "role": {
-          "es": "Desarrollo web",
-          "en": "Web development"
+          "es": "Diseñador y desarrollador full-stack",
+          "en": "Designer & full-stack developer"
         },
         "contribution": {
           "es": "FORMAT necesitaba reunir la próxima fecha, su lineup y flyer, sin perder el archivo de ediciones anteriores. Organicé el contenido en Seasons mensuales que también definen la identidad visual, con publicación desde el panel sin redeploy.",
           "en": "FORMAT needed to bring together its next event, lineup and flyer while preserving an archive of past editions. I organized the content into monthly Seasons that also define the visual identity, with publishing through the admin panel without redeployment."
         },
         "impact": {
-          "es": "",
-          "en": ""
+          "es": "Los organizadores manejan el sitio por su cuenta: crean Seasons, fechas, lineups y horarios, y publican un aftermovie nuevo cada mes.",
+          "en": "The organizers run the site themselves: they create seasons, dates, lineups and schedules, and publish a new aftermovie every month."
         },
-        "body": {
-          "es": [
-            "FORMAT es un ciclo de música electrónica en Buenos Aires. El sitio debía permitir encontrar la próxima fecha, su lineup y flyer, y recorrer las ediciones anteriores desde una misma identidad de marca. Esa necesidad guio la relación entre agenda, calendario y archivo.",
-            "Modelé el contenido en Seasons mensuales que agrupan varios viernes. Cada Season define colores, formas, stickers y fondos que se trasladan a sus páginas y componentes. Así, una nueva edición puede tener identidad propia sin construir otra interfaz desde cero: el contenido determina su presentación.",
-            "El hero usa WebGL y un shader GLSL propio para dibujar una trama halftone animada que responde a la Season activa. Elegí vincular ese recurso al mismo modelo de contenido para que la portada forme parte de la identidad de cada edición.",
-            "La gestión se resuelve con Server Actions y revalidación de rutas: al publicar desde el panel, las páginas afectadas incorporan los cambios sin redeploy. Quedó un canal que reúne lo que viene y conserva lo que ya pasó, con una estructura que permite al administrador actualizar cada edición."
-          ],
-          "en": [
-            "FORMAT is an electronic music event series in Buenos Aires. The website needed to make the next event, lineup and flyer easy to find while presenting past editions within the same brand identity. That need guided the relationship between the event listings, calendar and archive.",
-            "I modeled the content as monthly Seasons grouping several Fridays. Each Season defines colors, shapes, stickers and backgrounds used across its pages and components. A new edition can therefore have its own identity without building another interface from scratch: the content determines its presentation.",
-            "The hero uses WebGL and a custom GLSL shader to draw an animated halftone pattern that responds to the active Season. I connected that visual element to the same content model so the homepage belongs to each edition’s identity.",
-            "Content management uses Server Actions and route revalidation: publishing through the panel updates the affected pages without redeployment. The result is a channel that brings together upcoming events and preserves past editions, with a structure the administrator can update for each edition."
+        "caseSections": {
+          "title": {
+            "es": "FORMAT: un sitio donde cada edición mensual trae su propia identidad visual",
+            "en": "FORMAT: a website where every monthly edition brings its own visual identity"
+          },
+          "meta": {
+            "es": "Diseñador y desarrollador full-stack",
+            "en": "Designer & full-stack developer"
+          },
+          "sections": [
+            {
+              "heading": { "es": "Contexto", "en": "Context" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "es": "FORMAT es un ciclo de música electrónica de Buenos Aires, organizado en Seasons mensuales de fechas los viernes. Cada Season tiene su nombre, su paleta y su forma. Los organizadores necesitaban un sitio que explicara qué es FORMAT, que mostrara las próximas fechas con su lineup y flyer, que conservara un archivo de ediciones anteriores, y que les permitiera gestionar todo por su cuenta: Seasons, fechas, lineups, horarios y fotos. Tenían un manual de marca; sobre esa base diseñé el lenguaje visual del sitio.",
+                    "en": "FORMAT is an electronic music event series in Buenos Aires, organized in monthly seasons of Friday events. Each season has its own name, palette and shape. The organizers needed a site that explained what FORMAT is, made upcoming dates easy to find with their lineup and flyer, kept an archive of past editions, and let them manage all of it on their own: seasons, dates, lineups, schedules and photos. They had a brand manual; I designed the website’s visual language on top of it."
+                  }
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Qué construí", "en": "What I built" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "es": "Un sitio en Next.js 15 (App Router) con React 19 y TypeScript estricto, sobre Supabase (Postgres, Auth, Storage). Páginas públicas con próximas fechas, eventos con su lineup y un archivo, más un panel de administración desde el que los organizadores manejan todo. El núcleo lo construí en agosto de 2026, y sigo trabajando con ellos todos los meses: mejoras del panel, optimización de imágenes, aftermovies mensuales y formas nuevas para cada Season.",
+                    "en": "A Next.js 15 (App Router) site with React 19 and strict TypeScript, backed by Supabase (Postgres, Auth, Storage). Public pages for upcoming dates, events with their lineup, and an archive, plus an admin panel where the organizers run everything. I built the core in August 2026 and keep working with them monthly: panel improvements, image optimization, monthly aftermovies, and new shapes for new seasons."
+                  }
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Decisiones que importaron", "en": "Decisions that mattered" },
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    {
+                      "lead": { "es": "El contenido decide la estética.", "en": "The content decides the look." },
+                      "text": {
+                        "es": "Una Season guarda su forma y su paleta, y el sitio deriva de esos datos sus acentos, stickers y fondos. Los colores se propagan como variables CSS definidas en la raíz de la página y expuestas a Tailwind; las páginas de evento las vuelven a aplicar con su propia Season, y cada tarjeta lleva la identidad de su Season por props, así mantiene su estética dentro de una página con otro tema. El texto sobre colores de acento alterna entre papel y tinta automáticamente según el contraste. Una Season que reutiliza una forma existente es solo datos; cuando los organizadores quieren una geometría nueva, la agrego al set compartido de formas en SVG y GLSL.",
+                        "en": "A season stores its shape and palette, and the site derives its accents, stickers and backgrounds from that data. Colors propagate as CSS custom properties set at the page root and exposed to Tailwind; event pages reapply them for their own season, and each card carries its season’s identity through props, so it keeps its look inside a page themed by another season. Text over accent colors switches between paper and ink automatically for contrast. A season that reuses an existing shape is just data; when the organizers want a new geometry, I add it to the shared set of SVG and GLSL shapes."
+                      }
+                    },
+                    {
+                      "lead": { "es": "Un shader en el hero que responde a la Season activa.", "en": "A hero shader driven by the active season." },
+                      "text": {
+                        "es": "Three.js renderiza un único plano a pantalla completa con un shader GLSL propio. Dibuja la forma de la Season con funciones de distancia firmada, la deforma en el tiempo con ruido simplex (de dominio público) y la muestrea por celdas en una trama de puntos halftone con el color de la Season. Se pausa fuera de pantalla o con la pestaña oculta, muestra un único frame estático con movimiento reducido, limita el pixel ratio en mobile y, si WebGL falla, quedan el fondo CSS y el contenido.",
+                        "en": "Three.js renders a single full-screen plane with a custom GLSL shader. It draws the season’s shape with signed distance functions, warps it over time with (public-domain) simplex noise, and samples it per cell into a halftone dot pattern in the season’s color. It pauses when off-screen or in a hidden tab, renders a single static frame with reduced motion, caps the pixel ratio on mobile, and if WebGL fails, the CSS background and content stay in place."
+                      }
+                    },
+                    {
+                      "lead": { "es": "Un panel pensado para organizadores, no para desarrolladores.", "en": "An admin panel built for organizers, not developers." },
+                      "text": {
+                        "es": "Fue lo más difícil: las Seasons contienen fechas, las fechas contienen lineups y horarios, y todo tiene que mantenerse consistente mientras lo editan personas sin perfil técnico. Las fotos se comprimen a WebP en el navegador antes de subirse, así pueden publicar directo desde el celular. Los cambios pasan por Server Actions de Next.js que guardan en Supabase y revalidan las páginas afectadas, así se publican sin redeploy. La Season activa se calcula en hora de Buenos Aires: la que incluye el día de hoy; si no hay, la próxima; si no, la más reciente.",
+                        "en": "This was the hardest part: seasons contain dates, dates contain lineups and schedules, and all of it has to stay consistent while non-technical people edit it. Photos are compressed to WebP in the browser before upload, so organizers can publish straight from a phone. Edits go through Next.js Server Actions that save to Supabase and revalidate the affected pages, so changes go live without a redeploy. The active season is resolved in Buenos Aires time: the one whose dates include today, otherwise the next one, otherwise the most recent."
+                      }
+                    },
+                    {
+                      "lead": { "es": "La escritura está restringida en dos capas, y está testeada.", "en": "Writes are restricted at two layers, and tested." },
+                      "text": {
+                        "es": "Cualquiera puede leer; solo los usuarios con rol de administrador en su token pueden escribir. Eso lo aplican las políticas RLS de Postgres y se vuelve a verificar en cada Server Action. Una suite de Playwright corre contra un Supabase local para verificar roles, borrados cuando falla Storage y qué pasa si un administrador pierde su rol; las páginas públicas se prueban en desktop y mobile.",
+                        "en": "Anyone can read; only users with an admin role in their auth token can write. That’s enforced by row-level security in Postgres and checked again in every server action. A Playwright suite runs against a local Supabase stack to verify roles, deletions when storage fails, and what happens when an admin loses their role; the public pages are tested on desktop and mobile viewports."
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Resultado", "en": "Outcome" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "es": "Los organizadores manejan el sitio por su cuenta: crean Seasons, fechas, lineups y horarios, y publican un aftermovie nuevo cada mes. Sigo trabajando con ellos mensualmente en el panel y en nuevas identidades visuales.",
+                    "en": "The organizers run the site themselves: they create seasons, dates, lineups and schedules, and publish a new aftermovie every month. I keep working with them monthly on the panel and on new visual identities."
+                  }
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Qué haría distinto", "en": "What I’d do differently" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": { "es": "Mirando el código hoy:", "en": "Looking at the code today:" }
+                },
+                {
+                  "type": "list",
+                  "items": [
+                    { "text": { "es": "Validar la paleta de cada Season al guardarla: el esquema permite una vacía, y partes del sitio asumen que hay al menos un color.", "en": "Validate a season’s palette when it’s saved: the schema allows an empty one, and parts of the site assume there’s at least one color." } },
+                    { "text": { "es": "Hacer que la revalidación siga las dependencias reales: editar un lineup no actualiza la home, aunque la home usa datos del lineup.", "en": "Make revalidation follow real dependencies: editing a lineup doesn’t refresh the homepage, even though the homepage uses lineup data." } },
+                    { "text": { "es": "Distinguir “no hay datos” de “falló la carga”: hoy una caída de la base se vería como un calendario vacío.", "en": "Tell “no data” apart from “data failed to load”: today a database outage would look like an empty calendar." } },
+                    { "text": { "es": "Aplicar los límites de subida en el servidor, no solo con la compresión en el navegador.", "en": "Enforce upload limits on the server, not just through compression in the browser." } },
+                    { "text": { "es": "Aplicar los mismos resguardos a todos los efectos WebGL. El fondo de las páginas de evento no tiene el manejo de movimiento reducido ni de errores que tiene el hero, y ninguno de los dos se recupera si se pierde el contexto WebGL.", "en": "Apply the same safeguards to every WebGL effect. The event-page background lacks the reduced-motion handling and error handling the hero has, and neither one recovers from a lost WebGL context." } }
+                  ]
+                }
+              ]
+            }
           ]
         },
         "stack": [
-          "Next.js",
-          "React",
+          "Next.js 15",
+          "React 19",
           "TypeScript",
           "Supabase",
-          "Server Actions",
-          "WebGL",
-          "GLSL"
+          "Three.js",
+          "GLSL",
+          "Playwright"
         ],
         "liveUrl": "https://productions-format.com/",
         "media": [
