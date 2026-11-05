@@ -9,14 +9,24 @@ export type ProjectMedia = { desktop: Screenshot; mobile?: Screenshot }
 export type LocalizedScreenshot = Omit<Screenshot, 'alt'> & { alt: string }
 export type LocalizedProjectMedia = { desktop: LocalizedScreenshot; mobile?: LocalizedScreenshot }
 
+// Structured case study: headed sections made of paragraphs and bullet lists.
+// A bullet can open with a bold lead sentence.
+export type CaseBullet = { lead?: Localized; text: Localized }
+export type CaseBlock = { type: 'paragraph'; text: Localized } | { type: 'list'; items: CaseBullet[] }
+export type CaseSection = { heading: Localized; blocks: CaseBlock[] }
+export type CaseSections = { title?: Localized; meta?: Localized; sections: CaseSection[] }
+
+export type LocalizedCaseBlock = { type: 'paragraph'; text: string } | { type: 'list'; items: Array<{ lead?: string; text: string }> }
+export type LocalizedCaseSections = { title?: string; meta?: string; sections: Array<{ heading: string; blocks: LocalizedCaseBlock[] }> }
+
 export type ExperienceProject = {
-  body?: LocalizedList; period?: Localized
+  body?: LocalizedList; caseSections?: CaseSections; period?: Localized
   id: string; name: Localized; subtitle: Localized; role: Localized; contribution: Localized; impact: Localized
   stack: string[]; liveUrl?: string; media: ProjectMedia[]
 }
 
-export type LocalizedExperienceProject = Omit<ExperienceProject, 'name' | 'subtitle' | 'role' | 'contribution' | 'impact' | 'media' | 'body' | 'period'> & {
-  body?: string[]; period?: string; name: string; subtitle: string; role: string; contribution: string; impact: string; media: LocalizedProjectMedia[]
+export type LocalizedExperienceProject = Omit<ExperienceProject, 'name' | 'subtitle' | 'role' | 'contribution' | 'impact' | 'media' | 'body' | 'caseSections' | 'period'> & {
+  body?: string[]; caseSections?: LocalizedCaseSections; period?: string; name: string; subtitle: string; role: string; contribution: string; impact: string; media: LocalizedProjectMedia[]
 }
 
 export type Experience = {
@@ -47,7 +57,7 @@ export const clientExperiences: Experience[] = [
       "year": 2026
     },
     "endDate": {
-      "month": 4,
+      "month": 9,
       "year": 2026
     },
     "location": {
@@ -1283,10 +1293,21 @@ export const formatExperiencePeriod = (experience: Experience, locale: Locale) =
   return `${format(experience.startDate)} — ${format(experience.endDate)} (${duration} ${locale === 'es' ? duration === 1 ? 'MES' : 'MESES' : duration === 1 ? 'MONTH' : 'MONTHS'})`
 }
 
+const localizeCaseSections = (study: CaseSections, locale: Locale): LocalizedCaseSections => ({
+  title: study.title && text(study.title, locale),
+  meta: study.meta && text(study.meta, locale),
+  sections: study.sections.map(section => ({
+    heading: text(section.heading, locale),
+    blocks: section.blocks.map((block): LocalizedCaseBlock => block.type === 'paragraph'
+      ? { type: 'paragraph', text: text(block.text, locale) }
+      : { type: 'list', items: block.items.map(item => ({ lead: item.lead && text(item.lead, locale), text: text(item.text, locale) })) }),
+  })),
+})
+
 export const localizeExperience = (experience: Experience, locale: Locale): LocalizedExperience => ({
   ...experience, company: experience.displayName ? text(experience.displayName, locale) : experience.company,
   position: text(experience.position, locale), location: text(experience.location, locale), summary: text(experience.summary, locale), highlights: text(experience.highlights, locale),
-  projects: experience.projects.map(project => ({ ...project, name: text(project.name, locale), subtitle: text(project.subtitle, locale), role: text(project.role, locale), contribution: text(project.contribution, locale), impact: text(project.impact, locale), body: project.body && text(project.body, locale), period: project.period && text(project.period, locale), media: project.media.map(media => ({ desktop: { ...media.desktop, alt: text(media.desktop.alt, locale) }, mobile: media.mobile && { ...media.mobile, alt: text(media.mobile.alt, locale) } })) })),
+  projects: experience.projects.map(project => ({ ...project, name: text(project.name, locale), subtitle: text(project.subtitle, locale), role: text(project.role, locale), contribution: text(project.contribution, locale), impact: text(project.impact, locale), body: project.body && text(project.body, locale), caseSections: project.caseSections && localizeCaseSections(project.caseSections, locale), period: project.period && text(project.period, locale), media: project.media.map(media => ({ desktop: { ...media.desktop, alt: text(media.desktop.alt, locale) }, mobile: media.mobile && { ...media.mobile, alt: text(media.mobile.alt, locale) } })) })),
 })
 
 const zetenta = clientExperiences.find(item => item.slug === 'zetenta')!
@@ -1297,7 +1318,8 @@ export const independentWork = clientExperiences.filter(item => item.type === 'f
 })
 for (const [slug, study] of Object.entries(caseStudies)) {
   const project = slug === 'manantial' ? zetenta.projects.find(item => item.id === slug)! : clientExperiences.find(item => item.slug === slug)!.projects[0]
-  project.body = study.body
+  if (study.body) project.body = study.body
+  if (study.caseSections) project.caseSections = study.caseSections
 }
 const freelance: Experience = {
   slug: 'freelance', company: 'Trabajo independiente', displayName: { es: 'Trabajo independiente', en: 'Independent work' }, position: { es: 'Desarrollo web', en: 'Web development' }, type: 'freelance',

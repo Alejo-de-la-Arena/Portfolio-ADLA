@@ -49,9 +49,20 @@ try {
   for (const study of selectedCases) {
     const [route, anchor] = study.href.split('#')
     assert.ok(getExperienceBySlug(route.split('/').pop()).projects.some(p => p.id === anchor), study.href)
-    assert.equal(study.body.es.length, 4)
-    assert.equal(study.body.en.length, 4)
+    if (study.caseSections) {
+      // Structured case: every heading, paragraph and bullet exists in both languages.
+      for (const section of study.caseSections.sections) {
+        assert.ok(section.heading.es && section.heading.en, study.id)
+        for (const block of section.blocks) for (const value of block.type === 'paragraph' ? [block.text] : block.items.flatMap(item => [item.text, item.lead].filter(Boolean))) assert.ok(value.es && value.en, study.id)
+      }
+    } else {
+      assert.equal(study.body.es.length, 4)
+      assert.equal(study.body.en.length, 4)
+    }
   }
+  const solution = getExperienceBySlug('solution')
+  assert.deepEqual([solution.startDate, solution.endDate], [{ month: 2, year: 2026 }, { month: 9, year: 2026 }])
+  assert.equal(solution.projects[0].caseSections.sections.length, 6)
 
   const registered = new Map()
   for (const experience of clientExperiences) for (const project of experience.projects) for (const media of project.media) {
@@ -141,9 +152,9 @@ try {
         if (slug === 'kyriazis') assert.ok(!html.includes('Next experience</span>') && !html.includes('Experiencia siguiente</span>'))
       }
       assert.doesNotMatch(html, /admin-actividades|admin-giftcards|boa-inscripciones|solution-metricas|fefebakes(?:-mobile)?\.webp/)
-      if (slug === 'solution' || slug === 'freelance') { assert.match(html, locale === 'es' ? /1\.086/ : /1,086/); assert.match(html, locale === 'es' ? /14 de septiembre de 2026/ : /September 14, 2026/) }
+      if (slug === 'solution' || slug === 'freelance') { assert.match(html, locale === 'es' ? /1\.086/ : /1,086/); assert.match(html, locale === 'es' ? /14 de septiembre/ : /September 14/); assert.match(html, locale === 'es' ? /FEB\. 2026 — SEPT\. 2026/ : /FEB\. 2026 — SEP\. 2026/); assert.match(html, locale === 'es' ? /<strong[^>]*>El pago lo confirma Mercado Pago, no la redirección\.<\/strong>/ : /<strong[^>]*>A payment is confirmed by Mercado Pago, not by the redirect\.<\/strong>/) }
       if (slug === 'renova-tu-cocina') { assert.match(html, locale === 'es' ? /1 MES/ : /1 MONTH/); assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), /\b13\b|nunca|never/) }
-      if (slug === 'zetenta') { assert.match(html, /<picture>/); assert.match(html, /min-width: 1024px/); assert.match(html, /inert=""/) }
+      if (slug === 'zetenta') { assert.match(html, /<picture[\s>]/); assert.match(html, /min-width: 1024px/); assert.match(html, /inert=""/) }
     }
     console.log('PASS: ' + locale.toUpperCase() + ' home sections in the single reading experience, 10 routes, anchors, claims, roadmap, and localized skills')
   }
