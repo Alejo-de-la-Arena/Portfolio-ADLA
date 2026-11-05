@@ -1066,12 +1066,12 @@ export const clientExperiences: Experience[] = [
     "company": "Don Teófilo Amoblamientos",
     "companyUrl": "https://www.donteofiloamoblamientos.com/",
     "position": {
-      "es": "Diseñador y desarrollador web full stack",
-      "en": "Full-Stack Web Designer and Developer"
+      "es": "Diseñador y desarrollador full-stack",
+      "en": "Designer & full-stack developer"
     },
     "type": "freelance",
     "startDate": {
-      "month": 9,
+      "month": 7,
       "year": 2026
     },
     "endDate": {
@@ -1087,8 +1087,16 @@ export const clientExperiences: Experience[] = [
       "en": "Don Teófilo only showed its work through WhatsApp. I designed the visual identity and built the website and its admin panel: a visual language drawn from carpentry plans, publishing rules enforced in the database, and WhatsApp inquiries tailored to each section."
     },
     "highlights": {
-      "es": [],
-      "en": []
+      "es": [
+        "Identidad visual «Al milímetro», tomada del lenguaje de los planos de taller.",
+        "Ilustraciones SVG generadas desde datos en milímetros, nítidas en cualquier pantalla.",
+        "Reglas de visibilidad aplicadas en la base de datos con RLS y un trigger."
+      ],
+      "en": [
+        "“Al milímetro” visual identity, drawn from the language of workshop plans.",
+        "SVG illustrations generated from millimeter data, crisp on any screen.",
+        "Visibility rules enforced in the database with RLS and a trigger."
+      ]
     },
     "stack": [
       "React",
@@ -1114,29 +1122,121 @@ export const clientExperiences: Experience[] = [
           "en": "Visual identity, website and admin panel"
         },
         "role": {
-          "es": "Diseñador y desarrollador web full stack",
-          "en": "Full-Stack Web Designer and Developer"
+          "es": "Diseñador y desarrollador full-stack",
+          "en": "Designer & full-stack developer"
         },
         "contribution": {
           "es": "Don Teófilo mostraba su trabajo solo por WhatsApp. Diseñé la identidad visual y desarrollé el sitio y su panel de administración: un lenguaje tomado de los planos de carpintería, reglas de publicación aplicadas en la base de datos y consultas por WhatsApp según la sección.",
           "en": "Don Teófilo only showed its work through WhatsApp. I designed the visual identity and built the website and its admin panel: a visual language drawn from carpentry plans, publishing rules enforced in the database, and WhatsApp inquiries tailored to each section."
         },
         "impact": {
-          "es": "",
-          "en": ""
+          "es": "En producción con dominio propio, con identidad de marca, catálogo y archivo de obras.",
+          "en": "Live on its own domain, with a brand identity, a catalog and a project archive."
         },
-        "body": {
-          "es": [
-            "Don Teófilo hace carpintería a medida en Buenos Aires y Tandil. Las consultas llegaban por WhatsApp, pero no había dónde ver el catálogo ni los trabajos terminados antes de escribir. Además de desarrollar el sitio, diseñé su identidad visual, «Al milímetro», que lleva a la interfaz el lenguaje de los planos de taller: cotas, medidas y dibujos técnicos.",
-            "Los dibujos no son ilustraciones exportadas. Cada categoría está descrita como datos en milímetros reales, módulo por módulo: puertas, cajones, estantes. Un componente calcula la escala para el espacio disponible y dibuja el SVG en píxeles del contenedor, así los trazos y las cotas no se deforman en ninguna pantalla. Lo que queda oculto va punteado, como en un plano real, y sumar una categoría es escribir su especificación, no dibujarla a mano.",
-            "El antes y después tiene dos versiones porque resuelven problemas distintos. En la portada, el cambio avanza con el scroll dentro de una sección fijada y sin arrastre, para no competir con el desplazamiento en el celular. En el detalle de cada obra hay un comparador arrastrable que espera unos píxeles de movimiento para decidir si el gesto es horizontal o vertical: solo toma el horizontal, así el dedo no queda atrapado al scrollear. Durante el arrastre actualiza el DOM sin pasar por el estado de React y también se puede usar con teclado.",
-            "La regla de qué es público vive en la base de datos. Las políticas RLS de Supabase solo dejan que los visitantes lean productos y proyectos publicados, y la galería y la ficha de cada obra heredan esa condición desde su proyecto. Un trigger garantiza un único proyecto destacado en la portada, sin depender de que el panel lo valide. El cliente carga, ordena y publica catálogo, obras y la sección «Del taller» sin tocar código ni pedir un nuevo despliegue, y pasó de mandar fotos por chat a tener un sitio propio que respalda cada consulta."
-          ],
-          "en": [
-            "Don Teófilo builds custom furniture in Buenos Aires and Tandil. Inquiries came in through WhatsApp, but there was nowhere to browse the catalog or finished work before reaching out. Beyond building the site, I designed its visual identity, \"Al milímetro\" (down to the millimeter), which brings the language of workshop plans into the interface: dimension lines, measurements and technical drawings.",
-            "The drawings aren't exported illustrations. Each category is described as data in real millimeters, module by module: doors, drawers, shelves. A component computes the scale for the available space and draws the SVG in the container's own pixels, so strokes and dimension labels never distort on any screen. Hidden parts are dashed, as on a real plan, and adding a category means writing its spec, not drawing it by hand.",
-            "The before-and-after has two versions because they solve different problems. On the homepage, the change advances with scrolling inside a pinned section, with no dragging, so it never competes with scrolling on a phone. On each project page there is a draggable comparator that waits a few pixels of movement to decide whether a gesture is horizontal or vertical: it only takes horizontal ones, so the finger doesn't get trapped while scrolling. While dragging it updates the DOM without going through React state, and it also works with a keyboard.",
-            "The rule for what is public lives in the database. Supabase RLS policies only let visitors read published products and projects, and each project's gallery and details inherit that condition from their project. A trigger guarantees a single featured project on the homepage, without relying on the panel to validate it. The client uploads, orders and publishes catalog items, projects and the \"Del taller\" section without touching code or requesting a new deployment, and went from sending photos over chat to having their own site to back every inquiry."
+        "caseSections": {
+          "title": {
+            "es": "Don Teófilo Amoblamientos: marca, sitio y panel para una carpintería a medida",
+            "en": "Don Teófilo Amoblamientos: brand, website and admin panel for a custom carpentry shop"
+          },
+          "meta": {
+            "es": "Diseñador y desarrollador full-stack",
+            "en": "Designer & full-stack developer"
+          },
+          "sections": [
+            {
+              "heading": { "es": "Contexto", "en": "Context" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "es": "Don Teófilo hace muebles a medida en Buenos Aires y Tandil. Sus ventas pasaban enteramente por WhatsApp: no había dónde ver el catálogo ni los trabajos terminados antes de escribir. El pedido era abierto (mostrar el trabajo y conseguir más clientes), sin especificaciones detalladas. Definí el alcance, la identidad visual y las funcionalidades, y los ajusté en dos reuniones de revisión con el cliente. Entregué una primera versión con catálogo y panel en julio y agosto, y en octubre rediseñé todo el sitio alrededor de una nueva identidad.",
+                    "en": "Don Teófilo builds custom furniture in Buenos Aires and Tandil. Their sales ran entirely through WhatsApp: there was nowhere to see the catalog or finished work before reaching out. The brief was open (show the work, bring in more clients), with no detailed spec. I defined the scope, the visual identity and the features, and refined them across two review sessions with the client. I shipped a first version with the catalog and admin panel in July and August, then redesigned the whole site in October around a new identity."
+                  }
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Qué construí", "en": "What I built" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "es": "La identidad visual, «Al milímetro», además del sitio y su panel de administración. React y Vite en el frontend, conectado directamente a Supabase (Postgres, Auth, Storage), con las reglas de acceso aplicadas en la base mediante RLS. Un catálogo filtrable por categoría, material, precio y búsqueda; páginas de obras con antes y después y galería; una sección del taller; y botones de WhatsApp que llevan el contexto del producto u obra que se estaba viendo. Las fotos se redimensionan y se convierten a WebP en el navegador antes de subirse, así el cliente puede publicar directo desde el celular.",
+                    "en": "The visual identity, “Al milímetro” (“down to the millimeter”), plus the website and its admin panel. React and Vite on the front end, talking directly to Supabase (Postgres, Auth, Storage), with access rules enforced in the database through row-level security. A catalog filterable by category, material, price and search; project pages with before-and-after views and a gallery; a workshop section; and WhatsApp buttons that carry the context of the product or project being viewed. Photos are resized and converted to WebP in the browser before upload, so the client can publish straight from a phone."
+                  }
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Decisiones que importaron", "en": "Decisions that mattered" },
+              "blocks": [
+                {
+                  "type": "list",
+                  "items": [
+                    {
+                      "lead": { "es": "Una identidad tomada del taller.", "en": "An identity taken from the workshop." },
+                      "text": {
+                        "es": "Los carpinteros trabajan con planos, así que la interfaz habla ese idioma: cotas, medidas, dibujos técnicos. Diferencia al sitio de un catálogo genérico de muebles y refleja cómo funciona el oficio.",
+                        "en": "Carpenters work from plans, so the interface speaks that language: dimension lines, measurements, technical drawings. It sets the site apart from a generic furniture catalog and reflects how the trade actually works."
+                      }
+                    },
+                    {
+                      "lead": { "es": "Ilustraciones generadas desde datos, no exportadas.", "en": "Illustrations generated from data, not exported." },
+                      "text": {
+                        "es": "Cada categoría del catálogo tiene un alzado de una pieza típica, descrito en milímetros, módulo por módulo: puertas, cajones, estantes. El componente mide su contenedor, calcula una escala uniforme de milímetros a píxeles y dibuja el SVG al tamaño real del contenedor, así los trazos y las cotas se ven nítidos en cualquier pantalla. Las aristas ocultas van punteadas, como en un plano real, y una categoría nueva armada con tipos de módulo existentes es solo datos. La página «Cómo trabajamos» aplica la misma idea a una vista isométrica de un bajo mesada, con su propia proyección.",
+                        "en": "Each catalog category has a front-elevation drawing of a typical piece, described in millimeters, module by module: doors, drawers, shelves. The component measures its container, computes a uniform millimeter-to-pixel scale, and draws the SVG at the container’s real size, so lines and dimension labels stay crisp on any screen. Hidden edges are dashed, like on a real plan, and a new category built from existing module types is just data. The “How we work” page applies the same idea to an isometric view of a base cabinet, with its own projection math."
+                      }
+                    },
+                    {
+                      "lead": { "es": "Dos antes y después para dos problemas distintos.", "en": "Two before-and-after components for two different problems." },
+                      "text": {
+                        "es": "En la portada, la transición sigue el scroll dentro de una sección fijada, sin arrastre, para no competir con el desplazamiento en el celular. En cada obra hay un comparador arrastrable: en pantallas táctiles, al arrastrar sobre la imagen espera 8 px para leer la dirección del gesto y solo toma los horizontales, así la página se sigue pudiendo scrollear. Actualiza el DOM directamente en lugar de pasar por el estado de React y se puede usar con teclado. Con movimiento reducido, ambos pasan a una comparación estática.",
+                        "en": "On the homepage, the transition follows the scroll inside a pinned section, with no dragging, so it never fights with scrolling on a phone. On project pages there’s a draggable comparator: on touch, a drag over the image waits 8 px to read the gesture’s direction and only takes horizontal moves, so the page still scrolls. It updates the DOM directly instead of going through React state, and works with the keyboard. With reduced motion, both fall back to a static comparison."
+                      }
+                    },
+                    {
+                      "lead": { "es": "Las reglas de visibilidad viven en la base de datos, no en la interfaz.", "en": "Visibility rules live in the database, not the UI." },
+                      "text": {
+                        "es": "Las políticas RLS solo dejan que los visitantes lean productos y obras publicados, y la galería y la ficha de cada obra heredan el estado de su proyecto. Cuando se destaca una obra nueva en la portada, un trigger desmarca la anterior.",
+                        "en": "Row-level security only lets visitors read published products and projects, and each project’s gallery and details inherit their parent’s status. When a new project is featured on the homepage, a database trigger unsets the previous one."
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Resultado", "en": "Outcome" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "es": "En producción con dominio propio, con identidad de marca, catálogo y archivo de obras. El cliente puede publicar productos, obras y publicaciones del taller por su cuenta, y ordenar obras y publicaciones del taller, sin depender de un desarrollador ni de un nuevo deploy.",
+                    "en": "Live on its own domain, with a brand identity, a catalog and a project archive. The client can publish products, projects and workshop posts on their own and reorder projects and workshop posts, without depending on a developer or a redeploy."
+                  }
+                }
+              ]
+            },
+            {
+              "heading": { "es": "Qué haría distinto", "en": "What I’d do differently" },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": { "es": "Mirando el código hoy:", "en": "Looking at the code today:" }
+                },
+                {
+                  "type": "list",
+                  "items": [
+                    { "text": { "es": "Las reglas de acceso deberían verificar un rol de administrador, no solo que haya un usuario logueado, tanto en las tablas como en el almacenamiento de imágenes.", "en": "Access rules should check for an admin role, not just a logged-in user, for both tables and image storage." } },
+                    { "text": { "es": "Todo el esquema de la base debería estar versionado en migraciones. Algunos campos que usa la app se agregaron por fuera, así que la base no se puede reconstruir solo desde el repo.", "en": "The full database schema should be versioned in migrations. Some fields the app relies on were added outside them, so the database can’t be rebuilt from the repo alone." } },
+                    { "text": { "es": "Las consultas públicas deberían pedir columnas explícitas en vez de *, para que un precio que el cliente decidió ocultar no llegue igual al navegador.", "en": "Public queries should request explicit columns instead of *, so a price the client chose to hide isn’t still sent to the browser." } },
+                    { "text": { "es": "Crear un producto u obra con imágenes lleva varios pasos separados. Deberían completarse todos o limpiarse, en vez de dejar registros a medias o archivos huérfanos.", "en": "Creating a product or project with images takes several separate steps. They should either all succeed or clean up after themselves, instead of leaving partial records or orphaned files." } },
+                    { "text": { "es": "Las especificaciones de los dibujos merecen validación y tests: hoy un tipo de módulo desconocido se ignora sin avisar.", "en": "The drawing specs deserve validation and tests: today an unknown module type is skipped silently." } },
+                    { "text": { "es": "El panel necesita subidas operables con teclado y una forma de reordenar que no dependa del arrastre.", "en": "The admin panel needs keyboard-accessible uploads and a non-drag way to reorder." } }
+                  ]
+                }
+              ]
+            }
           ]
         },
         "stack": [
